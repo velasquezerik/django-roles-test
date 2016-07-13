@@ -126,5 +126,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
-ROLEPERMISSIONS_MODULE = 'tesis.roles'
+ROLEPERMISSIONS_MODULE = 'website.roles'

@@ -1,7 +1,7 @@
 from rolepermissions.roles import AbstractUserRole
 
-class Admin(AbstractUserRole):
+class SystemAdmin(AbstractUserRole):
     available_permissions = {}
 
-class User(AbstractUserRole):
+class SystemUser(AbstractUserRole):
     available_permissions = {}
