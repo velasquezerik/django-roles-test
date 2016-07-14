@@ -1,0 +1,19 @@
+{% extends 'website/base.html' %}
+{% load staticfiles %}
+
+{% block title_page %}Tesis| Dashboard{% endblock %}
+
+{% block title_content %}
+	Dashboard
+    <small>Inicio</small>
+{% endblock %}
+
+{% block level %}
+	<li><a href="{% url 'website:admin_index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+    <li class="active">Inicio</li>
+{% endblock %}
+
+{% block content %}
+	Admin Dashboard
+{% endblock %}
+

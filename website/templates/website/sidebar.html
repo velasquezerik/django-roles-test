@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load permission_tags %}
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
@@ -15,9 +16,15 @@
         <ul class="sidebar-menu">
             <li class="header">Panel Principal</li>
             <li class="active treeview">
-                <a href="{% url 'website:index' %}">
-                    <i class="fa fa-dashboard"></i> <span>Inicio</span>
-                </a>
+                {% if user|has_role:'system_admin' %}
+                    <a href="{% url 'website:admin_index' %}">
+                        <i class="fa fa-dashboard"></i> <span>Inicio</span>
+                    </a>
+                {% else %}
+                    <a href="{% url 'website:user_index' %}">
+                        <i class="fa fa-dashboard"></i> <span>Inicio</span>
+                    </a>
+                {% endif %}
             </li>
 
         </ul>
