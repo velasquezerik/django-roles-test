@@ -10,4 +10,6 @@ urlpatterns = [
     url(r'^test/$', views.test, name='test'),
     url(r'^admin/$', views.admin_view, name='admin_index'),
     url(r'^user/$', views.user_view, name='user_index'),
+    url(r'^admin/profile',views.admin_profile, name='admin_profile'),
+    url(r'^admin/update',views.admin_profile_update, name='admin_profile_update'),
 ]

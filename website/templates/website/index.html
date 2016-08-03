@@ -31,7 +31,14 @@
         <a href="{% url 'website:index' %}"><b>Tesis</a>
       </div>
       <!-- User name -->
-      <div class="lockscreen-name">Erik Velásquez</div>
+      <div class="lockscreen-name">
+      {% if user.is_authenticated %}
+      {{user.first_name }} {{user.last_name}}
+      {% else %}
+      Bienvenidos a mi Tesis
+      {% endif %}
+
+      </div>
 
       <div class="help-block text-center">
         Enter your password to retrieve your session

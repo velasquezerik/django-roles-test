@@ -30,7 +30,6 @@ def index(request):
 def login_user(request):
 	if not request.user.is_authenticated():
 		if request.method == "POST":
-			print "funciono"
 			username = request.POST['username']
 			password = request.POST['password']
 			user = authenticate(username=username, password=password)
@@ -59,7 +58,15 @@ def logout_user(request):
 @login_required(login_url="/login/")
 @has_role_decorator('system_user')
 def test(request):
+
+	user = User.objects.get(id=1)
+	remove_role(user)
+	assign_role(user, "system_admin")
 	print "Funcionooooooooo"
+	if has_role(user, ['system_admin']):
+		print 'User is a Admin'
+	if has_role(user, ['system_user']):
+		print 'User is a User'
 	return redirect("/")
 
 
@@ -72,6 +79,32 @@ def admin_view(request):
 @has_role_decorator('system_user')
 def user_view(request):
 	return render(request,'user/index.html',{})
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_profile(request):
+	user = User.objects.get(id = request.user.id)
+	return render(request,'admin/profile.html',{'user':user})
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_profile_update(request):
+	if request.method == "POST":
+		user = User.objects.get(id=request.user.id)
+		first_name = request.POST['first_name']
+		last_name = request.POST['last_name']
+		email= request.POST['email']
+
+		#update user
+		user.first_name = first_name
+		user.last_name = last_name
+		user.email = email
+		user.save()
+	
+	return redirect("/admin/profile/")
+
+
 
 
 

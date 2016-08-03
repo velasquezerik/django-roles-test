@@ -7,5 +7,5 @@ class SystemAdmin(AbstractUserRole):
 
 class SystemUser(AbstractUserRole):
 	available_permissions = {
-	    'drop_tables': True,
+	    'drop_tables': False,
 	}
