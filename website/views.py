@@ -97,24 +97,27 @@ def admin_profile_update(request):
 		last_name = request.POST['last_name']
 		email= request.POST['email']
 
+		#update image to user
 		if 'image' in request.FILES:
 			image = UserImage.objects.get(user_id = user.id)
 			image.model_pic = request.FILES['image']
 			image.user = user
 			image.save()
 
-
 		#update user
 		user.first_name = first_name
 		user.last_name = last_name
 		user.email = email
 		user.save()
-		print "imagen"
-		print user.userimage.model_pic
 	
 	return redirect("/admin/profile/")
 
 
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_show_users(request):
+	users = User.objects.all()
+	return render(request,'admin/users_list.html',{'users':users})
 
 
 

@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{% static 'plugins/datatables/dataTables.bootstrap.css' %}">
     <!-- jvectormap -->
     <link rel="stylesheet" href="{% static 'plugins/jvectormap/jquery-jvectormap-1.2.2.css' %}">
     <!-- Theme style -->
@@ -71,10 +73,25 @@
     <script src="{% static 'plugins/slimScroll/jquery.slimscroll.min.js' %}"></script>
     <!-- ChartJS 1.0.1 -->
     <script src="{% static 'plugins/chartjs/Chart.min.js' %}"></script>
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="{% static 'dist/js/pages/dashboard2.js' %}"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="{% static 'dist/js/demo.js' %}"></script>
+    <!-- DataTables -->
+    <script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'plugins/datatables/dataTables.bootstrap.min.js' %}"></script>
+    <!-- page script -->
+    <script>
+      $(function () {
+        $("#example1").DataTable();
+        $('#example2').DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": false,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false
+        });
+      });
+    </script>
 
 
  </body>

@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^user/$', views.user_view, name='user_index'),
     url(r'^admin/profile',views.admin_profile, name='admin_profile'),
     url(r'^admin/update',views.admin_profile_update, name='admin_profile_update'),
+    url(r'^admin/users',views.admin_show_users, name="admin_show_users")
 ]

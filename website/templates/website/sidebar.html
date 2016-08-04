@@ -20,6 +20,9 @@
                     <a href="{% url 'website:admin_index' %}">
                         <i class="fa fa-dashboard"></i> <span>Inicio</span>
                     </a>
+                    <a href="{% url 'website:admin_show_users' %}">
+                        <i class="fa fa-dashboard"></i> <span>Users</span>
+                    </a>
                 {% else %}
                     <a href="{% url 'website:user_index' %}">
                         <i class="fa fa-dashboard"></i> <span>Inicio</span>
