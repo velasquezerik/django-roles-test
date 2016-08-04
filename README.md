@@ -16,3 +16,6 @@ python manage.py migrate
 
 Create super user
 python manage.py createsuperuser
+
+Create image for superuser
+In Model UserImage

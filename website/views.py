@@ -10,6 +10,7 @@ from rolepermissions.shortcuts import assign_role, remove_role
 from rolepermissions.verifications import has_permission, has_role
 from rolepermissions.decorators import has_role_decorator
 from roles import SystemAdmin, SystemUser
+from models import UserImage
 
 # Create your views here.
 
@@ -96,11 +97,20 @@ def admin_profile_update(request):
 		last_name = request.POST['last_name']
 		email= request.POST['email']
 
+		if 'image' in request.FILES:
+			image = UserImage.objects.get(user_id = user.id)
+			image.model_pic = request.FILES['image']
+			image.user = user
+			image.save()
+
+
 		#update user
 		user.first_name = first_name
 		user.last_name = last_name
 		user.email = email
 		user.save()
+		print "imagen"
+		print user.userimage.model_pic
 	
 	return redirect("/admin/profile/")
 
