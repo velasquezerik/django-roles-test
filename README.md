@@ -9,6 +9,8 @@ https://django-role-permissions.readthedocs.io/en/latest/
 Install drivers for mysql
 apt-get install python-mysqldb
 
+Create DB and configuration
+
 Run migrations
 python manage.py migrate
 
