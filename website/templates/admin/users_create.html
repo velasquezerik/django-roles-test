@@ -1,0 +1,63 @@
+{% extends 'website/base.html' %}
+{% load staticfiles %}
+{% load permission_tags %}
+
+{% block title_page %}Tesis| Users{% endblock %}
+
+{% block title_content %}
+	Dashboard
+    <small>Users</small>
+{% endblock %}
+
+{% block level %}
+	<li><a href="{% url 'website:admin_index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+    <li class="active">Create</li>
+{% endblock %}
+
+{% block content %}
+
+<div class="row" style="margin-top:10px;">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">Users Create New</h3>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <form class="form-horizontal" role="form" action="{% url 'website:admin_create_user'%}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="inputName" class="col-sm-2 control-label">Firstname</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="first_name" class="form-control" id="inputName" placeholder="Firstname" required="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputName" class="col-sm-2 control-label">Lastname</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="last_name" class="form-control" id="inputName" placeholder="Lastname" required="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                        <div class="col-sm-10">
+                            <input type="email" name="email" class="form-control" id="inputEmail" placeholder="Email" required="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputName" class="col-sm-2 control-label">Username</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="username" class="form-control" id="inputName" placeholder="Username" required="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-danger">Create</button>
+                        </div>
+                    </div>
+                </form>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+    </div><!-- /.col -->
+</div><!-- /.row -->
+{% endblock %}
+

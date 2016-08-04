@@ -119,6 +119,10 @@ def admin_show_users(request):
 	users = User.objects.all()
 	return render(request,'admin/users_list.html',{'users':users})
 
-
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_create_user(request):
+	users = User.objects.all()
+	return render(request,'admin/users_create.html',{'users':users})
 
 
