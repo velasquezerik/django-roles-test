@@ -16,8 +16,11 @@
 
 {% block content %}
 <div class="row">
-        <div class="col-xs-12">
-            <a href="{% url 'website:admin_create_user' %}" class="btn btn-block btn-primary">New User</a>
+        <div class="col-xs-6">
+            <a href="{% url 'website:admin_create_user' %}" class="btn btn-block btn-warning">New Admin</a>
+        </div>
+        <div class="col-xs-6">
+            <a href="{% url 'website:admin_create_user' %}" class="btn btn-block btn-success">New User</a>
         </div>
 </div>
 <div class="row" style="margin-top:10px;">
@@ -59,11 +62,11 @@
                             		</div>
                             		{% if user.is_active %}
                             		<div class="col-xs-6">
-                            			<a href="#" class="btn btn-block btn-danger">Delete</a>
+                            			<a href="{% url 'website:admin_delete' user.id %}" class="btn btn-block btn-danger">Delete</a>
                             		</div>
                             		{% else %}
                             		<div class="col-xs-6">
-                            			<a href="#" class="btn btn-block btn-success">Active</a>
+                            			<a href="{% url 'website:admin_active' user.id %}" class="btn btn-block btn-success">Active</a>
                             		</div>
                             		{% endif %}
                             	</div>

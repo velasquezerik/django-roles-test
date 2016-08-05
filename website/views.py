@@ -187,3 +187,29 @@ def admin_show(request, user_id):
 	
 	return render(request,'admin/show_user.html',{'user_show':user})
 
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_delete(request, user_id):
+	try:
+		user = User.objects.get(id=user_id)
+	except Exception, e:
+		return redirect("/admin/users/")
+
+	user.is_active = False
+	user.save()
+	return redirect("/admin/users/")
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_active(request, user_id):
+	try:
+		user = User.objects.get(id=user_id)
+	except Exception, e:
+		return redirect("/admin/users/")
+
+	user.is_active = True
+	user.save()
+	return redirect("/admin/users/")
+

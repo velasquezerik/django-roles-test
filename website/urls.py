@@ -16,6 +16,8 @@ urlpatterns = [
     url(r'^admin/users',views.admin_show_users, name="admin_show_users"),
     url(r'^admin/create',views.admin_create_user,name="admin_create_user"),
     url(r'^admin/user/(?P<user_id>[0-9]+)/$', views.admin_show, name='admin_show'),
+    url(r'^admin/user/(?P<user_id>[0-9]+)/delete/$', views.admin_delete, name='admin_delete'),
+    url(r'^admin/user/(?P<user_id>[0-9]+)/active/$', views.admin_active, name='admin_active'),
 
 
     #urls for users
