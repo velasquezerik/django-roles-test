@@ -104,6 +104,14 @@ def admin_profile_update(request):
 			image.user = user
 			image.save()
 
+		try:
+			user = User.objects.get(email=email)
+		except Exception, e:
+			pass
+		else:
+			return redirect("/admin/profile/")
+
+
 		#update user
 		user.first_name = first_name
 		user.last_name = last_name
@@ -123,6 +131,59 @@ def admin_show_users(request):
 @has_role_decorator('system_admin')
 def admin_create_user(request):
 	users = User.objects.all()
+	if request.method == "POST":
+		#create a new user
+		first_name = request.POST['first_name']
+		last_name = request.POST['last_name']
+		email= request.POST['email']
+		username = request.POST['username']
+
+		try:
+			user = User.objects.get(username=username)
+		except Exception, e:
+			pass
+		else:
+			return render(request,'admin/users_create.html',{'users':users,'error_message':'Invalid Username'})
+
+		try:
+			user = User.objects.get(email=email)
+		except Exception, e:
+			pass
+		else:
+			return render(request,'admin/users_create.html',{'users':users,'error_message':'Invalid Email'})
+
+		user = User()
+		user.first_name = first_name
+		user.last_name = last_name
+		user.email = email
+		user.username = username
+		user.set_password('1q2w3e4r5t')
+		user.is_active = True
+		user.save()
+
+		#create role for user
+		assign_role(user, "system_user")
+
+		#create image for user
+		image = UserImage()
+		image.user = user
+		image.save()
+
+		#send email to user
+
+		#return to list users
+		return redirect("/admin/users/")
+
 	return render(request,'admin/users_create.html',{'users':users})
 
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_show(request, user_id):
+	try:
+		user = User.objects.get(id=user_id)
+	except Exception, e:
+		return redirect("/admin/users/")
+	
+	return render(request,'admin/show_user.html',{'user_show':user})
 

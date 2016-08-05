@@ -35,13 +35,14 @@
                             <th>Email</th>
                             <th>Username</th>
                             <th>Role</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for user in users %}
                         <tr>
-                            <td><a href="#">{{user.id}}</a></td>
-                            <td><a href="#">{{user.first_name}}</a></td>
+                            <td><a href="{% url 'website:admin_show' user.id %}">{{user.id}}</a></td>
+                            <td><a href="{% url 'website:admin_show' user.id %}">{{user.first_name}}</a></td>
                             <td>{{user.email}}</td>
                             <td>{{user.username}}</td>
                             <td>
@@ -50,6 +51,22 @@
 	                            {%else%}
 	                            User
 	                            {%endif%}
+                            </td>
+                            <td>
+                            	<div class="row">
+                            		<div class="col-xs-6">
+                            			<a href="#" class="btn btn-block btn-primary">Edit</a>
+                            		</div>
+                            		{% if user.is_active %}
+                            		<div class="col-xs-6">
+                            			<a href="#" class="btn btn-block btn-danger">Delete</a>
+                            		</div>
+                            		{% else %}
+                            		<div class="col-xs-6">
+                            			<a href="#" class="btn btn-block btn-success">Active</a>
+                            		</div>
+                            		{% endif %}
+                            	</div>
                             </td>
                         </tr>
                         {% endfor %}

@@ -19,13 +19,13 @@
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="{{MEDIA_URL}}{{request.user.userimage.model_pic.url}}" class="user-image" alt="User Image">
+                        <img src="{{request.user.userimage.model_pic.url}}" class="user-image" alt="User Image">
                         <span class="hidden-xs">{{request.user.first_name }} {{request.user.last_name}}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="{{MEDIA_URL}}{{request.user.userimage.model_pic.url}}" class="img-circle" alt="User Image">
+                            <img src="{{request.user.userimage.model_pic.url}}" class="img-circle" alt="User Image">
                             <p>
                                 {{request.user.first_name }} {{request.user.last_name}}
                                 <small>Tesis</small>
@@ -33,10 +33,16 @@
                         </li>
                         <!-- Menu Footer-->
                         <li class="user-footer">
-                            <div class="pull-left">
-                                <a href="{% url 'website:admin_profile' %}" class="btn btn-default btn-flat">Perfil</a>
-                            </div>
-
+                            {% if user|has_role:'system_admin' %}
+                                <div class="pull-left">
+                                    <a href="{% url 'website:admin_profile' %}" class="btn btn-default btn-flat">Perfil</a>
+                                </div>
+                            {% else %}
+                                <div class="pull-left">
+                                    <a href="#" class="btn btn-default btn-flat">Perfil</a>
+                                </div>
+                            {% endif %}
+                            
                             <div class="pull-right">
                                 <a href="{% url 'website:logout' %}" class="btn btn-default btn-flat">Salir</a>
                             </div>

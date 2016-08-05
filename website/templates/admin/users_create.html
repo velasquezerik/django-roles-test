@@ -22,6 +22,15 @@
             <div class="box-header">
                 <h3 class="box-title">Users Create New</h3>
             </div><!-- /.box-header -->
+            <div class="col-xs-12">
+                {% if error_message %}
+                    <div class="alert alert-danger alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h4><i class="icon fa fa-ban"></i> {{ error_message }}</h4>
+                    </div>
+                {% endif %}
+            </div>
+            
             <div class="box-body">
                 <form class="form-horizontal" role="form" action="{% url 'website:admin_create_user'%}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
