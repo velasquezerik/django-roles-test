@@ -17,7 +17,7 @@
 {% block content %}
 <div class="row">
         <div class="col-xs-6">
-            <a href="{% url 'website:admin_create_user' %}" class="btn btn-block btn-warning">New Admin</a>
+            <a href="{% url 'website:admin_create_admin' %}" class="btn btn-block btn-warning">New Admin</a>
         </div>
         <div class="col-xs-6">
             <a href="{% url 'website:admin_create_user' %}" class="btn btn-block btn-success">New User</a>
@@ -58,7 +58,7 @@
                             <td>
                             	<div class="row">
                             		<div class="col-xs-6">
-                            			<a href="#" class="btn btn-block btn-primary">Edit</a>
+                            			<a href="{% url 'website:admin_edit_user' user.id %}" class="btn btn-block btn-primary">Edit</a>
                             		</div>
                             		{% if user.is_active %}
                             		<div class="col-xs-6">

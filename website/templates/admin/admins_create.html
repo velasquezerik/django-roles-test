@@ -2,11 +2,11 @@
 {% load staticfiles %}
 {% load permission_tags %}
 
-{% block title_page %}Tesis| Users{% endblock %}
+{% block title_page %}Tesis| Admins{% endblock %}
 
 {% block title_content %}
 	Dashboard
-    <small>Users</small>
+    <small>Admins</small>
 {% endblock %}
 
 {% block level %}
@@ -20,7 +20,7 @@
     <div class="col-xs-12">
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">Create New User</h3>
+                <h3 class="box-title">Create New Admin</h3>
             </div><!-- /.box-header -->
             <div class="col-xs-12">
                 {% if error_message %}
@@ -32,7 +32,7 @@
             </div>
             
             <div class="box-body">
-                <form class="form-horizontal" role="form" action="{% url 'website:admin_create_user'%}" method="post" enctype="multipart/form-data">
+                <form class="form-horizontal" role="form" action="{% url 'website:admin_create_admin'%}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="inputName" class="col-sm-2 control-label">Firstname</label>

@@ -11,7 +11,7 @@
 
 {% block level %}
 	<li><a href="{% url 'website:admin_index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-    <li class="active">Create</li>
+    <li class="active">Edit</li>
 {% endblock %}
 
 {% block content %}
@@ -20,7 +20,7 @@
     <div class="col-xs-12">
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">Create New User</h3>
+                <h3 class="box-title">Users Edit</h3>
             </div><!-- /.box-header -->
             <div class="col-xs-12">
                 {% if error_message %}
@@ -32,35 +32,29 @@
             </div>
             
             <div class="box-body">
-                <form class="form-horizontal" role="form" action="{% url 'website:admin_create_user'%}" method="post" enctype="multipart/form-data">
+                <form class="form-horizontal" role="form" action="{% url 'website:admin_edit_user' user_show.id %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="inputName" class="col-sm-2 control-label">Firstname</label>
                         <div class="col-sm-10">
-                            <input type="text" name="first_name" class="form-control" id="inputName" placeholder="Firstname" required="">
+                            <input type="text" name="first_name" class="form-control" id="inputName" placeholder="Firstname" required="" value="{{user_show.first_name}}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputName" class="col-sm-2 control-label">Lastname</label>
                         <div class="col-sm-10">
-                            <input type="text" name="last_name" class="form-control" id="inputName" placeholder="Lastname" required="">
+                            <input type="text" name="last_name" class="form-control" id="inputName" placeholder="Lastname" required="" value="{{user_show.last_name}}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputEmail" class="col-sm-2 control-label">Email</label>
                         <div class="col-sm-10">
-                            <input type="email" name="email" class="form-control" id="inputEmail" placeholder="Email" required="">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputName" class="col-sm-2 control-label">Username</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="username" class="form-control" id="inputName" placeholder="Username" required="">
+                            <input type="email" name="email" class="form-control" id="inputEmail" placeholder="Email" required="" value="{{user_show.email}}">
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-danger">Create</button>
+                            <button type="submit" class="btn btn-danger">Edit</button>
                         </div>
                     </div>
                 </form>

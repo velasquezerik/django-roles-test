@@ -109,7 +109,10 @@ def admin_profile_update(request):
 		except Exception, e:
 			pass
 		else:
-			return redirect("/admin/profile/")
+			if user.email == email:
+				pass
+			else:
+				return redirect("/admin/profile/")
 
 
 		#update user
@@ -213,3 +216,113 @@ def admin_active(request, user_id):
 	user.save()
 	return redirect("/admin/users/")
 
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_create_admin(request):
+	users = User.objects.all()
+	if request.method == "POST":
+		#create a new user
+		first_name = request.POST['first_name']
+		last_name = request.POST['last_name']
+		email= request.POST['email']
+		username = request.POST['username']
+
+		try:
+			user = User.objects.get(username=username)
+		except Exception, e:
+			pass
+		else:
+			return render(request,'admin/admins_create.html',{'users':users,'error_message':'Invalid Username'})
+
+		try:
+			user = User.objects.get(email=email)
+		except Exception, e:
+			pass
+		else:
+			return render(request,'admin/admins_create.html',{'users':users,'error_message':'Invalid Email'})
+
+		user = User()
+		user.first_name = first_name
+		user.last_name = last_name
+		user.email = email
+		user.username = username
+		user.set_password('1q2w3e4r5t')
+		user.is_active = True
+		user.is_superuser = True
+		user.is_staff= True
+		user.save()
+
+		#create role for user
+		assign_role(user, "system_admin")
+
+		#create image for user
+		image = UserImage()
+		image.user = user
+		image.save()
+
+		#send email to user
+
+
+		#return to list users
+		return redirect("/admin/users/")
+
+	return render(request,'admin/admins_create.html',{'users':users})
+
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_edit(request, user_id):
+	try:
+		user = User.objects.get(id=user_id)
+	except Exception, e:
+		return redirect("/admin/users/")
+	
+	if request.method == 'POST':
+		first_name = request.POST['first_name']
+		last_name = request.POST['last_name']
+		email= request.POST['email']
+
+		try:
+			user = User.objects.get(email=email)
+		except Exception, e:
+			pass
+		else:
+			if user.email == email:
+				pass
+			else:
+				return render(request,'admin/edit_user.html',{'user_show':user,'error_message':'Invalid Email'})
+
+
+		#update user
+		user.first_name = first_name
+		user.last_name = last_name
+		user.email = email
+		user.save()
+
+		return redirect("/admin/users/")
+
+	return render(request,'admin/edit_user.html',{'user_show':user})
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_password(request):
+
+	user = User.objects.get(id=request.user.id)
+
+	if request.method == 'POST':
+		new_password = request.POST['new_password']
+		rep_password = request.POST['repeat_password']
+
+		if new_password == rep_password:
+			#update password
+			user.set_password(new_password)
+			user.save()
+			logout(request)
+			return redirect("/login/")
+
+	return redirect("/admin/profile/")

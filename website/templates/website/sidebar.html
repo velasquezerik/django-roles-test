@@ -14,18 +14,18 @@
         </div>
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
-            <li class="header">Panel Principal</li>
+            <li class="header">Main Panel</li>
             <li class="active treeview">
                 {% if user|has_role:'system_admin' %}
                     <a href="{% url 'website:admin_index' %}">
-                        <i class="fa fa-dashboard"></i> <span>Inicio</span>
+                        <i class="fa fa-dashboard"></i> <span>Index</span>
                     </a>
                     <a href="{% url 'website:admin_show_users' %}">
                         <i class="fa fa-dashboard"></i> <span>Users</span>
                     </a>
                 {% else %}
                     <a href="{% url 'website:user_index' %}">
-                        <i class="fa fa-dashboard"></i> <span>Inicio</span>
+                        <i class="fa fa-dashboard"></i> <span>Index</span>
                     </a>
                 {% endif %}
             </li>
