@@ -25,5 +25,8 @@ urlpatterns = [
 
     #urls for users
     url(r'^user/$', views.user_view, name='user_index'),
+    url(r'^user/profile',views.user_profile, name='user_profile'),
+    url(r'^user/update',views.user_profile_update, name='user_profile_update'),
+    url(r'^user/password',views.user_password, name='user_password_update'),
 
 ]

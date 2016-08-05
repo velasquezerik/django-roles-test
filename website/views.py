@@ -326,3 +326,68 @@ def admin_password(request):
 			return redirect("/login/")
 
 	return redirect("/admin/profile/")
+
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_profile(request):
+	user = User.objects.get(id = request.user.id)
+	return render(request,'user/profile.html',{'user':user})
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_profile_update(request):
+	if request.method == "POST":
+		user = User.objects.get(id=request.user.id)
+		first_name = request.POST['first_name']
+		last_name = request.POST['last_name']
+		email= request.POST['email']
+
+		#update image to user
+		if 'image' in request.FILES:
+			image = UserImage.objects.get(user_id = user.id)
+			image.model_pic = request.FILES['image']
+			image.user = user
+			image.save()
+
+		try:
+			user = User.objects.get(email=email)
+		except Exception, e:
+			pass
+		else:
+			if user.email == email:
+				pass
+			else:
+				return redirect("/user/profile/")
+
+
+		#update user
+		user.first_name = first_name
+		user.last_name = last_name
+		user.email = email
+		user.save()
+	
+	return redirect("/user/profile/")
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_password(request):
+
+	user = User.objects.get(id=request.user.id)
+
+	if request.method == 'POST':
+		new_password = request.POST['new_password']
+		rep_password = request.POST['repeat_password']
+
+		if new_password == rep_password:
+			#update password
+			user.set_password(new_password)
+			user.save()
+			logout(request)
+			return redirect("/login/")
+
+	return redirect("/user/profile/")
