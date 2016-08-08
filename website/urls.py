@@ -7,7 +7,7 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^login/$', views.login_user, name='login'),
     url(r'^logout/$', views.logout_user, name='logout'),
-    url(r'^test/$', views.test, name='test'),
+    url(r'^test/$', views.test_folder, name='test'),
 
     #urls for admin
     url(r'^admin/$', views.admin_view, name='admin_index'),

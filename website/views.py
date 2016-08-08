@@ -11,6 +11,9 @@ from rolepermissions.verifications import has_permission, has_role
 from rolepermissions.decorators import has_role_decorator
 from roles import SystemAdmin, SystemUser
 from models import UserImage
+from tesis.settings import *
+import os
+from files_manage import *
 
 # Create your views here.
 
@@ -164,6 +167,8 @@ def admin_create_user(request):
 		user.is_active = True
 		user.save()
 
+		create_folder(MEDIA_ROOT,user.username)
+
 		#create role for user
 		assign_role(user, "system_user")
 
@@ -253,6 +258,8 @@ def admin_create_admin(request):
 		user.is_superuser = True
 		user.is_staff= True
 		user.save()
+
+		create_folder(MEDIA_ROOT,user.username)
 
 		#create role for user
 		assign_role(user, "system_admin")
@@ -391,3 +398,14 @@ def user_password(request):
 			return redirect("/login/")
 
 	return redirect("/user/profile/")
+
+
+
+
+def test_folder(request):
+	user = User.objects.get(id=request.user.id)
+
+	create_folder(MEDIA_ROOT,user.username)
+
+	return redirect('/')
+
