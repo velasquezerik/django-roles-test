@@ -10,7 +10,7 @@ from rolepermissions.shortcuts import assign_role, remove_role
 from rolepermissions.verifications import has_permission, has_role
 from rolepermissions.decorators import has_role_decorator
 from roles import SystemAdmin, SystemUser
-from models import UserImage
+from models import UserImage, Folder
 from tesis.settings import *
 import os
 from files_manage import *
@@ -77,7 +77,9 @@ def test(request):
 @login_required(login_url="/login/")
 @has_role_decorator('system_admin')
 def admin_view(request):
-	return render(request,'admin/index.html',{})
+	user = User.objects.get(id = request.user.id)
+	root_folder = Folder.objects.get(user_id=user.id,father=0)
+	return render(request,'admin/index.html',{'root_folder':root_folder})
 
 @login_required(login_url="/login/")
 @has_role_decorator('system_user')
@@ -167,7 +169,7 @@ def admin_create_user(request):
 		user.is_active = True
 		user.save()
 
-		create_folder(MEDIA_ROOT,user.username)
+		create_root_folder(user.id)
 
 		#create role for user
 		assign_role(user, "system_user")
@@ -259,7 +261,7 @@ def admin_create_admin(request):
 		user.is_staff= True
 		user.save()
 
-		create_folder(MEDIA_ROOT,user.username)
+		create_root_folder(user.id)
 
 		#create role for user
 		assign_role(user, "system_admin")

@@ -19,3 +19,6 @@ python manage.py createsuperuser
 
 Create image for superuser
 In Model UserImage
+
+Create Folder for superuser
+In Model Folder
