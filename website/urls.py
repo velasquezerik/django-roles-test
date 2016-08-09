@@ -21,6 +21,8 @@ urlpatterns = [
     url(r'^admin/create_admin',views.admin_create_admin,name="admin_create_admin"),
     url(r'^admin/edit/(?P<user_id>[0-9]+)/$', views.admin_edit, name='admin_edit_user'),
     url(r'^admin/password',views.admin_password, name='admin_password_update'),
+    url(r'^admin/create_folder',views.admin_create_folder,name="admin_create_folder"),
+    url(r'^admin/folder/(?P<folder_id>[0-9]+)/$', views.admin_folder_show, name='admin_show_folder'),
 
 
     #urls for users
@@ -28,5 +30,7 @@ urlpatterns = [
     url(r'^user/profile',views.user_profile, name='user_profile'),
     url(r'^user/update',views.user_profile_update, name='user_profile_update'),
     url(r'^user/password',views.user_password, name='user_password_update'),
+    url(r'^user/create_folder',views.user_create_folder,name="user_create_folder"),
+    url(r'^user/folder/(?P<folder_id>[0-9]+)/$', views.user_folder_show, name='user_show_folder'),
 
 ]

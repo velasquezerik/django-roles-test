@@ -54,6 +54,7 @@ def create_new_folder(user_id,father_id,name):
 	user = User.objects.get(id=user_id)
 	father = Folder.objects.get(id=father_id)
 	directory = father.path +"/"+ name
+	id_folder = 0
 	print directory
 	if not path.exists(directory):
 		try:
@@ -64,11 +65,12 @@ def create_new_folder(user_id,father_id,name):
 			folder.father = father.id
 			folder.active = True
 			folder.save()
+			id_folder = folder.id
 			makedirs(directory)
 		except Exception, e:
-			return False
+			return id_folder
 		else:
-			return True
+			return id_folder
 
 
 

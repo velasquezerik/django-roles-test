@@ -79,12 +79,16 @@ def test(request):
 def admin_view(request):
 	user = User.objects.get(id = request.user.id)
 	root_folder = Folder.objects.get(user_id=user.id,father=0)
-	return render(request,'admin/index.html',{'root_folder':root_folder})
+	folders = Folder.objects.filter(father=root_folder.id)
+	return render(request,'admin/index.html',{'root_folder':root_folder,'folders':folders})
 
 @login_required(login_url="/login/")
 @has_role_decorator('system_user')
 def user_view(request):
-	return render(request,'user/index.html',{})
+	user = User.objects.get(id = request.user.id)
+	root_folder = Folder.objects.get(user_id=user.id,father=0)
+	folders = Folder.objects.filter(father=root_folder.id)
+	return render(request,'user/index.html',{'root_folder':root_folder,'folders':folders})
 
 
 @login_required(login_url="/login/")
@@ -411,3 +415,65 @@ def test_folder(request):
 
 	return redirect('/')
 
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_create_folder(request):
+	if request.method == "POST":
+		user = User.objects.get(id=request.user.id)
+		name = request.POST['name']
+		father = request.POST['father_id']
+		father = Folder.objects.get(id=father)
+		user= request.POST['user_id']
+		user = User.objects.get(id=user)
+
+		#update user
+		folder_id = create_new_folder(request.POST['user_id'], request.POST['father_id'],request.POST['name'])
+
+		if father.father != 0:
+			return redirect("/admin/folder/"+str(father.id))
+	
+	return redirect("/admin/")
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_folder_show(request,folder_id):
+	user = User.objects.get(id = request.user.id)
+	root_folder = Folder.objects.get(id=folder_id)
+	folders = Folder.objects.filter(father=root_folder.id)
+	return render(request,'admin/show_folder.html',{'root_folder':root_folder,'folders':folders})
+
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_create_folder(request):
+	if request.method == "POST":
+		user = User.objects.get(id=request.user.id)
+		name = request.POST['name']
+		father = request.POST['father_id']
+		father = Folder.objects.get(id=father)
+		user= request.POST['user_id']
+		user = User.objects.get(id=user)
+
+		#update user
+		folder_id = create_new_folder(request.POST['user_id'], request.POST['father_id'],request.POST['name'])
+	
+		if father.father != 0:
+			return redirect("/user/folder/"+str(father.id))
+
+	return redirect("/user/")
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_folder_show(request,folder_id):
+	user = User.objects.get(id = request.user.id)
+	root_folder = Folder.objects.get(id=folder_id)
+	folders = Folder.objects.filter(father=root_folder.id)
+	return render(request,'user/show_folder.html',{'root_folder':root_folder,'folders':folders})
