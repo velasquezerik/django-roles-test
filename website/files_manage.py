@@ -13,7 +13,7 @@ from roles import SystemAdmin, SystemUser
 from models import UserImage, Folder
 from tesis.settings import *
 from os import *
-
+from shutil import *
 
 #create folder
 def create_folder(root, name):

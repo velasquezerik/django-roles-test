@@ -16,3 +16,10 @@ class Folder(models.Model):
 	father = models.IntegerField(default=0)
 	active = models.BooleanField(default=True)
 		
+
+#file model
+class File(models.Model):
+	"""Atributes"""
+	folder =  models.ForeignKey(Folder, on_delete=models.CASCADE)
+	name = models.CharField(max_length=500)
+	active = models.BooleanField(default=True)
