@@ -477,3 +477,41 @@ def user_folder_show(request,folder_id):
 	root_folder = Folder.objects.get(id=folder_id)
 	folders = Folder.objects.filter(father=root_folder.id)
 	return render(request,'user/show_folder.html',{'root_folder':root_folder,'folders':folders})
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_edit_folder(request):
+	if request.method == "POST":
+		name = request.POST['name']
+		folder = request.POST['folder_id']
+		folder = Folder.objects.get(id=folder)
+		user= request.POST['user_id']
+		user = User.objects.get(id=user)
+
+		#update folder name
+		edit_folder(request.POST['user_id'], request.POST['folder_id'],request.POST['name'])
+
+		return redirect("/admin/folder/"+str(folder.id))
+	
+	return redirect("/admin/")
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_edit_folder(request):
+	if request.method == "POST":
+		name = request.POST['name']
+		folder = request.POST['folder_id']
+		folder = Folder.objects.get(id=folder)
+		user= request.POST['user_id']
+		user = User.objects.get(id=user)
+
+		#update folder name
+		edit_folder(request.POST['user_id'], request.POST['folder_id'],request.POST['name'])
+
+		return redirect("/user/folder/"+str(folder.id))
+	
+	return redirect("/user/")

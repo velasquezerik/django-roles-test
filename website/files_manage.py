@@ -72,5 +72,20 @@ def create_new_folder(user_id,father_id,name):
 		else:
 			return id_folder
 
+#create new folder
+def edit_folder(user_id,folder_id,name):
+	root = MEDIA_ROOT
+	user = User.objects.get(id=user_id)
+	folder = Folder.objects.get(id=folder_id)
+	father = Folder.objects.get(id=folder.father)
+	directory = father.path +"/"+ name
+
+	rename(folder.path,directory)
+	
+	folder.name = name
+	folder.path = directory
+	folder.save()
+	return True
+
 
 
