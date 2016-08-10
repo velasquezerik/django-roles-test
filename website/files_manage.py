@@ -137,3 +137,12 @@ def upload_file(name, folder_id, f):
 	file.save()
 
 	return True
+
+
+#get file info
+def get_file_info(file_id):
+	file = File.objects.get(id = file_id)
+	f = open(file.folder.path + "/" + file.name, 'r')
+	data = f.read()
+	f.close()
+	return data

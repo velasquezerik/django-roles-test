@@ -641,3 +641,16 @@ def user_upload_file(request):
 	
 	return redirect("/user/")
 
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_file_show(request,file_id):
+	user = User.objects.get(id = request.user.id)
+	file = File.objects.get(id=file_id)
+	folder = file.folder
+	info = get_file_info(file_id)
+	return render(request,'admin/show_file.html',{'folder':folder,'file':file,'info':info})
+
+

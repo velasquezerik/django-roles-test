@@ -1,0 +1,56 @@
+{% extends 'website/base.html' %}
+{% load staticfiles %}
+
+{% block title_page %}Tesis| Dashboard{% endblock %}
+
+{% block title_content %}
+	Dashboard
+    <small>Index</small>
+{% endblock %}
+
+{% block level %}
+	<li><a href="{% url 'website:admin_index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+    <li class="active">Index</li>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+        <div class="col-xs-6">
+        	{% if folder.father != 0 %}
+            	<a href="{% url 'website:admin_show_folder' folder.id %}" class="btn btn-block btn-warning">Return to Folder</a>
+        	{% else %}
+        		<a href="{% url 'website:admin_index' %}" class="btn btn-block btn-warning">Return to Folder</a>
+        	{% endif %}
+        </div>
+        <div class="col-xs-6">
+        	<a href="#" class="btn btn-block btn-danger">Delete File</a>
+        </div>
+</div>
+	<div class="row">
+	    <div class="col-md-12">
+	      <div class="box">
+	        <div class="box-header">
+	          <h3 class="box-title">File <small>{{file.name}}</small></h3>
+	          <!-- tools box -->
+	          <div class="pull-right box-tools">
+	            <button class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+	          </div><!-- /. tools -->
+	        </div><!-- /.box-header -->
+	        <div class="box-body pad">
+	          <form>
+	            <textarea class="textarea" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{info}}<br>{{info}}</textarea>
+	            <div class="row">
+	            	<div class="col-xs-8">
+			        	
+			        </div>
+			        <div class="col-xs-4">
+			        	<a href="#" class="btn btn-block btn-primary">Save</a>
+			        </div>
+				</div>
+	          </form>
+	        </div>
+	      </div>
+	    </div><!-- /.col-->
+	</div><!-- ./row -->
+{% endblock %}
+

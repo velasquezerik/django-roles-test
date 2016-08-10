@@ -43,7 +43,7 @@
 			    </a>
 	    	{% endfor %}
 	    	{% for file in files %}
-		    	<a class="btn btn-app" href="#">
+		    	<a class="btn btn-app" href="{% url 'website:admin_show_file' file.id %}">
 			    	<i class="fa fa-file"></i> {{file.name}}
 			    </a>
 	    	{% endfor %}
