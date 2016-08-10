@@ -515,3 +515,44 @@ def user_edit_folder(request):
 		return redirect("/user/folder/"+str(folder.id))
 	
 	return redirect("/user/")
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_delete_folder(request):
+	if request.method == "POST":
+		folder = request.POST['folder_id']
+		folder = Folder.objects.get(id=folder)
+		user= request.POST['user_id']
+		user = User.objects.get(id=user)
+		father = Folder.objects.get(id=folder.father)
+
+		#update folder name
+		delete_folder(request.POST['user_id'], request.POST['folder_id'])
+
+		if father.father != 0:
+			return redirect("/admin/folder/"+str(father.id))
+
+	return redirect("/admin/")
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_delete_folder(request):
+	if request.method == "POST":
+		folder = request.POST['folder_id']
+		folder = Folder.objects.get(id=folder)
+		user= request.POST['user_id']
+		user = User.objects.get(id=user)
+		father = Folder.objects.get(id=folder.father)
+
+		#update folder name
+		delete_folder(request.POST['user_id'], request.POST['folder_id'])
+
+		if father.father != 0:
+			return redirect("/user/folder/"+str(father.id))
+
+	return redirect("/user/")
+

@@ -22,7 +22,7 @@
             <a href="#" data-toggle="modal" data-target="#myModalEdit" class="btn btn-block btn-primary">Edit Folder</a>
         </div>
         <div class="col-xs-6">
-            <a href="#" class="btn btn-block btn-danger">Delete Folder</a>
+            <a href="#" data-toggle="modal" data-target="#myModalDelete" class="btn btn-block btn-danger">Delete Folder</a>
         </div>
         <div class="col-xs-6">
             <a href="#" class="btn btn-block btn-success">New File</a>
@@ -138,6 +138,55 @@
                   	<div class="modal-footer">
                     	<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
                     	<button type="submit" class="btn btn-primary">Edit</button>
+                  	</div>
+                  	</form>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+
+
+
+        <div class="modal fade" id="myModalDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                	<form class="form-horizontal" role="form" action="{% url 'website:user_delete_folder'%}" method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+                  	<div class="modal-header">
+                    	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    	<h4 class="modal-title">Delete Folder {{root_folder.name}}</h4>
+                  	</div>
+                  	<div class="modal-body">
+                    	<div class="row" style="margin-top:10px;">
+						    <div class="col-xs-12">
+						        <div class="box">
+						            <div class="box-header">
+						                <h3 class="box-title">Delete Folder</h3>
+						            </div><!-- /.box-header -->
+						            <div class="col-xs-12">
+						                {% if error_message %}
+						                    <div class="alert alert-danger alert-dismissable">
+						                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						                        <h4><i class="icon fa fa-ban"></i> {{ error_message }}</h4>
+						                    </div>
+						                {% endif %}
+						            </div>
+						            
+						            <div class="box-body">
+						                <div class="form-group">
+						                	<p>Are you sure? This remove all files</p>
+						                    
+						                    <input type="hidden" class="form-control" name="user_id" value="{{user.id}}" required>
+						                    <input type="hidden" class="form-control" name="folder_id" value="{{root_folder.id}}" required>
+						                </div>				                
+						            </div><!-- /.box-body -->
+						        </div><!-- /.box -->
+						    </div><!-- /.col -->
+						</div><!-- /.row -->
+                  	</div>
+                  	<div class="modal-footer">
+                    	<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    	<button type="submit" class="btn btn-danger">Delete</button>
                   	</div>
                   	</form>
                 </div><!-- /.modal-content -->

@@ -81,7 +81,7 @@ def edit_folder(user_id,folder_id,name):
 	directory = father.path +"/"+ name
 
 	rename(folder.path,directory)
-	
+
 	folder.name = name
 	folder.path = directory
 	folder.save()
@@ -89,3 +89,16 @@ def edit_folder(user_id,folder_id,name):
 
 
 
+#delete folder
+def delete_folder(user_id, folder_id):
+	root = MEDIA_ROOT
+	user = User.objects.get(id=user_id)
+	folder = Folder.objects.get(id=folder_id)
+	father = Folder.objects.get(id=folder.father)
+	directory = father.path +"/"+ name
+
+	rmtree(folder.path)
+
+	folder.delete()
+
+	return True
