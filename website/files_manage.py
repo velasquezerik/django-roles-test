@@ -120,3 +120,20 @@ def create_file(name, folder_id):
 	file.save()
 
 	return True
+
+#upload files
+def upload_file(name, folder_id, f):
+	root = MEDIA_ROOT
+	folder = Folder.objects.get(id=folder_id)
+	# create a file
+	with open(folder.path + "/" + name, 'w') as destination:
+		for chunk in f.chunks():
+			destination.write(chunk)
+
+	file = File()
+	file.name = name
+	file.folder = folder
+	file.active = True
+	file.save()
+
+	return True

@@ -598,3 +598,46 @@ def user_create_file(request):
 			return redirect("/user/folder/"+str(folder.id))
 	
 	return redirect("/user/")
+
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_upload_file(request):
+	if request.method == "POST":
+		folder = request.POST['folder_id']
+		folder = Folder.objects.get(id=folder)
+		user= request.POST['user_id']
+		user = User.objects.get(id=user)
+		file = request.FILES['file']
+
+		#create file
+		upload_file(file.name, request.POST['folder_id'],file)
+
+		if folder.father != 0:
+			return redirect("/admin/folder/"+str(folder.id))
+	
+	return redirect("/admin/")
+
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_upload_file(request):
+	if request.method == "POST":
+		folder = request.POST['folder_id']
+		folder = Folder.objects.get(id=folder)
+		user= request.POST['user_id']
+		user = User.objects.get(id=user)
+		file = request.FILES['file']
+
+		#create file
+		upload_file(file.name, request.POST['folder_id'],file)
+
+		if folder.father != 0:
+			return redirect("/user/folder/"+str(folder.id))
+	
+	return redirect("/user/")
+

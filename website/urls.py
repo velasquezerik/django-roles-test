@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^admin/edit_folder',views.admin_edit_folder,name="admin_edit_folder"),
     url(r'^admin/delete_folder',views.admin_delete_folder,name="admin_delete_folder"),
     url(r'^admin/create_file',views.admin_create_file,name="admin_create_file"),
+    url(r'^admin/upload_file',views.admin_upload_file,name="admin_upload_file"),
 
 
     #urls for users
@@ -38,5 +39,6 @@ urlpatterns = [
     url(r'^user/edit_folder',views.user_edit_folder,name="user_edit_folder"),
     url(r'^user/delete_folder',views.user_delete_folder,name="user_delete_folder"),
     url(r'^user/create_file',views.user_create_file,name="user_create_file"),
+    url(r'^user/upload_file',views.user_upload_file,name="user_upload_file"),
 
 ]
