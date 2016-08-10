@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^admin/folder/(?P<folder_id>[0-9]+)/$', views.admin_folder_show, name='admin_show_folder'),
     url(r'^admin/edit_folder',views.admin_edit_folder,name="admin_edit_folder"),
     url(r'^admin/delete_folder',views.admin_delete_folder,name="admin_delete_folder"),
+    url(r'^admin/create_file',views.admin_create_file,name="admin_create_file"),
 
 
     #urls for users

@@ -10,7 +10,7 @@ from rolepermissions.shortcuts import assign_role, remove_role
 from rolepermissions.verifications import has_permission, has_role
 from rolepermissions.decorators import has_role_decorator
 from roles import SystemAdmin, SystemUser
-from models import UserImage, Folder
+from models import UserImage, Folder, File
 from tesis.settings import *
 import os
 from files_manage import *
@@ -80,7 +80,8 @@ def admin_view(request):
 	user = User.objects.get(id = request.user.id)
 	root_folder = Folder.objects.get(user_id=user.id,father=0)
 	folders = Folder.objects.filter(father=root_folder.id)
-	return render(request,'admin/index.html',{'root_folder':root_folder,'folders':folders})
+	files = File.objects.filter(folder = root_folder.id)
+	return render(request,'admin/index.html',{'root_folder':root_folder,'folders':folders, 'files':files})
 
 @login_required(login_url="/login/")
 @has_role_decorator('system_user')
@@ -88,7 +89,8 @@ def user_view(request):
 	user = User.objects.get(id = request.user.id)
 	root_folder = Folder.objects.get(user_id=user.id,father=0)
 	folders = Folder.objects.filter(father=root_folder.id)
-	return render(request,'user/index.html',{'root_folder':root_folder,'folders':folders})
+	files = File.objects.filter(folder = root_folder.id)
+	return render(request,'user/index.html',{'root_folder':root_folder,'folders':folders, 'files':files})
 
 
 @login_required(login_url="/login/")
@@ -444,7 +446,8 @@ def admin_folder_show(request,folder_id):
 	user = User.objects.get(id = request.user.id)
 	root_folder = Folder.objects.get(id=folder_id)
 	folders = Folder.objects.filter(father=root_folder.id)
-	return render(request,'admin/show_folder.html',{'root_folder':root_folder,'folders':folders})
+	files = File.objects.filter(folder = root_folder.id)
+	return render(request,'admin/show_folder.html',{'root_folder':root_folder,'folders':folders,'files':files})
 
 
 
@@ -476,7 +479,8 @@ def user_folder_show(request,folder_id):
 	user = User.objects.get(id = request.user.id)
 	root_folder = Folder.objects.get(id=folder_id)
 	folders = Folder.objects.filter(father=root_folder.id)
-	return render(request,'user/show_folder.html',{'root_folder':root_folder,'folders':folders})
+	files = File.objects.filter(folder = root_folder.id)
+	return render(request,'user/show_folder.html',{'root_folder':root_folder,'folders':folders,'files':files})
 
 
 
@@ -556,3 +560,22 @@ def user_delete_folder(request):
 
 	return redirect("/user/")
 
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_create_file(request):
+	if request.method == "POST":
+		name = request.POST['name']
+		folder = request.POST['folder_id']
+		folder = Folder.objects.get(id=folder)
+		user= request.POST['user_id']
+		user = User.objects.get(id=user)
+
+		#create file
+		create_file(request.POST['name'], request.POST['folder_id'])
+
+		if folder.father != 0:
+			return redirect("/admin/folder/"+str(folder.id))
+	
+	return redirect("/admin/")

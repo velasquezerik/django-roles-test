@@ -10,18 +10,18 @@ from rolepermissions.shortcuts import assign_role, remove_role
 from rolepermissions.verifications import has_permission, has_role
 from rolepermissions.decorators import has_role_decorator
 from roles import SystemAdmin, SystemUser
-from models import UserImage, Folder
+from models import UserImage, Folder, File
 from tesis.settings import *
-from os import *
-from shutil import *
+import os
+import shutil
 
 #create folder
 def create_folder(root, name):
 	directory = root +"/"+ name
 	print directory
-	if not path.exists(directory):
+	if not os.path.exists(directory):
 		try:
-			makedirs(directory)
+			os.makedirs(directory)
 		except Exception, e:
 			return False
 		else:
@@ -34,14 +34,14 @@ def create_root_folder(user_id):
 	user = User.objects.get(id=user_id)
 	directory = root +"/"+ user.username
 	print directory
-	if not path.exists(directory):
+	if not os.path.exists(directory):
 		try:
 			folder = Folder()
 			folder.name = user.username
 			folder.path = directory
 			folder.user = user
 			folder.save()
-			makedirs(directory)
+			os.makedirs(directory)
 		except Exception, e:
 			return False
 		else:
@@ -56,7 +56,7 @@ def create_new_folder(user_id,father_id,name):
 	directory = father.path +"/"+ name
 	id_folder = 0
 	print directory
-	if not path.exists(directory):
+	if not os.path.exists(directory):
 		try:
 			folder = Folder()
 			folder.name = name
@@ -66,7 +66,7 @@ def create_new_folder(user_id,father_id,name):
 			folder.active = True
 			folder.save()
 			id_folder = folder.id
-			makedirs(directory)
+			os.makedirs(directory)
 		except Exception, e:
 			return id_folder
 		else:
@@ -80,7 +80,7 @@ def edit_folder(user_id,folder_id,name):
 	father = Folder.objects.get(id=folder.father)
 	directory = father.path +"/"+ name
 
-	rename(folder.path,directory)
+	os.rename(folder.path,directory)
 
 	folder.name = name
 	folder.path = directory
@@ -97,8 +97,26 @@ def delete_folder(user_id, folder_id):
 	father = Folder.objects.get(id=folder.father)
 	directory = father.path +"/"+ name
 
-	rmtree(folder.path)
+	shutil.rmtree(folder.path)
 
 	folder.delete()
+
+	return True
+
+
+#create new file
+def create_file(name, folder_id):
+	root = MEDIA_ROOT
+	folder = Folder.objects.get(id=folder_id)
+	# Open a file
+	f = open(folder.path + "/" + name, "w")
+	# Close opend file
+	f.close()
+
+	file = File()
+	file.name = name
+	file.folder = folder
+	file.active = True
+	file.save()
 
 	return True
