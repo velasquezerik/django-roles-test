@@ -37,5 +37,6 @@ urlpatterns = [
     url(r'^user/folder/(?P<folder_id>[0-9]+)/$', views.user_folder_show, name='user_show_folder'),
     url(r'^user/edit_folder',views.user_edit_folder,name="user_edit_folder"),
     url(r'^user/delete_folder',views.user_delete_folder,name="user_delete_folder"),
+    url(r'^user/create_file',views.user_create_file,name="user_create_file"),
 
 ]
