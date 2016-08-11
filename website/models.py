@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
 
 # Create your models here.
 class UserImage(models.Model):
@@ -59,3 +60,27 @@ class ShareFolder(models.Model):
 
 	class Meta:
 		unique_together = ('user', 'folder',)
+
+
+#logs for relationship
+class LogsRelationship(models.Model):
+	relationship = models.ForeignKey(Relationship, on_delete=models.CASCADE)
+	description = models.CharField(max_length=1000)
+	date = models.DateTimeField(default=datetime.now)
+
+
+#logs for folders
+class LogsFolder(models.Model):
+	folder = models.ForeignKey(Folder, on_delete=models.CASCADE)
+	user =  models.ForeignKey(User, on_delete=models.CASCADE)
+	description = models.CharField(max_length=1000)
+	date = models.DateTimeField(default=datetime.now)
+
+
+#logs for files
+class LogsFile(models.Model):
+	file = models.ForeignKey(File, on_delete=models.CASCADE)
+	user =  models.ForeignKey(User, on_delete=models.CASCADE)
+	description = models.CharField(max_length=1000)
+	date = models.DateTimeField(default=datetime.now)
+
