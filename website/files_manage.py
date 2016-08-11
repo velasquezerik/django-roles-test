@@ -14,6 +14,7 @@ from models import UserImage, Folder, File
 from tesis.settings import *
 import os
 import shutil
+from bs4 import BeautifulSoup
 
 #create folder
 def create_folder(root, name):
@@ -152,4 +153,12 @@ def get_file_info(file_id):
 def delete_file(file_id):
 	file = File.objects.get(id=file_id)
 	os.remove(file.folder.path+"/"+file.name)
+	return True
+
+#update file
+def update_file(file_id,data):
+	file = File.objects.get(id=file_id)
+	f = open(file.folder.path + "/" + file.name, "w")
+	f.write(data)
+	f.close()
 	return True

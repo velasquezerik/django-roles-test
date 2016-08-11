@@ -9,6 +9,9 @@ https://django-role-permissions.readthedocs.io/en/latest/
 Install drivers for mysql
 apt-get install python-mysqldb
 
+Install html2text for html manage
+pip install html2text
+
 Create DB and configuration
 
 Run migrations
@@ -22,3 +25,4 @@ In Model UserImage
 
 Create Folder for superuser
 In Model Folder
+

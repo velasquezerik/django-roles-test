@@ -14,6 +14,7 @@ from models import UserImage, Folder, File
 from tesis.settings import *
 import os
 from files_manage import *
+import html2text
 
 # Create your views here.
 
@@ -651,6 +652,8 @@ def admin_file_show(request,file_id):
 	file = File.objects.get(id=file_id)
 	folder = file.folder
 	info = get_file_info(file_id)
+	#transfor text to htmls
+	info = "<br />".join(info.split("\n"))
 	return render(request,'admin/show_file.html',{'folder':folder,'file':file,'info':info})
 
 
@@ -669,3 +672,21 @@ def admin_delete_file(request, file_id):
 	
 	return redirect("/admin/")
 
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_update_file(request):
+
+	if request.method == "POST":
+		file = request.POST['file_id']
+		file = File.objects.get(id=file)
+		
+		info_file = request.POST['info_file']
+
+		data = html2text.html2text(info_file)
+		
+		update_file(file.id,data)
+
+		return redirect("/admin/file/"+str(file.id))
+	return redirect("/admin/")
