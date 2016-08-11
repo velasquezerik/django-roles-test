@@ -1,0 +1,90 @@
+{% extends 'website/base.html' %}
+{% load staticfiles %}
+
+{% block title_page %}Tesis| Dashboard{% endblock %}
+
+{% block title_content %}
+	Dashboard
+    <small>Index</small>
+{% endblock %}
+
+{% block level %}
+	<li><a href="{% url 'website:user_index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+    <li class="active">Index</li>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+        <div class="col-xs-6">
+        	{% if folder.father != 0 %}
+            	<a href="{% url 'website:user_show_folder' folder.id %}" class="btn btn-block btn-warning">Return to Folder</a>
+        	{% else %}
+        		<a href="{% url 'website:user_index' %}" class="btn btn-block btn-warning">Return to Folder</a>
+        	{% endif %}
+        </div>
+        <div class="col-xs-6">
+        	<a href="#" data-toggle="modal" data-target="#myModalDelete" class="btn btn-block btn-danger">Delete File</a>
+        </div>
+</div>
+	<div class="row">
+	    <div class="col-md-12">
+	      <div class="box">
+	        <div class="box-header">
+	          <h3 class="box-title">File <small>{{file.name}}</small></h3>
+	          <!-- tools box -->
+	          <div class="pull-right box-tools">
+	            <button class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+	          </div><!-- /. tools -->
+	        </div><!-- /.box-header -->
+	        <div class="box-body pad">
+	          <form class="form-horizontal" role="form" action="{% url 'website:user_update_file'%}" method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+						<input type="hidden" class="form-control" name="file_id" value="{{file.id}}" required>
+	            <textarea name="info_file" class="textarea" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{info}}</textarea>
+	            <div class="row">
+	            	<div class="col-xs-8">
+			        	
+			        </div>
+			        <div class="col-xs-4">
+                    	<button type="submit" class="btn btn-block btn-primary">Save</button>
+			        </div>
+				</div>
+	          </form>
+	        </div>
+	      </div>
+	    </div><!-- /.col-->
+	</div><!-- ./row -->
+
+	<div class="modal fade" id="myModalDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                  	<div class="modal-header">
+                    	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    	<h4 class="modal-title">Delete File {{file.name}}</h4>
+                  	</div>
+                  	<div class="modal-body">
+                    	<div class="row" style="margin-top:10px;">
+						    <div class="col-xs-12">
+						        <div class="box">
+						            <div class="box-header">
+						                <h3 class="box-title">Delete File</h3>
+						            </div><!-- /.box-header -->
+						            
+						            <div class="box-body">
+						                <div class="form-group">
+						                	<p>Are you sure? Remove the file?</p>
+						                </div>				                
+						            </div><!-- /.box-body -->
+						        </div><!-- /.box -->
+						    </div><!-- /.col -->
+						</div><!-- /.row -->
+                  	</div>
+                  	<div class="modal-footer">
+                    	<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    	<a href="{% url 'website:user_delete_file' file.id %}" class="btn btn-danger">Delete</a>
+                  	</div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+{% endblock %}
+

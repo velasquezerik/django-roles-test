@@ -23,3 +23,12 @@ class File(models.Model):
 	folder =  models.ForeignKey(Folder, on_delete=models.CASCADE)
 	name = models.CharField(max_length=500)
 	active = models.BooleanField(default=True)
+
+
+#disk space for users
+class DiskSpace(models.Model):
+	user = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True,)
+	#max space in MB
+	max_space = models.IntegerField(default=512)
+	usage = models.IntegerField(default=0)
+	
