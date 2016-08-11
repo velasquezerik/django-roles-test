@@ -146,3 +146,10 @@ def get_file_info(file_id):
 	data = f.read()
 	f.close()
 	return data
+
+
+#delete a file
+def delete_file(file_id):
+	file = File.objects.get(id=file_id)
+	os.remove(file.folder.path+"/"+file.name)
+	return True

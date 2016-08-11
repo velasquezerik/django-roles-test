@@ -23,7 +23,7 @@
         	{% endif %}
         </div>
         <div class="col-xs-6">
-        	<a href="#" class="btn btn-block btn-danger">Delete File</a>
+        	<a href="#" data-toggle="modal" data-target="#myModalDelete" class="btn btn-block btn-danger">Delete File</a>
         </div>
 </div>
 	<div class="row">
@@ -38,7 +38,7 @@
 	        </div><!-- /.box-header -->
 	        <div class="box-body pad">
 	          <form>
-	            <textarea class="textarea" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{info}}<br>{{info}}</textarea>
+	            <textarea class="textarea" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{info}}</textarea>
 	            <div class="row">
 	            	<div class="col-xs-8">
 			        	
@@ -52,5 +52,37 @@
 	      </div>
 	    </div><!-- /.col-->
 	</div><!-- ./row -->
+
+	<div class="modal fade" id="myModalDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                  	<div class="modal-header">
+                    	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    	<h4 class="modal-title">Delete File {{file.name}}</h4>
+                  	</div>
+                  	<div class="modal-body">
+                    	<div class="row" style="margin-top:10px;">
+						    <div class="col-xs-12">
+						        <div class="box">
+						            <div class="box-header">
+						                <h3 class="box-title">Delete File</h3>
+						            </div><!-- /.box-header -->
+						            
+						            <div class="box-body">
+						                <div class="form-group">
+						                	<p>Are you sure? Remove the file?</p>
+						                </div>				                
+						            </div><!-- /.box-body -->
+						        </div><!-- /.box -->
+						    </div><!-- /.col -->
+						</div><!-- /.row -->
+                  	</div>
+                  	<div class="modal-footer">
+                    	<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    	<a href="{% url 'website:admin_delete_file' file.id %}" class="btn btn-danger">Delete</a>
+                  	</div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
 {% endblock %}
 

@@ -654,3 +654,18 @@ def admin_file_show(request,file_id):
 	return render(request,'admin/show_file.html',{'folder':folder,'file':file,'info':info})
 
 
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_delete_file(request, file_id):
+	file = File.objects.get(id=file_id)
+	folder = file.folder
+
+	delete_file(file_id)
+	file.delete()
+
+	if folder.father != 0:
+			return redirect("/admin/folder/"+str(folder.id))
+	
+	return redirect("/admin/")
+

@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^admin/create_file',views.admin_create_file,name="admin_create_file"),
     url(r'^admin/upload_file',views.admin_upload_file,name="admin_upload_file"),
     url(r'^admin/file/(?P<file_id>[0-9]+)/$', views.admin_file_show, name='admin_show_file'),
+    url(r'^admin/delete_file/(?P<file_id>[0-9]+)/$', views.admin_delete_file, name='admin_delete_file'),
 
 
     #urls for users
