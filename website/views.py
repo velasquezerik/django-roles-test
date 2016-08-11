@@ -690,3 +690,51 @@ def admin_update_file(request):
 
 		return redirect("/admin/file/"+str(file.id))
 	return redirect("/admin/")
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_file_show(request,file_id):
+	user = User.objects.get(id = request.user.id)
+	file = File.objects.get(id=file_id)
+	folder = file.folder
+	info = get_file_info(file_id)
+	#transfor text to htmls
+	info = "<br />".join(info.split("\n"))
+	return render(request,'user/show_file.html',{'folder':folder,'file':file,'info':info})
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_delete_file(request, file_id):
+	file = File.objects.get(id=file_id)
+	folder = file.folder
+
+	delete_file(file_id)
+	file.delete()
+
+	if folder.father != 0:
+			return redirect("/user/folder/"+str(folder.id))
+	
+	return redirect("/user/")
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_update_file(request):
+
+	if request.method == "POST":
+		file = request.POST['file_id']
+		file = File.objects.get(id=file)
+		
+		info_file = request.POST['info_file']
+
+		data = html2text.html2text(info_file)
+		
+		update_file(file.id,data)
+
+		return redirect("/user/file/"+str(file.id))
+	return redirect("/user/")

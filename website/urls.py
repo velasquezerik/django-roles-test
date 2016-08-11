@@ -43,5 +43,8 @@ urlpatterns = [
     url(r'^user/delete_folder',views.user_delete_folder,name="user_delete_folder"),
     url(r'^user/create_file',views.user_create_file,name="user_create_file"),
     url(r'^user/upload_file',views.user_upload_file,name="user_upload_file"),
+    url(r'^user/file/(?P<file_id>[0-9]+)/$', views.user_file_show, name='user_show_file'),
+    url(r'^user/delete_file/(?P<file_id>[0-9]+)/$', views.user_delete_file, name='user_delete_file'),
+    url(r'^user/file_update',views.user_update_file,name="user_update_file"),
 
 ]
