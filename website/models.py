@@ -50,3 +50,12 @@ class Relationship(models.Model):
 		unique_together = ('user_one', 'user_two',)
 			
 
+
+#share folders
+class ShareFolder(models.Model):
+	status = models.IntegerField(default=0, choices=STATUS_CHOICES)
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	folder = models.ForeignKey(Folder, on_delete=models.CASCADE)
+
+	class Meta:
+		unique_together = ('user', 'folder',)
