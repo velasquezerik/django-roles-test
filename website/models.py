@@ -31,4 +31,22 @@ class DiskSpace(models.Model):
 	#max space in MB
 	max_space = models.IntegerField(default=512)
 	usage = models.IntegerField(default=0)
-	
+
+
+Pending = 0
+Accepted = 1
+Declined = 2
+Blocked = 3
+#status model-> Pending, Accepted, Declined, Blocked
+STATUS_CHOICES = ((Pending, 'Pending'),(Accepted, 'Accepted'),(Declined, 'Declined'),(Blocked,'Blocked'))
+
+#relationship for friends
+class Relationship(models.Model):
+	status = models.IntegerField(default=0, choices=STATUS_CHOICES)
+	user_one =  models.ForeignKey(User, on_delete=models.CASCADE)
+	user_two =  models.IntegerField(default=0)
+
+	class Meta:
+		unique_together = ('user_one', 'user_two',)
+			
+
