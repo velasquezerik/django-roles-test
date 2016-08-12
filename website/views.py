@@ -629,10 +629,17 @@ def admin_create_file(request):
 		diskspace = DiskSpace.objects.get(user=user.id)
 		if diskspace.max_space > diskspace.usage:
 			#create file
-			create_file(request.POST['name'], request.POST['folder_id'])
+			file_id = create_file(request.POST['name'], request.POST['folder_id'])
 			#update space
 			diskspace.usage = usage_space(user.id)
 			diskspace.save()
+
+			#create log file
+			log = LogsFile()
+			log.user = user
+			log.file = File.objects.get(id=file_id)
+			log.description = "Create a File"
+			log.save()
 
 		
 
@@ -657,10 +664,17 @@ def user_create_file(request):
 		diskspace = DiskSpace.objects.get(user=user.id)
 		if diskspace.max_space > diskspace.usage:
 			#create file
-			create_file(request.POST['name'], request.POST['folder_id'])
+			file_id = create_file(request.POST['name'], request.POST['folder_id'])
 			#update space
 			diskspace.usage = usage_space(user.id)
 			diskspace.save()
+
+			#create log file
+			log = LogsFile()
+			log.user = user
+			log.file = File.objects.get(id=file_id)
+			log.description = "Create a File"
+			log.save()
 
 
 		
@@ -687,10 +701,17 @@ def admin_upload_file(request):
 		diskspace = DiskSpace.objects.get(user=user.id)
 		if diskspace.max_space > diskspace.usage:
 			#create file
-			upload_file(file.name, request.POST['folder_id'],file)
+			file_id = upload_file(file.name, request.POST['folder_id'],file)
 			#update space
 			diskspace.usage = usage_space(user.id)
 			diskspace.save()
+
+			#create log file
+			log = LogsFile()
+			log.user = user
+			log.file = File.objects.get(id=file_id)
+			log.description = "Upload a File"
+			log.save()
 
 		
 
@@ -716,10 +737,17 @@ def user_upload_file(request):
 		diskspace = DiskSpace.objects.get(user=user.id)
 		if diskspace.max_space > diskspace.usage:
 			#create file
-			upload_file(file.name, request.POST['folder_id'],file)
+			file_id = upload_file(file.name, request.POST['folder_id'],file)
 			#update space
 			diskspace.usage = usage_space(user.id)
 			diskspace.save()
+
+			#create log file
+			log = LogsFile()
+			log.user = user
+			log.file = File.objects.get(id=file_id)
+			log.description = "Upload a File"
+			log.save()
 
 
 		if folder.father != 0:
@@ -783,6 +811,13 @@ def admin_update_file(request):
 		diskspace.usage = usage_space(request.user.id)
 		diskspace.save()
 
+		#create log file
+		log = LogsFile()
+		log.user = request.user
+		log.file = file
+		log.description = "Edit a File"
+		log.save()
+
 		return redirect("/admin/file/"+str(file.id))
 	return redirect("/admin/")
 
@@ -840,6 +875,13 @@ def user_update_file(request):
 		diskspace = DiskSpace.objects.get(user=request.user.id)
 		diskspace.usage = usage_space(request.user.id)
 		diskspace.save()
+
+		#create log file
+		log = LogsFile()
+		log.user = request.user
+		log.file = file
+		log.description = "Edit a File"
+		log.save()
 
 		return redirect("/user/file/"+str(file.id))
 	return redirect("/user/")

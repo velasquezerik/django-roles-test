@@ -133,7 +133,7 @@ def create_file(name, folder_id):
 	file.active = True
 	file.save()
 
-	return True
+	return file.id
 
 #upload files
 def upload_file(name, folder_id, f):
@@ -150,7 +150,7 @@ def upload_file(name, folder_id, f):
 	file.active = True
 	file.save()
 
-	return True
+	return file.id
 
 
 #get file info
