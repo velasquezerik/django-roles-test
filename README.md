@@ -26,3 +26,6 @@ In Model UserImage
 Create Folder for superuser
 In Model Folder
 
+Create DiskSpace for superuser
+In Model DiskSpace
+

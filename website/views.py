@@ -457,6 +457,12 @@ def admin_create_folder(request):
 			#update space
 			diskspace.usage = usage_space(user.id)
 			diskspace.save()
+
+			log = LogsFolder()
+			log.user = user
+			log.folder = Folder.objects.get(id=folder_id)
+			log.description = "Create a folder"
+			log.save()
 		
 
 		if father.father != 0:
@@ -498,6 +504,12 @@ def user_create_folder(request):
 			#update space
 			diskspace.usage = usage_space(user.id)
 			diskspace.save()
+
+			log = LogsFolder()
+			log.user = user
+			log.folder = Folder.objects.get(id=folder_id)
+			log.description = "Create a folder"
+			log.save()
 	
 		if father.father != 0:
 			return redirect("/user/folder/"+str(father.id))
@@ -535,6 +547,12 @@ def admin_edit_folder(request):
 		diskspace.usage = usage_space(user.id)
 		diskspace.save()
 
+		log = LogsFolder()
+		log.user = user
+		log.folder = folder
+		log.description = "Edit a folder"
+		log.save()
+
 		return redirect("/admin/folder/"+str(folder.id))
 	
 	return redirect("/admin/")
@@ -558,6 +576,12 @@ def user_edit_folder(request):
 		diskspace = DiskSpace.objects.get(user=user.id)
 		diskspace.usage = usage_space(user.id)
 		diskspace.save()
+
+		log = LogsFolder()
+		log.user = user
+		log.folder = folder
+		log.description = "Edit a folder"
+		log.save()
 
 		return redirect("/user/folder/"+str(folder.id))
 	
