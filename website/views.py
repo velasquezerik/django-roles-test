@@ -10,7 +10,7 @@ from rolepermissions.shortcuts import assign_role, remove_role
 from rolepermissions.verifications import has_permission, has_role
 from rolepermissions.decorators import has_role_decorator
 from roles import SystemAdmin, SystemUser
-from models import UserImage, Folder, File
+from models import UserImage, Folder, File, DiskSpace, Relationship, ShareFolder, LogsFile, LogsFolder, LogsRelationship
 from tesis.settings import *
 import os
 from files_manage import *
@@ -186,6 +186,12 @@ def admin_create_user(request):
 		image.user = user
 		image.save()
 
+		#create DiskSpace
+		space = DiskSpace()
+		space.user = user
+		space.save()
+
+
 		#send email to user
 
 		#return to list users
@@ -278,6 +284,12 @@ def admin_create_admin(request):
 		image.user = user
 		image.save()
 
+		#create DiskSpace
+		space = DiskSpace()
+		space.user = user
+		space.max_space = 1024
+		space.save()
+
 		#send email to user
 
 
@@ -301,6 +313,7 @@ def admin_edit(request, user_id):
 		first_name = request.POST['first_name']
 		last_name = request.POST['last_name']
 		email= request.POST['email']
+		space = request.POST['space']
 
 		try:
 			user = User.objects.get(email=email)
@@ -318,6 +331,11 @@ def admin_edit(request, user_id):
 		user.last_name = last_name
 		user.email = email
 		user.save()
+
+		#update space
+		diskspace = DiskSpace.objects.get(user = user.id)
+		diskspace.max_space = space
+		diskspace.save()
 
 		return redirect("/admin/users/")
 
@@ -431,8 +449,15 @@ def admin_create_folder(request):
 		user= request.POST['user_id']
 		user = User.objects.get(id=user)
 
-		#update user
-		folder_id = create_new_folder(request.POST['user_id'], request.POST['father_id'],request.POST['name'])
+		#verify space
+		diskspace = DiskSpace.objects.get(user=user.id)
+		if diskspace.max_space > diskspace.usage:
+			#create folder
+			folder_id = create_new_folder(request.POST['user_id'], request.POST['father_id'],request.POST['name'])
+			#update space
+			diskspace.usage = usage_space(user.id)
+			diskspace.save()
+		
 
 		if father.father != 0:
 			return redirect("/admin/folder/"+str(father.id))
@@ -464,8 +489,15 @@ def user_create_folder(request):
 		user= request.POST['user_id']
 		user = User.objects.get(id=user)
 
-		#update user
-		folder_id = create_new_folder(request.POST['user_id'], request.POST['father_id'],request.POST['name'])
+
+		#verify space
+		diskspace = DiskSpace.objects.get(user=user.id)
+		if diskspace.max_space > diskspace.usage:
+			#create folder
+			folder_id = create_new_folder(request.POST['user_id'], request.POST['father_id'],request.POST['name'])
+			#update space
+			diskspace.usage = usage_space(user.id)
+			diskspace.save()
 	
 		if father.father != 0:
 			return redirect("/user/folder/"+str(father.id))
@@ -498,6 +530,11 @@ def admin_edit_folder(request):
 		#update folder name
 		edit_folder(request.POST['user_id'], request.POST['folder_id'],request.POST['name'])
 
+		#verify space
+		diskspace = DiskSpace.objects.get(user=user.id)
+		diskspace.usage = usage_space(user.id)
+		diskspace.save()
+
 		return redirect("/admin/folder/"+str(folder.id))
 	
 	return redirect("/admin/")
@@ -517,6 +554,11 @@ def user_edit_folder(request):
 		#update folder name
 		edit_folder(request.POST['user_id'], request.POST['folder_id'],request.POST['name'])
 
+		#verify space
+		diskspace = DiskSpace.objects.get(user=user.id)
+		diskspace.usage = usage_space(user.id)
+		diskspace.save()
+
 		return redirect("/user/folder/"+str(folder.id))
 	
 	return redirect("/user/")
@@ -535,6 +577,11 @@ def admin_delete_folder(request):
 
 		#update folder name
 		delete_folder(request.POST['user_id'], request.POST['folder_id'])
+
+		#verify space
+		diskspace = DiskSpace.objects.get(user=user.id)
+		diskspace.usage = usage_space(user.id)
+		diskspace.save()
 
 		if father.father != 0:
 			return redirect("/admin/folder/"+str(father.id))
@@ -556,6 +603,11 @@ def user_delete_folder(request):
 		#update folder name
 		delete_folder(request.POST['user_id'], request.POST['folder_id'])
 
+		#verify space
+		diskspace = DiskSpace.objects.get(user=user.id)
+		diskspace.usage = usage_space(user.id)
+		diskspace.save()
+
 		if father.father != 0:
 			return redirect("/user/folder/"+str(father.id))
 
@@ -573,8 +625,16 @@ def admin_create_file(request):
 		user= request.POST['user_id']
 		user = User.objects.get(id=user)
 
-		#create file
-		create_file(request.POST['name'], request.POST['folder_id'])
+		#verify space
+		diskspace = DiskSpace.objects.get(user=user.id)
+		if diskspace.max_space > diskspace.usage:
+			#create file
+			create_file(request.POST['name'], request.POST['folder_id'])
+			#update space
+			diskspace.usage = usage_space(user.id)
+			diskspace.save()
+
+		
 
 		if folder.father != 0:
 			return redirect("/admin/folder/"+str(folder.id))
@@ -592,8 +652,18 @@ def user_create_file(request):
 		user= request.POST['user_id']
 		user = User.objects.get(id=user)
 
-		#create file
-		create_file(request.POST['name'], request.POST['folder_id'])
+
+		#verify space
+		diskspace = DiskSpace.objects.get(user=user.id)
+		if diskspace.max_space > diskspace.usage:
+			#create file
+			create_file(request.POST['name'], request.POST['folder_id'])
+			#update space
+			diskspace.usage = usage_space(user.id)
+			diskspace.save()
+
+
+		
 
 		if folder.father != 0:
 			return redirect("/user/folder/"+str(folder.id))
@@ -613,8 +683,16 @@ def admin_upload_file(request):
 		user = User.objects.get(id=user)
 		file = request.FILES['file']
 
-		#create file
-		upload_file(file.name, request.POST['folder_id'],file)
+		#verify space
+		diskspace = DiskSpace.objects.get(user=user.id)
+		if diskspace.max_space > diskspace.usage:
+			#create file
+			upload_file(file.name, request.POST['folder_id'],file)
+			#update space
+			diskspace.usage = usage_space(user.id)
+			diskspace.save()
+
+		
 
 		if folder.father != 0:
 			return redirect("/admin/folder/"+str(folder.id))
@@ -634,8 +712,15 @@ def user_upload_file(request):
 		user = User.objects.get(id=user)
 		file = request.FILES['file']
 
-		#create file
-		upload_file(file.name, request.POST['folder_id'],file)
+		#verify space
+		diskspace = DiskSpace.objects.get(user=user.id)
+		if diskspace.max_space > diskspace.usage:
+			#create file
+			upload_file(file.name, request.POST['folder_id'],file)
+			#update space
+			diskspace.usage = usage_space(user.id)
+			diskspace.save()
+
 
 		if folder.father != 0:
 			return redirect("/user/folder/"+str(folder.id))
@@ -667,6 +752,11 @@ def admin_delete_file(request, file_id):
 	delete_file(file_id)
 	file.delete()
 
+	#verify space
+	diskspace = DiskSpace.objects.get(user=request.user.id)
+	diskspace.usage = usage_space(request.user.id)
+	diskspace.save()
+
 	if folder.father != 0:
 			return redirect("/admin/folder/"+str(folder.id))
 	
@@ -687,6 +777,11 @@ def admin_update_file(request):
 		data = html2text.html2text(info_file)
 		
 		update_file(file.id,data)
+
+		#verify space
+		diskspace = DiskSpace.objects.get(user=request.user.id)
+		diskspace.usage = usage_space(request.user.id)
+		diskspace.save()
 
 		return redirect("/admin/file/"+str(file.id))
 	return redirect("/admin/")
@@ -715,6 +810,11 @@ def user_delete_file(request, file_id):
 	delete_file(file_id)
 	file.delete()
 
+	#verify space
+	diskspace = DiskSpace.objects.get(user=request.user.id)
+	diskspace.usage = usage_space(request.user.id)
+	diskspace.save()
+
 	if folder.father != 0:
 			return redirect("/user/folder/"+str(folder.id))
 	
@@ -735,6 +835,11 @@ def user_update_file(request):
 		data = html2text.html2text(info_file)
 		
 		update_file(file.id,data)
+
+		#verify space
+		diskspace = DiskSpace.objects.get(user=request.user.id)
+		diskspace.usage = usage_space(request.user.id)
+		diskspace.save()
 
 		return redirect("/user/file/"+str(file.id))
 	return redirect("/user/")

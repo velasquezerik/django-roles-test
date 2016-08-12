@@ -34,10 +34,10 @@
                     <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Name</th>
-                            <th>Email</th>
                             <th>Username</th>
+                            <th>Email</th>
                             <th>Role</th>
+                            <th>Space</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -45,16 +45,16 @@
                         {% for user in users %}
                         <tr>
                             <td><a href="{% url 'website:admin_show' user.id %}">{{user.id}}</a></td>
-                            <td><a href="{% url 'website:admin_show' user.id %}">{{user.first_name}}</a></td>
+                            <td><a href="{% url 'website:admin_show' user.id %}">{{user.username}}</a></td>
                             <td>{{user.email}}</td>
-                            <td>{{user.username}}</td>
                             <td>
-	                            {% if user|has_role:'system_admin' %}
-	                            Admin
-	                            {%else%}
-	                            User
-	                            {%endif%}
+                                {% if user|has_role:'system_admin' %}
+                                Admin
+                                {%else%}
+                                User
+                                {%endif%}
                             </td>
+                            <td>{{user.diskspace.usage}}/{{user.diskspace.max_space}} Mb</td>
                             <td>
                             	<div class="row">
                             		<div class="col-xs-6">

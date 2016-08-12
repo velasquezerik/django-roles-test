@@ -29,6 +29,19 @@ def create_folder(root, name):
 			return True
 		
 
+#get usage from folder
+def usage_space(user_id):
+	root = MEDIA_ROOT
+	user = User.objects.get(id=user_id)
+	directory = root +"/"+ user.username
+	start_path = directory
+	total_size = 0
+	for dirpath, dirnames, filenames in os.walk(start_path):
+		for f in filenames:
+			fp = os.path.join(dirpath, f)
+			total_size += os.path.getsize(fp)
+	return (total_size/1024)/1024
+
 #create folder
 def create_root_folder(user_id):
 	root = MEDIA_ROOT
@@ -96,7 +109,7 @@ def delete_folder(user_id, folder_id):
 	user = User.objects.get(id=user_id)
 	folder = Folder.objects.get(id=folder_id)
 	father = Folder.objects.get(id=folder.father)
-	directory = father.path +"/"+ name
+	directory = father.path +"/"+ folder.name
 
 	shutil.rmtree(folder.path)
 
