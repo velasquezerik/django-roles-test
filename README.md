@@ -12,6 +12,12 @@ apt-get install python-mysqldb
 Install html2text for html manage
 pip install html2text
 
+Install java 8
+Configure java 8
+
+Install Galatea
+Configure Galatea
+
 Create DB and configuration
 
 Copy secrets_example to secrets and configure

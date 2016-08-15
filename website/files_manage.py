@@ -14,7 +14,6 @@ from models import UserImage, Folder, File
 from tesis.settings import *
 import os
 import shutil
-from bs4 import BeautifulSoup
 
 #create folder
 def create_folder(root, name):

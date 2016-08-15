@@ -46,5 +46,6 @@ urlpatterns = [
     url(r'^user/file/(?P<file_id>[0-9]+)/$', views.user_file_show, name='user_show_file'),
     url(r'^user/delete_file/(?P<file_id>[0-9]+)/$', views.user_delete_file, name='user_delete_file'),
     url(r'^user/file_update',views.user_update_file,name="user_update_file"),
+    url(r'^user/run_program',views.run_test,name="run_test"),
 
 ]

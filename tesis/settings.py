@@ -131,3 +131,5 @@ ROLEPERMISSIONS_MODULE = 'website.roles'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+GALATEA = GALATEA_PATH

@@ -14,6 +14,7 @@ from models import UserImage, Folder, File, DiskSpace, Relationship, ShareFolder
 from tesis.settings import *
 import os
 from files_manage import *
+from galatea_manage import *
 import html2text
 
 # Create your views here.
@@ -908,4 +909,13 @@ def user_update_file(request):
 		log.save()
 
 		return redirect("/user/file/"+str(file.id))
+	return redirect("/user/")
+
+
+
+def run_test(request):
+	test_process()
+	traslate = traslate_java(2)
+	com_java = compile_java(2)
+	exe_java = execute_java(2)
 	return redirect("/user/")
