@@ -14,6 +14,9 @@ pip install html2text
 
 Create DB and configuration
 
+Copy secrets_example to secrets and configure
+cp secrets_exaple.py secrets.py
+
 Run migrations
 python manage.py migrate
 
