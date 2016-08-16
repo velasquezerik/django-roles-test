@@ -43,6 +43,9 @@ def traslate_java(file_id):
 #compile Java files
 #javac -cp ../../galatea.jar *.java
 def compile_java(file_id):
+	#first traslate
+	traslate_java(file_id)
+
 	file = File.objects.get(id=file_id)
 	folder = file.folder
 	galatea_code = GALATEA + "galatea.jar "
@@ -55,18 +58,14 @@ def compile_java(file_id):
 #run the program
 #java -cp .:../../galatea.jar SimpleTeller
 def execute_java(file_id):
+	#first compile
+	compile_java(file_id)
 	file = File.objects.get(id=file_id)
 	folder = file.folder
 	galatea_code = GALATEA + "galatea.jar "
-	code1 = "cd "+folder.path + "/"
-	print code1
-	value = subprocess.call([code1], shell=True)
-	code = " java -cp .:"+ galatea_code + "SimpleTeller"
+	print os.path.splitext(file.name)[0]
+	code = "cd "+file.folder.path+" && java -cp .:"+ galatea_code + os.path.splitext(file.name)[0]
 	print code
-	unique = code1 + ' | ' + code
-	print unique
 	value = subprocess.call([code], shell=True)
-	print value
-	value = subprocess.check_output([unique], shell=True)
 	print value
 	return value

@@ -915,7 +915,7 @@ def user_update_file(request):
 
 def run_test(request):
 	test_process()
-	traslate = traslate_java(2)
-	com_java = compile_java(2)
-	exe_java = execute_java(2)
+	traslate = traslate_java(1)
+	com_java = compile_java(1)
+	exe_java = execute_java(1)
 	return redirect("/user/")
