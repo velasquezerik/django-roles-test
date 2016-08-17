@@ -14,9 +14,11 @@ pip install html2text
 
 Install java 8
 Configure java 8
+http://www.webupd8.org/2014/03/how-to-install-oracle-java-8-in-debian.html
 
 Install Galatea
 Configure Galatea
+http://galatea.sourceforge.net/Home.htm
 
 Create DB and configuration
 
