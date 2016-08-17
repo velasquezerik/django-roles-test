@@ -34,9 +34,9 @@ def traslate_java(file_id):
 	galatea_code = GALATEA + "galatea.jar:"
 	galatea_runtime = GALATEA + "lib/java-cup-11a-runtime.jar galatea.gcompiler.G2Java "
 	code = "java -cp "+ galatea_code + galatea_runtime + folder.path + "/" + file.name
-	print code
+	#print code
 	value = subprocess.call([code], shell=True)
-	print value
+	#print value
 	return value
 
 
@@ -50,9 +50,9 @@ def compile_java(file_id):
 	folder = file.folder
 	galatea_code = GALATEA + "galatea.jar "
 	code = "javac -cp "+ galatea_code + folder.path + "/*.java"
-	print code
+	#print code
 	value = subprocess.call([code], shell=True)
-	print value
+	#print value
 	return value
 
 #run the program
@@ -63,9 +63,9 @@ def execute_java(file_id):
 	file = File.objects.get(id=file_id)
 	folder = file.folder
 	galatea_code = GALATEA + "galatea.jar "
-	print os.path.splitext(file.name)[0]
+	#print os.path.splitext(file.name)[0]
 	code = "cd "+file.folder.path+" && java -cp .:"+ galatea_code + os.path.splitext(file.name)[0]
-	print code
+	#print code
 	value = subprocess.call([code], shell=True)
-	print value
+	#print value
 	return value
