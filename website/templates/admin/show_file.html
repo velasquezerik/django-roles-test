@@ -54,14 +54,6 @@
 	      </div>
 	    </div><!-- /.col-->
 	</div><!-- ./row -->
-	<div class="row">
-        <div class="col-xs-6">
-        	<a href="#" class="btn btn-block btn-primary">Compile File</a>
-        </div>
-        <div class="col-xs-6">
-        	<a href="#" class="btn btn-block btn-success">Execute File</a>
-        </div>
-	</div>
 
 	<div class="modal fade" id="myModalDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog">
@@ -94,5 +86,70 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
+
+
+<section id="download">
+  	<div class="row">
+        <div class="col-xs-6">
+        	<a  id="compile_file" class="btn btn-block btn-primary">Compile File</a>
+        </div>
+        <div class="col-xs-6">
+        	<a  id="execute_file" class="btn btn-block btn-success">Execute File</a>
+        </div>
+	</div>
+  	<pre class="hierarchy bring-up">
+	  	<p id="code_file">
+	  		Code of Galatea
+	    </p>
+    </pre>
+</section>
+{% endblock %}
+
+{% block code_java %}
+	<script type="text/javascript">
+	$( "#compile_file" ).click(function() {
+		$("#code_file").text("Compiling file");
+		$.ajax({
+	        url : "{% url 'website:admin_compile_file' file.id %}", // the endpoint
+	        type : "GET", // http method
+	        data : { }, // data sent with the post request
+
+	        // handle a successful response
+	        success : function(json) {
+	            console.log(json); // log the returned json to the console
+	            console.log("success"); // another sanity check
+	            $("#code_file").text(json.data);
+	        },
+
+	        // handle a non-successful response
+	        error : function(xhr,errmsg,err) {
+	            console.log("Error"); // provide a bit more info about the error to the console
+	        }
+	    });
+
+		  
+	});
+
+	$( "#execute_file" ).click(function() {
+		$("#code_file").text("Compiling file");
+		  $.ajax({
+	        url : "{% url 'website:admin_execute_file' file.id %}", // the endpoint
+	        type : "GET", // http method
+	        data : { }, // data sent with the post request
+
+	        // handle a successful response
+	        success : function(json) {
+	            console.log(json); // log the returned json to the console
+	            console.log("success"); // another sanity check
+	            $("#code_file").text(json.data);
+	        },
+
+	        // handle a non-successful response
+	        error : function(xhr,errmsg,err) {
+	            console.log("Error"); // provide a bit more info about the error to the console
+	        }
+	    });
+	});
+	</script>
 {% endblock %}
 

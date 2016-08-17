@@ -51,7 +51,7 @@ def compile_java(file_id):
 	galatea_code = GALATEA + "galatea.jar "
 	code = "javac -cp "+ galatea_code + folder.path + "/*.java"
 	#print code
-	value = subprocess.call([code], shell=True)
+	value = subprocess.check_output([code], shell=True)
 	#print value
 	return value
 
@@ -66,6 +66,6 @@ def execute_java(file_id):
 	#print os.path.splitext(file.name)[0]
 	code = "cd "+file.folder.path+" && java -cp .:"+ galatea_code + os.path.splitext(file.name)[0]
 	#print code
-	value = subprocess.call([code], shell=True)
+	value = subprocess.check_output([code], shell=True)
 	#print value
 	return value

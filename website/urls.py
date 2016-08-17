@@ -30,6 +30,8 @@ urlpatterns = [
     url(r'^admin/file/(?P<file_id>[0-9]+)/$', views.admin_file_show, name='admin_show_file'),
     url(r'^admin/delete_file/(?P<file_id>[0-9]+)/$', views.admin_delete_file, name='admin_delete_file'),
     url(r'^admin/file_update',views.admin_update_file,name="admin_update_file"),
+    url(r'^admin/compile/file/(?P<file_id>[0-9]+)/$', views.admin_compile_file, name='admin_compile_file'),
+    url(r'^admin/execute/file/(?P<file_id>[0-9]+)/$', views.admin_execute_file, name='admin_execute_file'),
 
 
     #urls for users

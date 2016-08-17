@@ -919,3 +919,31 @@ def run_test(request):
 	com_java = compile_java(1)
 	exe_java = execute_java(1)
 	return redirect("/user/")
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_compile_file(request, file_id):
+	file = File.objects.get(id=file_id)
+	
+	com_java = compile_java(file.id)
+	print "Valorrrrrr"
+	print com_java
+
+	return JsonResponse({"data":com_java})
+	
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_execute_file(request, file_id):
+	file = File.objects.get(id=file_id)
+	
+	com_java = execute_java(file.id)
+	print "Valorrrrrr"
+	print com_java
+
+	return JsonResponse({"data":com_java})
+	
