@@ -15,14 +15,17 @@
 
 {% block content %}
 <div class="row">
-        <div class="col-xs-6">
+        <div class="col-xs-4">
         	{% if folder.father != 0 %}
             	<a href="{% url 'website:user_show_folder' folder.id %}" class="btn btn-block btn-warning">Return to Folder</a>
         	{% else %}
         		<a href="{% url 'website:user_index' %}" class="btn btn-block btn-warning">Return to Folder</a>
         	{% endif %}
         </div>
-        <div class="col-xs-6">
+        <div class="col-xs-4">
+        	<a href="#" data-toggle="modal" data-target="#myModalMove" class="btn btn-block btn-success">Move File</a>
+        </div>
+        <div class="col-xs-4">
         	<a href="#" data-toggle="modal" data-target="#myModalDelete" class="btn btn-block btn-danger">Delete File</a>
         </div>
 </div>
@@ -83,6 +86,60 @@
                     	<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
                     	<a href="{% url 'website:user_delete_file' file.id %}" class="btn btn-danger">Delete</a>
                   	</div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+
+        <div class="modal fade" id="myModalMove" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                	<form class="form-horizontal" role="form" action="{% url 'website:user_move_file'%}" method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+                  	<div class="modal-header">
+                    	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    	<h4 class="modal-title">Move File {{file.name}}</h4>
+                  	</div>
+                  	<div class="modal-body">
+                    	<div class="row" style="margin-top:10px;">
+						    <div class="col-xs-12">
+						        <div class="box">
+						            <div class="box-header">
+						                <h3 class="box-title">Move File</h3>
+						            </div><!-- /.box-header -->
+						            <div class="col-xs-12">
+						                {% if error_message %}
+						                    <div class="alert alert-danger alert-dismissable">
+						                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						                        <h4><i class="icon fa fa-ban"></i> {{ error_message }}</h4>
+						                    </div>
+						                {% endif %}
+						            </div>
+						            
+						            <div class="box-body">
+						                <div class="form-group">
+					                      	<label for="inputName" class="col-sm-2 control-label">Folder</label>
+					                      	<div class="col-sm-10">
+						                        <select class="form-control" name="folder_change_id">
+						                        	{% for fol in all_folders %}
+						                        		{% if folder.id != fol.id %}
+						                        			<option value="{{fol.id}}">{{fol.name}}</option>
+						                        		{% endif %}
+											    	{% endfor %}
+						                      	</select>
+						                    </div>
+						                    <input type="hidden" class="form-control" name="file_id" value="{{file.id}}" required>
+					                    </div>				                
+						            </div><!-- /.box-body -->
+						        </div><!-- /.box -->
+						    </div><!-- /.col -->
+						</div><!-- /.row -->
+                  	</div>
+                  	<div class="modal-footer">
+                    	<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    	<button type="submit" class="btn btn-primary">Move</button>
+                  	</div>
+                  	</form>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->

@@ -54,5 +54,6 @@ urlpatterns = [
     url(r'^user/compile/file/(?P<file_id>[0-9]+)/$', views.user_compile_file, name='user_compile_file'),
     url(r'^user/execute/file/(?P<file_id>[0-9]+)/$', views.user_execute_file, name='user_execute_file'),
     url(r'^user/move_folder',views.user_move_folder,name="user_move_folder"),
+    url(r'^user/move_file',views.user_move_file,name="user_move_file"),
 
 ]

@@ -599,6 +599,27 @@ def admin_move_file(request):
 	
 	return redirect("/admin/")
 
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_move_file(request):
+	if request.method == "POST":
+		new_folder = request.POST['folder_change_id']
+		file = request.POST['file_id']
+
+		file = File.objects.get(id=file)
+		new_folder = Folder.objects.get(id=new_folder)
+
+		#move file
+		move_file(file.id, new_folder.id)
+
+		if new_folder.father != 0:
+			return redirect("/user/folder/"+str(new_folder.id))
+	
+	return redirect("/user/")
+
+
+
 @login_required(login_url="/login/")
 @has_role_decorator('system_user')
 def user_move_folder(request):
@@ -916,9 +937,10 @@ def user_file_show(request,file_id):
 	file = File.objects.get(id=file_id)
 	folder = file.folder
 	info = get_file_info(file_id)
+	all_folders = Folder.objects.filter(user_id = user.id)
 	#transfor text to htmls
 	info = "<br />".join(info.split("\n"))
-	return render(request,'user/show_file.html',{'folder':folder,'file':file,'info':info})
+	return render(request,'user/show_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders})
 
 
 
