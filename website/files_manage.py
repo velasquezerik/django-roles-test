@@ -132,6 +132,19 @@ def move_folder(folder_id, new_folder_id):
 	return True
 
 
+#move file
+def move_file(file_id, new_folder_id):
+	root = MEDIA_ROOT
+	file = File.objects.get(id=file_id)
+	new_folder = Folder.objects.get(id=new_folder_id)
+
+	shutil.move(file.folder.path + "/" + file.name, new_folder.path + "/" + file.name)
+
+	file.folder = new_folder
+	file.save()
+
+	return True
+
 #create new file
 def create_file(name, folder_id):
 	root = MEDIA_ROOT

@@ -33,6 +33,7 @@ urlpatterns = [
     url(r'^admin/compile/file/(?P<file_id>[0-9]+)/$', views.admin_compile_file, name='admin_compile_file'),
     url(r'^admin/execute/file/(?P<file_id>[0-9]+)/$', views.admin_execute_file, name='admin_execute_file'),
     url(r'^admin/move_folder',views.admin_move_folder,name="admin_move_folder"),
+    url(r'^admin/move_file',views.admin_move_file,name="admin_move_file"),
 
 
     #urls for users
