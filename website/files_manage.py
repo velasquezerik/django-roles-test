@@ -116,6 +116,21 @@ def delete_folder(user_id, folder_id):
 
 	return True
 
+#move folder
+def move_folder(folder_id, new_folder_id):
+	root = MEDIA_ROOT
+	folder = Folder.objects.get(id=folder_id)
+	if folder.father != new_folder_id:
+		new_folder = Folder.objects.get(id=new_folder_id)
+
+		shutil.move(folder.path, new_folder.path)
+
+		folder.father = new_folder.id
+		folder.path = new_folder.path +"/"+ folder.name
+		folder.save()
+
+	return True
+
 
 #create new file
 def create_file(name, folder_id):

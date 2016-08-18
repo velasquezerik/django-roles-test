@@ -480,7 +480,8 @@ def admin_folder_show(request,folder_id):
 	root_folder = Folder.objects.get(id=folder_id)
 	folders = Folder.objects.filter(father=root_folder.id)
 	files = File.objects.filter(folder = root_folder.id)
-	return render(request,'admin/show_folder.html',{'root_folder':root_folder,'folders':folders,'files':files})
+	all_folders = Folder.objects.filter(user = user.id)
+	return render(request,'admin/show_folder.html',{'root_folder':root_folder,'folders':folders,'files':files, 'all_folders':all_folders})
 
 
 
@@ -557,6 +558,27 @@ def admin_edit_folder(request):
 		return redirect("/admin/folder/"+str(folder.id))
 	
 	return redirect("/admin/")
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_move_folder(request):
+	if request.method == "POST":
+		new_folder = request.POST['folder_change_id']
+		folder = request.POST['folder_id']
+
+		folder = Folder.objects.get(id=folder)
+		new_folder = Folder.objects.get(id=new_folder)
+
+		#move folder
+		move_folder(folder.id, new_folder.id)
+
+
+		if new_folder.father != 0:
+			return redirect("/admin/folder/"+str(new_folder.id))
+	
+	return redirect("/admin/")
+
 
 
 
