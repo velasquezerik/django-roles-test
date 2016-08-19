@@ -23,6 +23,9 @@
                     <a href="{% url 'website:admin_show_users' %}">
                         <i class="fa fa-dashboard"></i> <span>Users</span>
                     </a>
+                    <a href="{% url 'website:admin_show_logs_files' %}">
+                        <i class="fa fa-dashboard"></i> <span>Logs Files</span>
+                    </a>
                 {% else %}
                     <a href="{% url 'website:user_index' %}">
                         <i class="fa fa-dashboard"></i> <span>Index</span>

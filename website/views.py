@@ -145,6 +145,20 @@ def admin_show_users(request):
 
 @login_required(login_url="/login/")
 @has_role_decorator('system_admin')
+def admin_show_logs_files(request):
+	users = User.objects.all()
+	logs = LogsFile.objects.all()
+	return render(request,'admin/show_logs_files.html',{'users':users,'logs':logs})
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_show_logs_folders(request):
+	users = User.objects.all()
+	return render(request,'admin/users_list.html',{'users':users})
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
 def admin_create_user(request):
 	users = User.objects.all()
 	if request.method == "POST":
