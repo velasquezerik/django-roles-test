@@ -221,10 +221,14 @@ def admin_create_user(request):
 def admin_show(request, user_id):
 	try:
 		user = User.objects.get(id=user_id)
+		folders_count = Folder.objects.filter(user_id = user_id).count()
+		files_count = File.objects.filter(folder__user_id = user_id).count()
+		folders = Folder.objects.filter(user_id = user_id)
+		files = File.objects.filter(folder__user_id = user_id)
 	except Exception, e:
 		return redirect("/admin/users/")
 	
-	return render(request,'admin/show_user.html',{'user_show':user})
+	return render(request,'admin/show_user.html',{'user_show':user,'folders_count':folders_count,'files_count':files_count,'folders':folders,'files':files})
 
 
 @login_required(login_url="/login/")
