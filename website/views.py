@@ -154,7 +154,8 @@ def admin_show_logs_files(request):
 @has_role_decorator('system_admin')
 def admin_show_logs_folders(request):
 	users = User.objects.all()
-	return render(request,'admin/users_list.html',{'users':users})
+	logs = LogsFolder.objects.all()
+	return render(request,'admin/show_logs_folders.html',{'users':users,'logs':logs})
 
 
 @login_required(login_url="/login/")
@@ -588,6 +589,13 @@ def admin_move_folder(request):
 		#move folder
 		move_folder(folder.id, new_folder.id)
 
+		log = LogsFolder()
+		user = User.objects.get(id=request.user.id)
+		log.user = user
+		log.folder = folder
+		log.description = "Move a folder"
+		log.save()
+
 
 		if new_folder.father != 0:
 			return redirect("/admin/folder/"+str(new_folder.id))
@@ -608,6 +616,13 @@ def admin_move_file(request):
 		#move file
 		move_file(file.id, new_folder.id)
 
+		log = LogsFile()
+		user = User.objects.get(id=request.user.id)
+		log.user = user
+		log.file = file
+		log.description = "Move a File"
+		log.save()
+
 		if new_folder.father != 0:
 			return redirect("/admin/folder/"+str(new_folder.id))
 	
@@ -626,6 +641,13 @@ def user_move_file(request):
 
 		#move file
 		move_file(file.id, new_folder.id)
+
+		log = LogsFile()
+		user = User.objects.get(id=request.user.id)
+		log.user = user
+		log.file = file
+		log.description = "Move a File"
+		log.save()
 
 		if new_folder.father != 0:
 			return redirect("/user/folder/"+str(new_folder.id))
@@ -646,6 +668,13 @@ def user_move_folder(request):
 
 		#move folder
 		move_folder(folder.id, new_folder.id)
+
+		log = LogsFolder()
+		user = User.objects.get(id=request.user.id)
+		log.user = user
+		log.folder = folder
+		log.description = "Move a folder"
+		log.save()
 
 
 		if new_folder.father != 0:
