@@ -1109,3 +1109,17 @@ def admin_friends(request):
 	
 	return render(request,'admin/show_friends.html',{'friends':friends})
 
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_friends(request):
+	user = User.objects.get(id = request.user.id)
+
+	friends = Relationship.objects.filter(Q(user_one=user.id) | Q(user_two=user.id))
+	
+	return render(request,'user/show_friends.html',{'friends':friends})
+
+
+
+
