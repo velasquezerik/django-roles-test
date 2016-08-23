@@ -1096,3 +1096,13 @@ def user_execute_file(request, file_id):
 
 	return JsonResponse({"data":com_java})
 	
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_friends(request):
+	user = User.objects.get(id = request.user.id)
+	
+	return render(request,'admin/show_friends.html',{})
+
