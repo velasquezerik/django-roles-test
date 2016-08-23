@@ -44,8 +44,8 @@ STATUS_CHOICES = ((Pending, 'Pending'),(Accepted, 'Accepted'),(Declined, 'Declin
 #relationship for friends
 class Relationship(models.Model):
 	status = models.IntegerField(default=0, choices=STATUS_CHOICES)
-	user_one =  models.ForeignKey(User, on_delete=models.CASCADE)
-	user_two =  models.IntegerField(default=0)
+	user_one =  models.ForeignKey(User,related_name='user_one', on_delete=models.CASCADE)
+	user_two =  models.ForeignKey(User,related_name='user_two', on_delete=models.CASCADE)
 
 	class Meta:
 		unique_together = ('user_one', 'user_two',)

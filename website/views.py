@@ -16,6 +16,7 @@ import os
 from files_manage import *
 from galatea_manage import *
 import html2text
+from django.db.models import Q
 
 # Create your views here.
 
@@ -1103,6 +1104,8 @@ def user_execute_file(request, file_id):
 @has_role_decorator('system_admin')
 def admin_friends(request):
 	user = User.objects.get(id = request.user.id)
+
+	friends = Relationship.objects.filter(Q(user_one=user.id) | Q(user_two=user.id))
 	
-	return render(request,'admin/show_friends.html',{})
+	return render(request,'admin/show_friends.html',{'friends':friends})
 
