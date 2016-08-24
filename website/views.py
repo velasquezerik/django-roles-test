@@ -1105,7 +1105,7 @@ def user_execute_file(request, file_id):
 def admin_friends(request):
 	user = User.objects.get(id = request.user.id)
 
-	friends = Relationship.objects.filter(Q(user_one=user.id) | Q(user_two=user.id) | Q(status=1) )
+	friends = Relationship.objects.filter(Q(user_one=user.id) | Q(user_two=user.id) ).filter(status=1)
 	
 	return render(request,'admin/show_friends.html',{'friends':friends})
 
@@ -1116,7 +1116,7 @@ def admin_friends(request):
 def user_friends(request):
 	user = User.objects.get(id = request.user.id)
 
-	friends = Relationship.objects.filter(Q(user_one=user.id) | Q(user_two=user.id) | Q(status=1))
+	friends = Relationship.objects.filter(Q(user_one=user.id) | Q(user_two=user.id)).filter(status=1)
 	
 	return render(request,'user/show_friends.html',{'friends':friends})
 
@@ -1163,6 +1163,52 @@ def admin_send_friend_request(request, user_id):
 	relation.user_two = friend
 	relation.save()
 
-	return redirect("/admin/")
+	return redirect("/admin/get_friends/")
+
+	
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_get_friends(request):
+	user = User.objects.get(id = request.user.id)
+
+	users = User.objects.all().exclude(id=user.id)
+
+	friends = Relationship.objects.filter(Q(user_one=user.id) | Q(user_two=user.id))
+
+	for xuser in users:
+		for friend in friends:
+			if xuser.id == friend.user_one.id  or xuser.id == friend.user_two.id:
+				users = users.exclude(id=xuser.id)
+	
+	return render(request,'user/get_friends.html',{'users':users})
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_send_friend_request(request, user_id):
+	user = User.objects.get(id = request.user.id)
+	friend = User.objects.get(id=user_id)
+
+	friends = Relationship.objects.filter(user_one=user.id).filter(user_two=friend.id).count()
+	print friends
+	if friends > 0:
+		return redirect("/user/")
+
+	friends = Relationship.objects.filter(user_one=friend.id).filter(user_two=user.id).count()
+	print friends
+	if friends > 0:
+		return redirect("/user/")
+
+	#create relationship
+	relation = Relationship()
+	relation.status = 0
+	relation.user_one = user
+	relation.user_two = friend
+	relation.save()
+
+	return redirect("/user/get_friends/")
 
 	

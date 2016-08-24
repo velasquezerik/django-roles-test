@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block level %}
-	<li><a href="{% url 'website:admin_index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+	<li><a href="{% url 'website:user_index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
     <li class="active">Users</li>
 {% endblock %}
 
@@ -39,7 +39,7 @@
             <div class="box-footer">
               <div class="row">
                 <div class="col-xs-12 ">
-                  <a href="{% url 'website:admin_send_friend_request' use.id %}" class="btn btn-block btn-warning">Add to friends</a>
+                  <a href="{% url 'website:user_send_friend_request' use.id %}" class="btn btn-block btn-warning">Add to friends</a>
                 </div><!-- /.col -->
               </div><!-- /.row -->
             </div>
