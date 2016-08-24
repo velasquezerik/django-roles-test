@@ -66,5 +66,8 @@ urlpatterns = [
     url(r'^user/friends',views.user_friends, name="user_show_friends"),
     url(r'^user/get_friends',views.user_get_friends, name="user_get_friends"),
     url(r'^user/send/friend/(?P<user_id>[0-9]+)/$', views.user_send_friend_request, name='user_send_friend_request'),
+    url(r'^user/notifications_friends',views.user_friends_notifications, name="user_show_friends_notifications"),
+    url(r'^user/accept/friend/(?P<request_id>[0-9]+)/$', views.user_accept_friend_request, name='user_accept_friend_request'),
+    url(r'^user/decline/friend/(?P<request_id>[0-9]+)/$', views.user_decline_friend_request, name='user_decline_friend_request'),
 
 ]

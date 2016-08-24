@@ -1250,3 +1250,39 @@ def admin_decline_friend_request(request, request_id):
 	relation.save()
 
 	return redirect("/admin/friends/")
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_friends_notifications(request):
+	user = User.objects.get(id = request.user.id)
+
+	friends = Relationship.objects.filter(user_two=user.id).filter(status=0)
+	
+	return render(request,'user/friend_notification.html',{'friends':friends})
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_accept_friend_request(request, request_id):
+	user = User.objects.get(id = request.user.id)
+	relation = Relationship.objects.get(id=request_id)
+
+	relation.status = 1
+	relation.save()
+
+	return redirect("/user/friends/")
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_decline_friend_request(request, request_id):
+	user = User.objects.get(id = request.user.id)
+	relation = Relationship.objects.get(id=request_id)
+	
+	relation.status = 2
+	relation.save()
+
+	return redirect("/user/friends/")
