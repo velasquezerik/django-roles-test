@@ -38,6 +38,7 @@ urlpatterns = [
     url(r'^admin/logs_folders',views.admin_show_logs_folders, name="admin_show_logs_folders"),
     url(r'^admin/friends',views.admin_friends, name="admin_show_friends"),
     url(r'^admin/get_friends',views.admin_get_friends, name="admin_get_friends"),
+    url(r'^admin/send/friend/(?P<user_id>[0-9]+)/$', views.admin_send_friend_request, name='admin_send_friend_request'),
 
 
     #urls for users
