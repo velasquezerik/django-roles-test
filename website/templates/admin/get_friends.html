@@ -1,0 +1,54 @@
+{% extends 'website/base.html' %}
+{% load staticfiles %}
+{% load permission_tags %}
+
+{% block title_page %}Tesis| Users{% endblock %}
+
+{% block title_content %}
+	Dashboard
+    <small>Users</small>
+{% endblock %}
+
+{% block level %}
+	<li><a href="{% url 'website:user_index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+    <li class="active">Users</li>
+{% endblock %}
+
+{% block content %}
+	<div class="row">
+    {% if users.count > 0 %}
+      {% for use in users%}
+        <div class="col-md-4">
+          <!-- Widget: user widget style 1 -->
+          <div class="box box-widget widget-user">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <div class="widget-user-header bg-aqua-active">
+                <h3 class="widget-user-username">{{use.first_name}} {{use.last_name}}
+                </h3>
+                <h5 class="widget-user-desc">
+                  {% if use|has_role:'system_admin' %}
+                  Admin
+                  {%else%}
+                  User
+                  {%endif%}
+                </h5>
+            </div>
+            <div class="widget-user-image">
+              <img class="img-circle" src="{{use.userimage.model_pic.url}}" alt="User Avatar">  
+            </div>
+            <div class="box-footer">
+              <div class="row">
+                <div class="col-xs-12 ">
+                  <a href="#" class="btn btn-block btn-warning">Add to friends</a>
+                </div><!-- /.col -->
+              </div><!-- /.row -->
+            </div>
+          </div><!-- /.widget-user -->
+        </div><!-- /.col -->
+      {% endfor %}
+    {% else %}
+      No Users
+    {% endif%}
+	</div>
+{% endblock %}
+

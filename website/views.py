@@ -1122,4 +1122,18 @@ def user_friends(request):
 
 
 
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_get_friends(request):
+	user = User.objects.get(id = request.user.id)
 
+	users = User.objects.all().exclude(id=user.id)
+
+	friends = Relationship.objects.filter(Q(user_one=user.id) | Q(user_two=user.id))
+
+	for xuser in users:
+		for friend in friends:
+			if xuser.id == friend.user_one.id  or xuser.id == friend.user_two.id:
+				users = users.exclude(id=xuser.id)
+	
+	return render(request,'admin/get_friends.html',{'users':users})

@@ -37,6 +37,7 @@ urlpatterns = [
     url(r'^admin/logs_files',views.admin_show_logs_files, name="admin_show_logs_files"),
     url(r'^admin/logs_folders',views.admin_show_logs_folders, name="admin_show_logs_folders"),
     url(r'^admin/friends',views.admin_friends, name="admin_show_friends"),
+    url(r'^admin/get_friends',views.admin_get_friends, name="admin_get_friends"),
 
 
     #urls for users
