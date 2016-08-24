@@ -39,6 +39,9 @@ urlpatterns = [
     url(r'^admin/friends',views.admin_friends, name="admin_show_friends"),
     url(r'^admin/get_friends',views.admin_get_friends, name="admin_get_friends"),
     url(r'^admin/send/friend/(?P<user_id>[0-9]+)/$', views.admin_send_friend_request, name='admin_send_friend_request'),
+    url(r'^admin/notifications_friends',views.admin_friends_notifications, name="admin_show_friends_notifications"),
+    url(r'^admin/accept/friend/(?P<request_id>[0-9]+)/$', views.admin_accept_friend_request, name='admin_accept_friend_request'),
+    url(r'^admin/decline/friend/(?P<request_id>[0-9]+)/$', views.admin_decline_friend_request, name='admin_decline_friend_request'),
 
 
     #urls for users
