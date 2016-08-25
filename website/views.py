@@ -158,6 +158,13 @@ def admin_show_logs_folders(request):
 	logs = LogsFolder.objects.all()
 	return render(request,'admin/show_logs_folders.html',{'users':users,'logs':logs})
 
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_show_logs_relations(request):
+	users = User.objects.all()
+	logs = LogsRelationship.objects.all()
+	return render(request,'admin/show_logs_relations.html',{'users':users,'logs':logs})
+
 
 @login_required(login_url="/login/")
 @has_role_decorator('system_admin')

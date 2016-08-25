@@ -36,6 +36,7 @@ urlpatterns = [
     url(r'^admin/move_file',views.admin_move_file,name="admin_move_file"),
     url(r'^admin/logs_files',views.admin_show_logs_files, name="admin_show_logs_files"),
     url(r'^admin/logs_folders',views.admin_show_logs_folders, name="admin_show_logs_folders"),
+    url(r'^admin/logs_relations',views.admin_show_logs_relations, name="admin_show_logs_relations"),
     url(r'^admin/friends',views.admin_friends, name="admin_show_friends"),
     url(r'^admin/get_friends',views.admin_get_friends, name="admin_get_friends"),
     url(r'^admin/send/friend/(?P<user_id>[0-9]+)/$', views.admin_send_friend_request, name='admin_send_friend_request'),
