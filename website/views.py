@@ -1163,6 +1163,12 @@ def admin_send_friend_request(request, user_id):
 	relation.user_two = friend
 	relation.save()
 
+	#create logs
+	log = LogsRelationship()
+	log.relationship = relation
+	log.description = "Send friendship request"
+	log.save()
+
 	return redirect("/admin/get_friends/")
 
 	
@@ -1209,6 +1215,12 @@ def user_send_friend_request(request, user_id):
 	relation.user_two = friend
 	relation.save()
 
+	#create logs
+	log = LogsRelationship()
+	log.relationship = relation
+	log.description = "Send friendship request"
+	log.save()
+
 	return redirect("/user/get_friends/")
 
 	
@@ -1236,6 +1248,12 @@ def admin_accept_friend_request(request, request_id):
 	relation.status = 1
 	relation.save()
 
+	#create logs
+	log = LogsRelationship()
+	log.relationship = relation
+	log.description = "Accepted friendship request"
+	log.save()
+
 	return redirect("/admin/friends/")
 
 
@@ -1248,6 +1266,12 @@ def admin_decline_friend_request(request, request_id):
 	
 	relation.status = 2
 	relation.save()
+
+	#create logs
+	log = LogsRelationship()
+	log.relationship = relation
+	log.description = "Declined friendship request"
+	log.save()
 
 	return redirect("/admin/friends/")
 
@@ -1272,6 +1296,12 @@ def user_accept_friend_request(request, request_id):
 	relation.status = 1
 	relation.save()
 
+	#create logs
+	log = LogsRelationship()
+	log.relationship = relation
+	log.description = "Accepted friendship request"
+	log.save()
+
 	return redirect("/user/friends/")
 
 
@@ -1284,5 +1314,11 @@ def user_decline_friend_request(request, request_id):
 	
 	relation.status = 2
 	relation.save()
+
+	#create logs
+	log = LogsRelationship()
+	log.relationship = relation
+	log.description = "Declined friendship request"
+	log.save()
 
 	return redirect("/user/friends/")
