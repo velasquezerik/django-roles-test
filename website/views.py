@@ -1267,7 +1267,7 @@ def admin_accept_friend_request(request, request_id):
 
 @login_required(login_url="/login/")
 @has_role_decorator('system_admin')
-def admin_decline_friend_request(request, request_id):
+def admin_denied_friend_request(request, request_id):
 	user = User.objects.get(id = request.user.id)
 	relation = Relationship.objects.get(id=request_id)
 	
@@ -1277,7 +1277,7 @@ def admin_decline_friend_request(request, request_id):
 	#create logs
 	log = LogsRelationship()
 	log.relationship = relation
-	log.description = "Declined friendship request"
+	log.description = "Denied friendship request"
 	log.save()
 
 	return redirect("/admin/friends/")
@@ -1315,7 +1315,7 @@ def user_accept_friend_request(request, request_id):
 
 @login_required(login_url="/login/")
 @has_role_decorator('system_user')
-def user_decline_friend_request(request, request_id):
+def user_denied_friend_request(request, request_id):
 	user = User.objects.get(id = request.user.id)
 	relation = Relationship.objects.get(id=request_id)
 	
@@ -1325,7 +1325,7 @@ def user_decline_friend_request(request, request_id):
 	#create logs
 	log = LogsRelationship()
 	log.relationship = relation
-	log.description = "Declined friendship request"
+	log.description = "Denied friendship request"
 	log.save()
 
 	return redirect("/user/friends/")

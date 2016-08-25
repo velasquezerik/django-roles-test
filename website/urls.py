@@ -42,7 +42,7 @@ urlpatterns = [
     url(r'^admin/send/friend/(?P<user_id>[0-9]+)/$', views.admin_send_friend_request, name='admin_send_friend_request'),
     url(r'^admin/notifications_friends',views.admin_friends_notifications, name="admin_show_friends_notifications"),
     url(r'^admin/accept/friend/(?P<request_id>[0-9]+)/$', views.admin_accept_friend_request, name='admin_accept_friend_request'),
-    url(r'^admin/decline/friend/(?P<request_id>[0-9]+)/$', views.admin_decline_friend_request, name='admin_decline_friend_request'),
+    url(r'^admin/denied/friend/(?P<request_id>[0-9]+)/$', views.admin_denied_friend_request, name='admin_denied_friend_request'),
 
 
     #urls for users
@@ -69,6 +69,6 @@ urlpatterns = [
     url(r'^user/send/friend/(?P<user_id>[0-9]+)/$', views.user_send_friend_request, name='user_send_friend_request'),
     url(r'^user/notifications_friends',views.user_friends_notifications, name="user_show_friends_notifications"),
     url(r'^user/accept/friend/(?P<request_id>[0-9]+)/$', views.user_accept_friend_request, name='user_accept_friend_request'),
-    url(r'^user/decline/friend/(?P<request_id>[0-9]+)/$', views.user_decline_friend_request, name='user_decline_friend_request'),
+    url(r'^user/denied/friend/(?P<request_id>[0-9]+)/$', views.user_denied_friend_request, name='user_denied_friend_request'),
 
 ]
