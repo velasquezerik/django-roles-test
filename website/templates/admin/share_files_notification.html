@@ -36,10 +36,10 @@
             <div class="box-footer">
               <div class="row">
                 <div class="col-xs-4 ">
-                  <a href="#" class="btn btn-block btn-success">Accept</a>
+                  <a href="{% url 'website:admin_accept_share_files_request' file.id %}" class="btn btn-block btn-success">Accept</a>
                 </div><!-- /.col -->
                 <div class="col-xs-4 ">
-                  <a href="#" class="btn btn-block btn-warning">Denie</a>
+                  <a href="{% url 'website:admin_denied_share_files_request' file.id %}" class="btn btn-block btn-warning">Denie</a>
                 </div><!-- /.col -->
                 <div class="col-xs-4 ">
                   <a href="#" class="btn btn-block btn-danger">Block</a>

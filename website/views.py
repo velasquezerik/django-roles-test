@@ -1310,6 +1310,44 @@ def admin_accept_friend_request(request, request_id):
 
 @login_required(login_url="/login/")
 @has_role_decorator('system_admin')
+def admin_accept_share_files_request(request, request_id):
+	user = User.objects.get(id = request.user.id)
+	share_file = ShareFile.objects.get(id=request_id)
+
+	share_file.status = 1
+	share_file.save()
+
+	#create logs
+	log = LogsShareFile()
+	log.share_file = share_file
+	log.description = "Accepted share file request"
+	log.save()
+
+	return redirect("/admin/notifications_share_files/")
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_denied_share_files_request(request, request_id):
+	user = User.objects.get(id = request.user.id)
+	share_file = ShareFile.objects.get(id=request_id)
+
+	share_file.status = 2
+	share_file.save()
+
+	#create logs
+	log = LogsShareFile()
+	log.share_file = share_file
+	log.description = "Denied share file request"
+	log.save()
+
+	return redirect("/admin/notifications_share_files/")
+
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
 def admin_denied_friend_request(request, request_id):
 	user = User.objects.get(id = request.user.id)
 	relation = Relationship.objects.get(id=request_id)
