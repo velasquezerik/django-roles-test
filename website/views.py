@@ -681,6 +681,36 @@ def admin_share_file(request):
 	
 	return redirect("/admin/")
 
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_share_file(request):
+	if request.method == "POST":
+		user_share = request.POST['user_id']
+		user_share = User.objects.get(id=user_share)
+		file = request.POST['file_id']
+		file = File.objects.get(id=file)
+		
+
+		#share file
+		share_file = ShareFile()
+		share_file.status = 0
+		share_file.file = file
+		share_file.user = user_share
+		share_file.permission = 2
+		share_file.save()
+
+		#create logs
+		logs = LogsShareFile()
+		logs.share_file = share_file
+		logs.description = "User share a file"
+		logs.save()
+
+
+		if file.folder.father != 0:
+			return redirect("/user/folder/"+str(file.folder.id))
+	
+	return redirect("/user/")
+
 
 @login_required(login_url="/login/")
 @has_role_decorator('system_user')
@@ -1035,9 +1065,10 @@ def user_file_show(request,file_id):
 	folder = file.folder
 	info = get_file_info(file_id)
 	all_folders = Folder.objects.filter(user_id = user.id)
+	friends = Relationship.objects.filter(Q(user_one=user.id) | Q(user_two=user.id) ).filter(status=1)
 	#transfor text to htmls
 	info = "<br />".join(info.split("\n"))
-	return render(request,'user/show_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders})
+	return render(request,'user/show_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends})
 
 
 
