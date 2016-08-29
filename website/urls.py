@@ -44,6 +44,7 @@ urlpatterns = [
     url(r'^admin/accept/friend/(?P<request_id>[0-9]+)/$', views.admin_accept_friend_request, name='admin_accept_friend_request'),
     url(r'^admin/denied/friend/(?P<request_id>[0-9]+)/$', views.admin_denied_friend_request, name='admin_denied_friend_request'),
     url(r'^admin/share_file',views.admin_share_file,name="admin_share_file"),
+    url(r'^admin/notifications_share_files',views.admin_share_files_notifications, name="admin_show_share_files_notifications"),
 
     #urls for users
     url(r'^user/$', views.user_view, name='user_index'),

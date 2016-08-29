@@ -1276,6 +1276,17 @@ def admin_friends_notifications(request):
 	return render(request,'admin/friend_notification.html',{'friends':friends})
 
 
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_share_files_notifications(request):
+	user = User.objects.get(id = request.user.id)
+
+	share_files = ShareFile.objects.filter(user = user.id).filter(status=0)
+	
+	return render(request,'admin/share_files_notification.html',{'share_files':share_files})
+
+
+
 
 
 @login_required(login_url="/login/")
