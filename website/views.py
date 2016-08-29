@@ -1327,6 +1327,16 @@ def admin_share_files_notifications(request):
 	return render(request,'admin/share_files_notification.html',{'share_files':share_files})
 
 
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_share_files_notifications(request):
+	user = User.objects.get(id = request.user.id)
+
+	share_files = ShareFile.objects.filter(user = user.id).filter(status=0)
+	
+	return render(request,'user/share_files_notification.html',{'share_files':share_files})
+
+
 
 
 
@@ -1383,6 +1393,43 @@ def admin_denied_share_files_request(request, request_id):
 	log.save()
 
 	return redirect("/admin/notifications_share_files/")
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_accept_share_files_request(request, request_id):
+	user = User.objects.get(id = request.user.id)
+	share_file = ShareFile.objects.get(id=request_id)
+
+	share_file.status = 1
+	share_file.save()
+
+	#create logs
+	log = LogsShareFile()
+	log.share_file = share_file
+	log.description = "Accepted share file request"
+	log.save()
+
+	return redirect("/user/notifications_share_files/")
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_denied_share_files_request(request, request_id):
+	user = User.objects.get(id = request.user.id)
+	share_file = ShareFile.objects.get(id=request_id)
+
+	share_file.status = 2
+	share_file.save()
+
+	#create logs
+	log = LogsShareFile()
+	log.share_file = share_file
+	log.description = "Denied share file request"
+	log.save()
+
+	return redirect("/user/notifications_share_files/")
 
 
 

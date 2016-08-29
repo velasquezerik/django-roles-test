@@ -76,9 +76,9 @@ urlpatterns = [
     url(r'^user/accept/friend/(?P<request_id>[0-9]+)/$', views.user_accept_friend_request, name='user_accept_friend_request'),
     url(r'^user/denied/friend/(?P<request_id>[0-9]+)/$', views.user_denied_friend_request, name='user_denied_friend_request'),
     url(r'^user/share_file',views.user_share_file,name="user_share_file"),
-    #url(r'^admin/notifications_share_files',views.admin_share_files_notifications, name="admin_show_share_files_notifications"),
-    #url(r'^admin/accept/share_files/(?P<request_id>[0-9]+)/$', views.admin_accept_share_files_request, name='admin_accept_share_files_request'),
-    #url(r'^admin/denied/share_files/(?P<request_id>[0-9]+)/$', views.admin_denied_share_files_request, name='admin_denied_share_files_request'),
+    url(r'^user/notifications_share_files',views.user_share_files_notifications, name="user_show_share_files_notifications"),
+    url(r'^user/accept/share_files/(?P<request_id>[0-9]+)/$', views.user_accept_share_files_request, name='user_accept_share_files_request'),
+    url(r'^user/denied/share_files/(?P<request_id>[0-9]+)/$', views.user_denied_share_files_request, name='user_denied_share_files_request'),
     #url(r'^admin/share/$', views.admin_folder_share_show, name='admin_show_share_folder'),
 
 ]
