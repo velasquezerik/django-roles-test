@@ -520,6 +520,13 @@ def admin_folder_share_show(request):
 	return render(request,'admin/show_share_folder.html',{'files':files})
 
 
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_folder_share_show(request):
+	user = User.objects.get(id = request.user.id)
+	files = ShareFile.objects.filter(user=user.id).filter(status=1)
+	return render(request,'user/show_share_folder.html',{'files':files})
+
 
 
 

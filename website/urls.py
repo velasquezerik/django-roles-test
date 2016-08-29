@@ -79,6 +79,6 @@ urlpatterns = [
     url(r'^user/notifications_share_files',views.user_share_files_notifications, name="user_show_share_files_notifications"),
     url(r'^user/accept/share_files/(?P<request_id>[0-9]+)/$', views.user_accept_share_files_request, name='user_accept_share_files_request'),
     url(r'^user/denied/share_files/(?P<request_id>[0-9]+)/$', views.user_denied_share_files_request, name='user_denied_share_files_request'),
-    #url(r'^admin/share/$', views.admin_folder_share_show, name='admin_show_share_folder'),
+    url(r'^user/share/$', views.user_folder_share_show, name='user_show_share_folder'),
 
 ]
