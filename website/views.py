@@ -10,7 +10,7 @@ from rolepermissions.shortcuts import assign_role, remove_role
 from rolepermissions.verifications import has_permission, has_role
 from rolepermissions.decorators import has_role_decorator
 from roles import SystemAdmin, SystemUser
-from models import UserImage, Folder, File, DiskSpace, Relationship, ShareFolder, LogsFile, LogsFolder, LogsRelationship
+from models import UserImage, Folder, File, DiskSpace, Relationship, ShareFolder, ShareFile, LogsFile, LogsFolder, LogsRelationship, LogsShareFile
 from tesis.settings import *
 import os
 from files_manage import *
@@ -642,6 +642,37 @@ def admin_move_file(request):
 
 
 @login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_share_file(request):
+	if request.method == "POST":
+		user_share = request.POST['user_id']
+		user_share = User.objects.get(id=user_share)
+		file = request.POST['file_id']
+		file = File.objects.get(id=file)
+		
+
+		#share file
+		share_file = ShareFile()
+		share_file.status = 0
+		share_file.file = file
+		share_file.user = user_share
+		share_file.permission = 2
+		share_file.save()
+
+		#create logs
+		logs = LogsShareFile()
+		logs.share_file = share_file
+		logs.description = "User share a file"
+		logs.save()
+
+
+		if file.folder.father != 0:
+			return redirect("/admin/folder/"+str(file.folder.id))
+	
+	return redirect("/admin/")
+
+
+@login_required(login_url="/login/")
 @has_role_decorator('system_user')
 def user_move_file(request):
 	if request.method == "POST":
@@ -927,9 +958,10 @@ def admin_file_show(request,file_id):
 	folder = file.folder
 	info = get_file_info(file_id)
 	all_folders = Folder.objects.filter(user_id = user.id)
+	friends = Relationship.objects.filter(Q(user_one=user.id) | Q(user_two=user.id) ).filter(status=1)
 	#transfor text to htmls
 	info = "<br />".join(info.split("\n"))
-	return render(request,'admin/show_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders})
+	return render(request,'admin/show_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends})
 
 
 
