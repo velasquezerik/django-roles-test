@@ -1006,9 +1006,10 @@ def admin_file_show(request,file_id):
 	info = get_file_info(file_id)
 	all_folders = Folder.objects.filter(user_id = user.id)
 	friends = Relationship.objects.filter(Q(user_one=user.id) | Q(user_two=user.id) ).filter(status=1)
+	help_code = execute_java_help(file_id)
 	#transfor text to htmls
 	info = "<br />".join(info.split("\n"))
-	return render(request,'admin/show_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends})
+	return render(request,'admin/show_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends,'help_code':help_code})
 
 
 
@@ -1073,9 +1074,10 @@ def user_file_show(request,file_id):
 	info = get_file_info(file_id)
 	all_folders = Folder.objects.filter(user_id = user.id)
 	friends = Relationship.objects.filter(Q(user_one=user.id) | Q(user_two=user.id) ).filter(status=1)
+	help_code = execute_java_help(file_id)
 	#transfor text to htmls
 	info = "<br />".join(info.split("\n"))
-	return render(request,'user/show_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends})
+	return render(request,'user/show_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends,'help_code':help_code})
 
 
 

@@ -64,7 +64,23 @@ def execute_java(file_id):
 	folder = file.folder
 	galatea_code = GALATEA + "galatea.jar "
 	#print os.path.splitext(file.name)[0]
-	code = "cd "+file.folder.path+" && java -cp .:"+ galatea_code + os.path.splitext(file.name)[0]
+	code = "cd "+file.folder.path+" && java -cp .:"+ galatea_code + os.path.splitext(file.name)[0] 
+	#print code
+	value = subprocess.check_output([code], shell=True)
+	#print value
+	return value
+
+
+#run help the program
+#java -cp .:../../galatea.jar SimpleTeller
+def execute_java_help(file_id):
+	#first compile
+	compile_java(file_id)
+	file = File.objects.get(id=file_id)
+	folder = file.folder
+	galatea_code = GALATEA + "galatea.jar "
+	#print os.path.splitext(file.name)[0]
+	code = "cd "+file.folder.path+" && java -cp .:"+ galatea_code + os.path.splitext(file.name)[0] + " -h "
 	#print code
 	value = subprocess.check_output([code], shell=True)
 	#print value

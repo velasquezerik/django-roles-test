@@ -203,7 +203,23 @@
         </div><!-- /.modal -->
 
 <section id="download">
+  	<pre class="hierarchy bring-up">
+	  	<p>
+	  		{{help_code}}
+	    </p>
+    </pre>
+</section>
+
+<section id="download">
   	<div class="row">
+  		<div class="col-xs-12" style="margin-bottom:10px;">
+        	<div class="form-group">
+                <label for="inputName" class="col-sm-2 control-label">Arguments</label>
+                <div class="col-sm-10">
+                    <input type="text" name="arguments" class="form-control" id="arguments" placeholder="Arguments tSim=<value>">
+                </div>
+            </div>
+        </div>
         <div class="col-xs-6">
         	<a  id="compile_file" class="btn btn-block btn-primary">Compile File</a>
         </div>
@@ -216,6 +232,11 @@
 	  		Code of Galatea
 	    </p>
     </pre>
+    <div class="row">
+    	<div class="col-xs-12">
+        	<a class="btn btn-primary pull-right">Export Data</a>
+        </div>
+    </div>
 </section>
 {% endblock %}
 
