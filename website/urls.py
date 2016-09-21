@@ -82,5 +82,7 @@ urlpatterns = [
     url(r'^user/accept/share_files/(?P<request_id>[0-9]+)/$', views.user_accept_share_files_request, name='user_accept_share_files_request'),
     url(r'^user/denied/share_files/(?P<request_id>[0-9]+)/$', views.user_denied_share_files_request, name='user_denied_share_files_request'),
     url(r'^user/share/$', views.user_folder_share_show, name='user_show_share_folder'),
+    url(r'^user/share/file/(?P<file_id>[0-9]+)/$', views.user_share_file_show, name='user_share_show_file'),
+    url(r'^user/share_update',views.user_update_share,name="user_update_share"),
 
 ]

@@ -1027,6 +1027,22 @@ def admin_share_file_show(request,file_id):
 
 
 @login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_share_file_show(request,file_id):
+	user = User.objects.get(id = request.user.id)
+	file = File.objects.get(id=file_id)
+	folder = file.folder
+	info = get_file_info(file_id)
+	all_folders = Folder.objects.filter(user_id = user.id)
+	friends = Relationship.objects.filter(Q(user_one=user.id) | Q(user_two=user.id) ).filter(status=1)
+	help_code = execute_java_help(file_id)
+	#transfor text to htmls
+	info = "<br />".join(info.split("\n"))
+	return render(request,'user/show_share_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends,'help_code':help_code})
+
+
+
+@login_required(login_url="/login/")
 @has_role_decorator('system_admin')
 def admin_delete_file(request, file_id):
 	file = File.objects.get(id=file_id)
@@ -1105,6 +1121,38 @@ def admin_update_share(request):
 
 		return redirect("/admin/share/file/"+str(file.id))
 	return redirect("/admin/")
+
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_update_share(request):
+
+	if request.method == "POST":
+		file = request.POST['file_id']
+		file = File.objects.get(id=file)
+		
+		info_file = request.POST['info_file']
+
+		data = html2text.html2text(info_file)
+		
+		update_file(file.id,data)
+
+		#verify space
+		diskspace = DiskSpace.objects.get(user=request.user.id)
+		diskspace.usage = usage_space(request.user.id)
+		diskspace.save()
+
+		#create log file
+		log = LogsFile()
+		log.user = request.user
+		log.file = file
+		log.description = "Edit a File"
+		log.save()
+
+		return redirect("/user/share/file/"+str(file.id))
+	return redirect("/user/")
 
 
 
