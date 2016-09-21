@@ -27,7 +27,7 @@
 	    </div>
 	    <div class="box-body">
 	    	{% for file in files %}
-		    	<a class="btn btn-app" href="#">
+		    	<a class="btn btn-app" href="{% url 'website:admin_share_show_file' file.file.id %}">
 			    	<i class="fa fa-file"></i> {{file.file.name}}
 			    </a>
 	    	{% endfor %}

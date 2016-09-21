@@ -1,0 +1,133 @@
+{% extends 'website/base.html' %}
+{% load staticfiles %}
+
+{% block title_page %}Tesis| Dashboard{% endblock %}
+
+{% block title_content %}
+	Dashboard
+    <small>Index</small>
+{% endblock %}
+
+{% block level %}
+	<li><a href="{% url 'website:admin_index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+    <li class="active">Index</li>
+{% endblock %}
+
+{% block content %}
+
+	<div class="row">
+	    <div class="col-md-12">
+	      <div class="box">
+	        <div class="box-header">
+	          <h3 class="box-title">File <small>{{file.name}}</small></h3>
+	          <!-- tools box -->
+	          <div class="pull-right box-tools">
+	            <button class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+	          </div><!-- /. tools -->
+	        </div><!-- /.box-header -->
+	        <div class="box-body pad">
+	          <form class="form-horizontal" role="form" action="{% url 'website:admin_update_share'%}" method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+						<input type="hidden" class="form-control" name="file_id" value="{{file.id}}" required>
+	            <textarea name="info_file" class="textarea" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{info}}</textarea>
+	            <div class="row">
+	            	<div class="col-xs-8">
+			        	
+			        </div>
+			        <div class="col-xs-4">
+                    	<button type="submit" class="btn btn-block btn-primary">Save</button>
+			        </div>
+				</div>
+	          </form>
+	        </div>
+	      </div>
+	    </div><!-- /.col-->
+	</div><!-- ./row -->
+
+<section id="download">
+  	<pre class="hierarchy bring-up">
+	  	<p>
+	  		{{help_code}}
+	    </p>
+    </pre>
+</section>
+
+<section id="download">
+  	<div class="row">
+  		<div class="col-xs-12" style="margin-bottom:10px;">
+        	<div class="form-group">
+                <label for="inputName" class="col-sm-2 control-label">Arguments</label>
+                <div class="col-sm-10">
+                    <input type="text" name="arguments" class="form-control" id="arguments" placeholder="Arguments tSim=<value>">
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+        	<a  id="compile_file" class="btn btn-block btn-primary">Compile File</a>
+        </div>
+        <div class="col-xs-6">
+        	<a  id="execute_file" class="btn btn-block btn-success">Execute File</a>
+        </div>
+	</div>
+  	<pre class="hierarchy bring-up">
+	  	<p id="code_file">
+	  		Code of Galatea
+	    </p>
+    </pre>
+    <div class="row">
+    	<div class="col-xs-12">
+        	<a class="btn btn-primary pull-right">Export Data</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block code_java %}
+	<script type="text/javascript">
+	$( "#compile_file" ).click(function() {
+		$("#code_file").text("Compiling file");
+		$.ajax({
+	        url : "{% url 'website:admin_compile_file' file.id %}", // the endpoint
+	        type : "GET", // http method
+	        data : { }, // data sent with the post request
+
+	        // handle a successful response
+	        success : function(json) {
+	            console.log(json); // log the returned json to the console
+	            console.log("success"); // another sanity check
+	            $("#code_file").text(json.data);
+	            $("#code_file").text("Compiled file");
+	        },
+
+	        // handle a non-successful response
+	        error : function(xhr,errmsg,err) {
+	            console.log("Error"); // provide a bit more info about the error to the console
+	        }
+	    });
+
+		  
+	});
+
+	$( "#execute_file" ).click(function() {
+		$("#code_file").text("Compiling file");
+		  $.ajax({
+	        url : "{% url 'website:admin_execute_file' file.id %}", // the endpoint
+	        type : "GET", // http method
+	        data : { }, // data sent with the post request
+
+	        // handle a successful response
+	        success : function(json) {
+	            console.log(json); // log the returned json to the console
+	            console.log("success"); // another sanity check
+	            $("#code_file").text(json.data);
+	        },
+
+	        // handle a non-successful response
+	        error : function(xhr,errmsg,err) {
+	            console.log("Error"); // provide a bit more info about the error to the console
+	        }
+	    });
+	});
+	</script>
+{% endblock %}
+

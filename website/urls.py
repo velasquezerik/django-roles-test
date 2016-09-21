@@ -48,6 +48,8 @@ urlpatterns = [
     url(r'^admin/accept/share_files/(?P<request_id>[0-9]+)/$', views.admin_accept_share_files_request, name='admin_accept_share_files_request'),
     url(r'^admin/denied/share_files/(?P<request_id>[0-9]+)/$', views.admin_denied_share_files_request, name='admin_denied_share_files_request'),
     url(r'^admin/share/$', views.admin_folder_share_show, name='admin_show_share_folder'),
+    url(r'^admin/share/file/(?P<file_id>[0-9]+)/$', views.admin_share_file_show, name='admin_share_show_file'),
+    url(r'^admin/share_update',views.admin_update_share,name="admin_update_share"),
 
 
     #urls for users
