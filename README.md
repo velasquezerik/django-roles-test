@@ -7,7 +7,15 @@ https://github.com/vintasoftware/django-role-permissions
 https://django-role-permissions.readthedocs.io/en/latest/
 
 Install drivers for mysql
+<<<<<<< HEAD
 apt-get install python-mysqldb   or    pip install MySQL-python
+=======
+apt-get install python-mysqldb python3-mysqldb
+
+Install drivers for pillow 
+pip install pillow  or  pip3 install pillow
+
+>>>>>>> 40342c6aa477872580635be2547bc5e490fe7ce2
 
 Install html2text for html manage
 pip install html2text
