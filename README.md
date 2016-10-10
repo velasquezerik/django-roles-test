@@ -7,7 +7,7 @@ https://github.com/vintasoftware/django-role-permissions
 https://django-role-permissions.readthedocs.io/en/latest/
 
 Install drivers for mysql
-apt-get install python-mysqldb
+apt-get install python-mysqldb   or    pip install MySQL-python
 
 Install html2text for html manage
 pip install html2text
