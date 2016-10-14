@@ -14,37 +14,53 @@
 {% endblock %}
 
 {% block content %}
+{%if share.permission == 1%}
 <div class="row">
-
-</div>
-	<div class="row">
-	    <div class="col-md-12">
-	      <div class="box">
-	        <div class="box-header">
-	          <h3 class="box-title">File <small>{{file.name}}</small></h3>
-	          <!-- tools box -->
-	          <div class="pull-right box-tools">
-	            <button class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-	          </div><!-- /. tools -->
-	        </div><!-- /.box-header -->
-	        <div class="box-body pad">
-	          <form class="form-horizontal" role="form" action="{% url 'website:user_update_share'%}" method="post" enctype="multipart/form-data">
-						{% csrf_token %}
-						<input type="hidden" class="form-control" name="file_id" value="{{file.id}}" required>
-	            <textarea name="info_file" class="textarea" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{info}}</textarea>
-	            <div class="row">
-	            	<div class="col-xs-8">
-			        	
-			        </div>
-			        <div class="col-xs-4">
-                    	<button type="submit" class="btn btn-block btn-primary">Save</button>
-			        </div>
+		<div class="col-md-12">
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title">File <small>{{file.name}}</small></h3>
+					<!-- tools box -->
+					<div class="pull-right box-tools">
+						<button class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+					</div><!-- /. tools -->
+				</div><!-- /.box-header -->
+				<div class="box-body pad">
+					<textarea name="info_file" class="textarea" placeholder="Place some text here" style="width: 100%; height: 500px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{info}}</textarea>
 				</div>
-	          </form>
-	        </div>
-	      </div>
-	    </div><!-- /.col-->
-	</div><!-- ./row -->
+			</div>
+		</div><!-- /.col-->
+</div><!-- ./row -->
+{% else%}
+<div class="row">
+		<div class="col-md-12">
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title">File <small>{{file.name}}</small></h3>
+					<!-- tools box -->
+					<div class="pull-right box-tools">
+						<button class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+					</div><!-- /. tools -->
+				</div><!-- /.box-header -->
+				<div class="box-body pad">
+					<form class="form-horizontal" role="form" action="{% url 'website:user_update_share'%}" method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					<input type="hidden" class="form-control" name="file_id" value="{{file.id}}" required>
+						<textarea name="info_file" class="textarea" placeholder="Place some text here" style="width: 100%; height: 500px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{info}}</textarea>
+						<div class="row">
+							<div class="col-xs-8">
+
+						</div>
+						<div class="col-xs-4">
+										<button type="submit" class="btn btn-block btn-primary">Save</button>
+						</div>
+			</div>
+					</form>
+				</div>
+			</div>
+		</div><!-- /.col-->
+</div><!-- ./row -->
+{% endif%}
 
 <section id="download">
   	<pre class="hierarchy bring-up">
@@ -107,7 +123,7 @@
 	        }
 	    });
 
-		  
+
 	});
 
 	$( "#execute_file" ).click(function() {
@@ -132,4 +148,3 @@
 	});
 	</script>
 {% endblock %}
-

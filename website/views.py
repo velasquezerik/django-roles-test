@@ -1182,9 +1182,10 @@ def admin_share_file_show(request,file_id):
 	all_folders = Folder.objects.filter(user_id = user.id)
 	friends = Relationship.objects.filter(Q(user_one=user.id) | Q(user_two=user.id) ).filter(status=1)
 	help_code = execute_java_help(file_id)
+	share = ShareFile.objects.filter(user_id = user.id).filter(file_id = file_id)[0]
 	#transfor text to htmls
 	info = "<br />".join(info.split("\n"))
-	return render(request,'admin/show_share_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends,'help_code':help_code})
+	return render(request,'admin/show_share_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends,'help_code':help_code,'share':share})
 
 
 @login_required(login_url="/login/")
@@ -1197,9 +1198,10 @@ def user_share_file_show(request,file_id):
 	all_folders = Folder.objects.filter(user_id = user.id)
 	friends = Relationship.objects.filter(Q(user_one=user.id) | Q(user_two=user.id) ).filter(status=1)
 	help_code = execute_java_help(file_id)
+	share = ShareFile.objects.filter(user_id = user.id).filter(file_id = file_id)[0]
 	#transfor text to htmls
 	info = "<br />".join(info.split("\n"))
-	return render(request,'user/show_share_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends,'help_code':help_code})
+	return render(request,'user/show_share_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends,'help_code':help_code,'share':share})
 
 
 
