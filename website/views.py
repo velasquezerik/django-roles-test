@@ -134,7 +134,7 @@ def admin_profile_update(request):
 		user.last_name = last_name
 		user.email = email
 		user.save()
-	
+
 	return redirect("/admin/profile/")
 
 
@@ -235,7 +235,7 @@ def admin_show(request, user_id):
 		files = File.objects.filter(folder__user_id = user_id)
 	except Exception, e:
 		return redirect("/admin/users/")
-	
+
 	return render(request,'admin/show_user.html',{'user_show':user,'folders_count':folders_count,'files_count':files_count,'folders':folders,'files':files})
 
 
@@ -336,7 +336,7 @@ def admin_edit(request, user_id):
 		user = User.objects.get(id=user_id)
 	except Exception, e:
 		return redirect("/admin/users/")
-	
+
 	if request.method == 'POST':
 		first_name = request.POST['first_name']
 		last_name = request.POST['last_name']
@@ -431,7 +431,7 @@ def user_profile_update(request):
 		user.last_name = last_name
 		user.email = email
 		user.save()
-	
+
 	return redirect("/user/profile/")
 
 
@@ -491,11 +491,11 @@ def admin_create_folder(request):
 			log.folder = Folder.objects.get(id=folder_id)
 			log.description = "Create a folder"
 			log.save()
-		
+
 
 		if father.father != 0:
 			return redirect("/admin/folder/"+str(father.id))
-	
+
 	return redirect("/admin/")
 
 
@@ -556,7 +556,7 @@ def user_create_folder(request):
 			log.folder = Folder.objects.get(id=folder_id)
 			log.description = "Create a folder"
 			log.save()
-	
+
 		if father.father != 0:
 			return redirect("/user/folder/"+str(father.id))
 
@@ -601,7 +601,7 @@ def admin_edit_folder(request):
 		log.save()
 
 		return redirect("/admin/folder/"+str(folder.id))
-	
+
 	return redirect("/admin/")
 
 
@@ -628,7 +628,7 @@ def admin_move_folder(request):
 
 		if new_folder.father != 0:
 			return redirect("/admin/folder/"+str(new_folder.id))
-	
+
 	return redirect("/admin/")
 
 
@@ -654,7 +654,7 @@ def admin_move_file(request):
 
 		if new_folder.father != 0:
 			return redirect("/admin/folder/"+str(new_folder.id))
-	
+
 	return redirect("/admin/")
 
 
@@ -666,7 +666,7 @@ def admin_share_file(request):
 		user_share = User.objects.get(id=user_share)
 		file = request.POST['file_id']
 		file = File.objects.get(id=file)
-		
+
 
 		#share file
 		share_file = ShareFile()
@@ -685,7 +685,7 @@ def admin_share_file(request):
 
 		if file.folder.father != 0:
 			return redirect("/admin/folder/"+str(file.folder.id))
-	
+
 	return redirect("/admin/")
 
 @login_required(login_url="/login/")
@@ -696,7 +696,7 @@ def user_share_file(request):
 		user_share = User.objects.get(id=user_share)
 		file = request.POST['file_id']
 		file = File.objects.get(id=file)
-		
+
 
 		#share file
 		share_file = ShareFile()
@@ -715,7 +715,7 @@ def user_share_file(request):
 
 		if file.folder.father != 0:
 			return redirect("/user/folder/"+str(file.folder.id))
-	
+
 	return redirect("/user/")
 
 
@@ -741,7 +741,7 @@ def user_move_file(request):
 
 		if new_folder.father != 0:
 			return redirect("/user/folder/"+str(new_folder.id))
-	
+
 	return redirect("/user/")
 
 
@@ -769,7 +769,7 @@ def user_move_folder(request):
 
 		if new_folder.father != 0:
 			return redirect("/user/folder/"+str(new_folder.id))
-	
+
 	return redirect("/user/")
 
 
@@ -799,7 +799,7 @@ def user_edit_folder(request):
 		log.save()
 
 		return redirect("/user/folder/"+str(folder.id))
-	
+
 	return redirect("/user/")
 
 
@@ -880,11 +880,11 @@ def admin_create_file(request):
 			log.description = "Create a File"
 			log.save()
 
-		
+
 
 		if folder.father != 0:
 			return redirect("/admin/folder/"+str(folder.id))
-	
+
 	return redirect("/admin/")
 
 
@@ -916,11 +916,11 @@ def user_create_file(request):
 			log.save()
 
 
-		
+
 
 		if folder.father != 0:
 			return redirect("/user/folder/"+str(folder.id))
-	
+
 	return redirect("/user/")
 
 
@@ -952,11 +952,11 @@ def admin_upload_file(request):
 			log.description = "Upload a File"
 			log.save()
 
-		
+
 
 		if folder.father != 0:
 			return redirect("/admin/folder/"+str(folder.id))
-	
+
 	return redirect("/admin/")
 
 
@@ -991,7 +991,7 @@ def user_upload_file(request):
 
 		if folder.father != 0:
 			return redirect("/user/folder/"+str(folder.id))
-	
+
 	return redirect("/user/")
 
 
@@ -1010,6 +1010,23 @@ def admin_file_show(request,file_id):
 	#transfor text to htmls
 	info = "<br />".join(info.split("\n"))
 	return render(request,'admin/show_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends,'help_code':help_code})
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_file_permission_show(request,file_id):
+	user = User.objects.get(id = request.user.id)
+	file = File.objects.get(id=file_id)
+	folder = file.folder
+	info = get_file_info(file_id)
+	all_folders = Folder.objects.filter(user_id = user.id)
+	friends = Relationship.objects.filter(Q(user_one=user.id) | Q(user_two=user.id) ).filter(status=1)
+	help_code = execute_java_help(file_id)
+	share_files = ShareFile.objects.filter(file_id = file_id)
+	#transfor text to htmls
+	info = "<br />".join(info.split("\n"))
+	return render(request,'admin/show_file_permission.html',{'file':file,'share_files':share_files})
+
+
 
 @login_required(login_url="/login/")
 @has_role_decorator('system_admin')
@@ -1058,7 +1075,7 @@ def admin_delete_file(request, file_id):
 
 	if folder.father != 0:
 			return redirect("/admin/folder/"+str(folder.id))
-	
+
 	return redirect("/admin/")
 
 
@@ -1070,11 +1087,11 @@ def admin_update_file(request):
 	if request.method == "POST":
 		file = request.POST['file_id']
 		file = File.objects.get(id=file)
-		
+
 		info_file = request.POST['info_file']
 
 		data = html2text.html2text(info_file)
-		
+
 		update_file(file.id,data)
 
 		#verify space
@@ -1100,11 +1117,11 @@ def admin_update_share(request):
 	if request.method == "POST":
 		file = request.POST['file_id']
 		file = File.objects.get(id=file)
-		
+
 		info_file = request.POST['info_file']
 
 		data = html2text.html2text(info_file)
-		
+
 		update_file(file.id,data)
 
 		#verify space
@@ -1132,11 +1149,11 @@ def user_update_share(request):
 	if request.method == "POST":
 		file = request.POST['file_id']
 		file = File.objects.get(id=file)
-		
+
 		info_file = request.POST['info_file']
 
 		data = html2text.html2text(info_file)
-		
+
 		update_file(file.id,data)
 
 		#verify space
@@ -1189,7 +1206,7 @@ def user_delete_file(request, file_id):
 
 	if folder.father != 0:
 			return redirect("/user/folder/"+str(folder.id))
-	
+
 	return redirect("/user/")
 
 
@@ -1201,11 +1218,11 @@ def user_update_file(request):
 	if request.method == "POST":
 		file = request.POST['file_id']
 		file = File.objects.get(id=file)
-		
+
 		info_file = request.POST['info_file']
 
 		data = html2text.html2text(info_file)
-		
+
 		update_file(file.id,data)
 
 		#verify space
@@ -1238,11 +1255,11 @@ def run_test(request):
 @has_role_decorator('system_admin')
 def admin_compile_file(request, file_id):
 	file = File.objects.get(id=file_id)
-	
+
 	com_java = compile_java(file.id)
 
 	return JsonResponse({"data":com_java})
-	
+
 
 
 
@@ -1250,7 +1267,7 @@ def admin_compile_file(request, file_id):
 @has_role_decorator('system_admin')
 def admin_execute_file(request, file_id):
 	file = File.objects.get(id=file_id)
-	
+
 	com_java = execute_java(file.id)
 
 	return JsonResponse({"data":com_java})
@@ -1261,11 +1278,11 @@ def admin_execute_file(request, file_id):
 @has_role_decorator('system_user')
 def user_compile_file(request, file_id):
 	file = File.objects.get(id=file_id)
-	
+
 	com_java = compile_java(file.id)
 
 	return JsonResponse({"data":com_java})
-	
+
 
 
 
@@ -1273,11 +1290,11 @@ def user_compile_file(request, file_id):
 @has_role_decorator('system_user')
 def user_execute_file(request, file_id):
 	file = File.objects.get(id=file_id)
-	
+
 	com_java = execute_java(file.id)
 
 	return JsonResponse({"data":com_java})
-	
+
 
 
 
@@ -1287,7 +1304,7 @@ def admin_friends(request):
 	user = User.objects.get(id = request.user.id)
 
 	friends = Relationship.objects.filter(Q(user_one=user.id) | Q(user_two=user.id) ).filter(status=1)
-	
+
 	return render(request,'admin/show_friends.html',{'friends':friends})
 
 
@@ -1298,7 +1315,7 @@ def user_friends(request):
 	user = User.objects.get(id = request.user.id)
 
 	friends = Relationship.objects.filter(Q(user_one=user.id) | Q(user_two=user.id)).filter(status=1)
-	
+
 	return render(request,'user/show_friends.html',{'friends':friends})
 
 
@@ -1316,7 +1333,7 @@ def admin_get_friends(request):
 		for friend in friends:
 			if xuser.id == friend.user_one.id  or xuser.id == friend.user_two.id:
 				users = users.exclude(id=xuser.id)
-	
+
 	return render(request,'admin/get_friends.html',{'users':users})
 
 
@@ -1352,7 +1369,7 @@ def admin_send_friend_request(request, user_id):
 
 	return redirect("/admin/get_friends/")
 
-	
+
 
 
 @login_required(login_url="/login/")
@@ -1368,7 +1385,7 @@ def user_get_friends(request):
 		for friend in friends:
 			if xuser.id == friend.user_one.id  or xuser.id == friend.user_two.id:
 				users = users.exclude(id=xuser.id)
-	
+
 	return render(request,'user/get_friends.html',{'users':users})
 
 
@@ -1404,7 +1421,7 @@ def user_send_friend_request(request, user_id):
 
 	return redirect("/user/get_friends/")
 
-	
+
 
 
 
@@ -1414,7 +1431,7 @@ def admin_friends_notifications(request):
 	user = User.objects.get(id = request.user.id)
 
 	friends = Relationship.objects.filter(user_two=user.id).filter(status=0)
-	
+
 	return render(request,'admin/friend_notification.html',{'friends':friends})
 
 
@@ -1424,7 +1441,7 @@ def admin_share_files_notifications(request):
 	user = User.objects.get(id = request.user.id)
 
 	share_files = ShareFile.objects.filter(user = user.id).filter(status=0)
-	
+
 	return render(request,'admin/share_files_notification.html',{'share_files':share_files})
 
 
@@ -1434,7 +1451,7 @@ def user_share_files_notifications(request):
 	user = User.objects.get(id = request.user.id)
 
 	share_files = ShareFile.objects.filter(user = user.id).filter(status=0)
-	
+
 	return render(request,'user/share_files_notification.html',{'share_files':share_files})
 
 
@@ -1540,7 +1557,7 @@ def user_denied_share_files_request(request, request_id):
 def admin_denied_friend_request(request, request_id):
 	user = User.objects.get(id = request.user.id)
 	relation = Relationship.objects.get(id=request_id)
-	
+
 	relation.status = 2
 	relation.save()
 
@@ -1559,7 +1576,7 @@ def user_friends_notifications(request):
 	user = User.objects.get(id = request.user.id)
 
 	friends = Relationship.objects.filter(user_two=user.id).filter(status=0)
-	
+
 	return render(request,'user/friend_notification.html',{'friends':friends})
 
 
@@ -1588,7 +1605,7 @@ def user_accept_friend_request(request, request_id):
 def user_denied_friend_request(request, request_id):
 	user = User.objects.get(id = request.user.id)
 	relation = Relationship.objects.get(id=request_id)
-	
+
 	relation.status = 2
 	relation.save()
 

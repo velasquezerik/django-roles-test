@@ -50,6 +50,7 @@ urlpatterns = [
     url(r'^admin/share/$', views.admin_folder_share_show, name='admin_show_share_folder'),
     url(r'^admin/share/file/(?P<file_id>[0-9]+)/$', views.admin_share_file_show, name='admin_share_show_file'),
     url(r'^admin/share_update',views.admin_update_share,name="admin_update_share"),
+    url(r'^admin/permission/file/(?P<file_id>[0-9]+)/$', views.admin_file_permission_show, name='admin_permission_file'),
 
 
     #urls for users
