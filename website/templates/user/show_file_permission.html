@@ -9,14 +9,14 @@
 {% endblock %}
 
 {% block level %}
-	<li><a href="{% url 'website:admin_index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+	<li><a href="{% url 'website:user_index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
     <li class="active">Index</li>
 {% endblock %}
 
 {% block content %}
 <div class="row">
         <div class="col-xs-3">
-          <a href="{% url 'website:admin_show_file' file.id %}" class="btn btn-block btn-warning">Return to File</a>
+          <a href="{% url 'website:user_show_file' file.id %}" class="btn btn-block btn-warning">Return to File</a>
         </div>
 </div>
 
@@ -39,33 +39,33 @@
                   {% endif %}
                 </h3>
             </div><!-- /.box-header -->
-            {% if file.permission == 0%}
+						{% if file.permission == 0%}
             <div class="row" style="margin-top:10px;">
                 <div class="col-xs-4">
-                  <a href="{% url 'website:admin_permission_show_file' file.id %}" class="btn btn-block btn-primary">Show</a>
+                  <a href="{% url 'website:user_permission_show_file' file.id %}" class="btn btn-block btn-primary">Show</a>
                 </div><!-- /.col -->
                 <div class="col-xs-4">
-                  <a href="{% url 'website:admin_permission_edit_file' file.id %}" class="btn btn-block btn-warning">Edit</a>
+                  <a href="{% url 'website:user_permission_edit_file' file.id %}" class="btn btn-block btn-warning">Edit</a>
                 </div><!-- /.col -->
             </div><!-- /.row -->
             {% endif %}
             {% if file.permission == 1%}
             <div class="row" style="margin-top:10px;">
                 <div class="col-xs-4">
-                  <a href="{% url 'website:admin_permission_private_file' file.id %}" class="btn btn-block btn-danger">Private</a>
+                  <a href="{% url 'website:user_permission_private_file' file.id %}" class="btn btn-block btn-danger">Private</a>
                 </div><!-- /.col -->
                 <div class="col-xs-4">
-                  <a href="{% url 'website:admin_permission_edit_file' file.id %}" class="btn btn-block btn-warning">Edit</a>
+                  <a href="{% url 'website:user_permission_edit_file' file.id %}" class="btn btn-block btn-warning">Edit</a>
                 </div><!-- /.col -->
             </div><!-- /.row -->
             {% endif %}
             {% if file.permission == 2%}
             <div class="row" style="margin-top:10px;">
                 <div class="col-xs-4">
-                  <a href="{% url 'website:admin_permission_private_file' file.id %}" class="btn btn-block btn-danger">Private</a>
+                  <a href="{% url 'website:user_permission_private_file' file.id %}" class="btn btn-block btn-danger">Private</a>
                 </div><!-- /.col -->
                 <div class="col-xs-4">
-                  <a href="{% url 'website:admin_permission_show_file' file.id %}" class="btn btn-block btn-primary">Show</a>
+                  <a href="{% url 'website:user_permission_show_file' file.id %}" class="btn btn-block btn-primary">Show</a>
                 </div><!-- /.col -->
             </div><!-- /.row -->
             {% endif %}

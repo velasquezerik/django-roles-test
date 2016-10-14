@@ -1016,15 +1016,88 @@ def admin_file_show(request,file_id):
 def admin_file_permission_show(request,file_id):
 	user = User.objects.get(id = request.user.id)
 	file = File.objects.get(id=file_id)
-	folder = file.folder
-	info = get_file_info(file_id)
-	all_folders = Folder.objects.filter(user_id = user.id)
-	friends = Relationship.objects.filter(Q(user_one=user.id) | Q(user_two=user.id) ).filter(status=1)
-	help_code = execute_java_help(file_id)
+
 	share_files = ShareFile.objects.filter(file_id = file_id)
-	#transfor text to htmls
-	info = "<br />".join(info.split("\n"))
+
 	return render(request,'admin/show_file_permission.html',{'file':file,'share_files':share_files})
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_permission_private_file(request,file_id):
+	user = User.objects.get(id = request.user.id)
+	file = File.objects.get(id=file_id)
+	file.permission = 0;
+	file.save()
+
+	return redirect("/admin/permission/file/"+file_id)
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_permission_show_file(request,file_id):
+	user = User.objects.get(id = request.user.id)
+	file = File.objects.get(id=file_id)
+	file.permission = 1;
+	file.save()
+
+	return redirect("/admin/permission/file/"+file_id)
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_permission_edit_file(request,file_id):
+	user = User.objects.get(id = request.user.id)
+	file = File.objects.get(id=file_id)
+	file.permission = 2;
+	file.save()
+
+	return redirect("/admin/permission/file/"+file_id)
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_permission_private_file(request,file_id):
+	user = User.objects.get(id = request.user.id)
+	file = File.objects.get(id=file_id)
+	file.permission = 0;
+	file.save()
+
+	return redirect("/user/permission/file/"+file_id)
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_permission_show_file(request,file_id):
+	user = User.objects.get(id = request.user.id)
+	file = File.objects.get(id=file_id)
+	file.permission = 1;
+	file.save()
+
+	return redirect("/user/permission/file/"+file_id)
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_permission_edit_file(request,file_id):
+	user = User.objects.get(id = request.user.id)
+	file = File.objects.get(id=file_id)
+	file.permission = 2;
+	file.save()
+
+	return redirect("/user/permission/file/"+file_id)
+
+
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_file_permission_show(request,file_id):
+	user = User.objects.get(id = request.user.id)
+	file = File.objects.get(id=file_id)
+
+	share_files = ShareFile.objects.filter(file_id = file_id)
+
+	return render(request,'user/show_file_permission.html',{'file':file,'share_files':share_files})
 
 
 

@@ -51,6 +51,9 @@ urlpatterns = [
     url(r'^admin/share/file/(?P<file_id>[0-9]+)/$', views.admin_share_file_show, name='admin_share_show_file'),
     url(r'^admin/share_update',views.admin_update_share,name="admin_update_share"),
     url(r'^admin/permission/file/(?P<file_id>[0-9]+)/$', views.admin_file_permission_show, name='admin_permission_file'),
+    url(r'^admin/permission/private/file/(?P<file_id>[0-9]+)/$', views.admin_permission_private_file, name='admin_permission_private_file'),
+    url(r'^admin/permission/show/file/(?P<file_id>[0-9]+)/$', views.admin_permission_show_file, name='admin_permission_show_file'),
+    url(r'^admin/permission/edit/file/(?P<file_id>[0-9]+)/$', views.admin_permission_edit_file, name='admin_permission_edit_file'),
 
 
     #urls for users
@@ -85,5 +88,9 @@ urlpatterns = [
     url(r'^user/share/$', views.user_folder_share_show, name='user_show_share_folder'),
     url(r'^user/share/file/(?P<file_id>[0-9]+)/$', views.user_share_file_show, name='user_share_show_file'),
     url(r'^user/share_update',views.user_update_share,name="user_update_share"),
+    url(r'^user/permission/file/(?P<file_id>[0-9]+)/$', views.user_file_permission_show, name='user_permission_file'),
+    url(r'^user/permission/private/file/(?P<file_id>[0-9]+)/$', views.user_permission_private_file, name='user_permission_private_file'),
+    url(r'^user/permission/show/file/(?P<file_id>[0-9]+)/$', views.user_permission_show_file, name='user_permission_show_file'),
+    url(r'^user/permission/edit/file/(?P<file_id>[0-9]+)/$', views.user_permission_edit_file, name='user_permission_edit_file'),
 
 ]
