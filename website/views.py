@@ -1087,6 +1087,77 @@ def user_permission_edit_file(request,file_id):
 
 
 
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_permission_share_private_file(request,file_id):
+	user = User.objects.get(id = request.user.id)
+	share = ShareFile.objects.get(id = file_id)
+	file = share.file
+	share.delete()
+
+	return redirect("/admin/permission/file/"+str(file.id))
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_permission_share_show_file(request,file_id):
+	user = User.objects.get(id = request.user.id)
+	share = ShareFile.objects.get(id = file_id)
+	file = share.file
+	share.permission = 1;
+	share.save()
+
+	return redirect("/admin/permission/file/"+str(file.id))
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_permission_share_edit_file(request,file_id):
+	user = User.objects.get(id = request.user.id)
+	share = ShareFile.objects.get(id = file_id)
+	file = share.file
+	share.permission = 2;
+	share.save()
+
+	return redirect("/admin/permission/file/"+str(file.id))
+
+
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_permission_share_private_file(request,file_id):
+	user = User.objects.get(id = request.user.id)
+	share = ShareFile.objects.get(id = file_id)
+	file = share.file
+	share.delete()
+
+	return redirect("/user/permission/file/"+str(file.id))
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_permission_share_show_file(request,file_id):
+	user = User.objects.get(id = request.user.id)
+	share = ShareFile.objects.get(id = file_id)
+	file = share.file
+	share.permission = 1;
+	share.save()
+
+	return redirect("/user/permission/file/"+str(file.id))
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_permission_share_edit_file(request,file_id):
+	user = User.objects.get(id = request.user.id)
+	share = ShareFile.objects.get(id = file_id)
+	file = share.file
+	share.permission = 2;
+	share.save()
+
+	return redirect("/user/permission/file/"+str(file.id))
+
+
+
+
 
 
 @login_required(login_url="/login/")

@@ -118,20 +118,20 @@
                               {% if share.permission == 1%}
                               <div class="row">
                                 <div class="col-xs-6">
-                            			<a href="#" class="btn btn-block btn-danger">Private</a>
+                            			<a href="{% url 'website:admin_permission_share_private_file' share.id %}" class="btn btn-block btn-danger">Private</a>
                             		</div>
                             		<div class="col-xs-6">
-                            			<a href="#" class="btn btn-block btn-primary">Edit</a>
+                            			<a href="{% url 'website:admin_permission_share_edit_file' share.id %}" class="btn btn-block btn-primary">Edit</a>
                             		</div>
                             	</div>
                               {% endif %}
                               {% if share.permission == 2%}
                               <div class="row">
                                 <div class="col-xs-6">
-                            			<a href="#" class="btn btn-block btn-danger">Private</a>
+                            			<a href="{% url 'website:admin_permission_share_private_file' share.id %}" class="btn btn-block btn-danger">Private</a>
                             		</div>
                             		<div class="col-xs-6">
-                            			<a href="#" class="btn btn-block btn-primary">Only Show</a>
+                            			<a href="{% url 'website:admin_permission_share_show_file' share.id %}" class="btn btn-block btn-primary">Only Show</a>
                             		</div>
                             	</div>
                               {% endif %}
