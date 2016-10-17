@@ -58,13 +58,14 @@ def compile_java(file_id):
 #run the program
 #java -cp .:../../galatea.jar SimpleTeller
 def execute_java(file_id):
+	#get file
+	file = File.objects.get(id=file_id)
 	#first compile
 	compile_java(file_id)
-	file = File.objects.get(id=file_id)
 	folder = file.folder
 	galatea_code = GALATEA + "galatea.jar "
 	#print os.path.splitext(file.name)[0]
-	code = "cd "+file.folder.path+" && java -cp .:"+ galatea_code + os.path.splitext(file.name)[0] 
+	code = "cd "+file.folder.path+" && java -cp .:"+ galatea_code + os.path.splitext(file.name)[0]
 	#print code
 	value = subprocess.check_output([code], shell=True)
 	#print value
@@ -74,9 +75,17 @@ def execute_java(file_id):
 #run help the program
 #java -cp .:../../galatea.jar SimpleTeller
 def execute_java_help(file_id):
+	#get file
+	file = File.objects.get(id=file_id)
+	#check if file exists
+	if os.path.exists(file.folder.path + "/help.txt"):
+		f = open(file.folder.path + "/help.txt", 'r')
+		data = f.read()
+		f.close()
+		return data
+
 	#first compile
 	compile_java(file_id)
-	file = File.objects.get(id=file_id)
 	folder = file.folder
 	galatea_code = GALATEA + "galatea.jar "
 	#print os.path.splitext(file.name)[0]
@@ -84,4 +93,7 @@ def execute_java_help(file_id):
 	#print code
 	value = subprocess.check_output([code], shell=True)
 	#print value
+	# create a file
+	with open(file.folder.path + "/help.txt", 'w') as destination:
+		destination.write(value)
 	return value
