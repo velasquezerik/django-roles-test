@@ -131,7 +131,7 @@
 		  $.ajax({
 	        url : "{% url 'website:user_execute_file' file.id %}", // the endpoint
 	        type : "GET", // http method
-	        data : { }, // data sent with the post request
+	        data : { arguments: $('#arguments').val() }, // data sent with the post request
 
 	        // handle a successful response
 	        success : function(json) {

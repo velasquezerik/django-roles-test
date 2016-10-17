@@ -249,7 +249,7 @@
 		$.ajax({
 	        url : "{% url 'website:admin_compile_file' file.id %}", // the endpoint
 	        type : "GET", // http method
-	        data : { }, // data sent with the post request
+	        data : {  }, // data sent with the post request
 
 	        // handle a successful response
 	        success : function(json) {
@@ -273,10 +273,11 @@
 		  $.ajax({
 	        url : "{% url 'website:admin_execute_file' file.id %}", // the endpoint
 	        type : "GET", // http method
-	        data : { }, // data sent with the post request
+	        data : { arguments: $('#arguments').val() }, // data sent with the post request
 
 	        // handle a successful response
 	        success : function(json) {
+							console.log($('#arguments').val());
 	            console.log(json); // log the returned json to the console
 	            console.log("success"); // another sanity check
 	            $("#code_file").text(json.data);

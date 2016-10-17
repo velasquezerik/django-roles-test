@@ -1412,9 +1412,11 @@ def admin_compile_file(request, file_id):
 @login_required(login_url="/login/")
 @has_role_decorator('system_admin')
 def admin_execute_file(request, file_id):
+	#get arguments for compilation
+	arguments =  request.GET['arguments']
 	file = File.objects.get(id=file_id)
 
-	com_java = execute_java(file.id)
+	com_java = execute_java(file.id, arguments)
 
 	return JsonResponse({"data":com_java})
 
@@ -1435,9 +1437,11 @@ def user_compile_file(request, file_id):
 @login_required(login_url="/login/")
 @has_role_decorator('system_user')
 def user_execute_file(request, file_id):
+	#get arguments for compilation
+	arguments =  request.GET['arguments']
 	file = File.objects.get(id=file_id)
 
-	com_java = execute_java(file.id)
+	com_java = execute_java(file.id, arguments)
 
 	return JsonResponse({"data":com_java})
 

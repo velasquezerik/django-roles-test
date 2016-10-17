@@ -57,7 +57,7 @@ def compile_java(file_id):
 
 #run the program
 #java -cp .:../../galatea.jar SimpleTeller
-def execute_java(file_id):
+def execute_java(file_id, arguments):
 	#get file
 	file = File.objects.get(id=file_id)
 	#first compile
@@ -65,7 +65,7 @@ def execute_java(file_id):
 	folder = file.folder
 	galatea_code = GALATEA + "galatea.jar "
 	#print os.path.splitext(file.name)[0]
-	code = "cd "+file.folder.path+" && java -cp .:"+ galatea_code + os.path.splitext(file.name)[0]
+	code = "cd "+file.folder.path+" && java -cp .:"+ galatea_code + os.path.splitext(file.name)[0] + " " + arguments 
 	#print code
 	value = subprocess.check_output([code], shell=True)
 	#print value
