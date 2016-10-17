@@ -889,6 +889,40 @@ def admin_create_file(request):
 
 
 @login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_result_create_file(request):
+	if request.method == "POST":
+		name = request.POST['name']
+		folder = request.POST['folder_id']
+		folder = Folder.objects.get(id=folder)
+		user= request.POST['user_id']
+		user = User.objects.get(id=user)
+		data = request.POST['data_execution']
+
+		#verify space
+		diskspace = DiskSpace.objects.get(user=user.id)
+		if diskspace.max_space > diskspace.usage:
+			#create file
+			file_id = create_file_execution(request.POST['name'], request.POST['folder_id'], data)
+			#update space
+			diskspace.usage = usage_space(user.id)
+			diskspace.save()
+
+			#create log file
+			log = LogsFile()
+			log.user = user
+			log.file = File.objects.get(id=file_id)
+			log.description = "Create a File"
+			log.save()
+
+
+
+		if folder.father != 0:
+			return redirect("/admin/folder/"+str(folder.id))
+
+	return redirect("/admin/")
+
+@login_required(login_url="/login/")
 @has_role_decorator('system_user')
 def user_create_file(request):
 	if request.method == "POST":
@@ -924,7 +958,39 @@ def user_create_file(request):
 	return redirect("/user/")
 
 
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_result_create_file(request):
+	if request.method == "POST":
+		name = request.POST['name']
+		folder = request.POST['folder_id']
+		folder = Folder.objects.get(id=folder)
+		user= request.POST['user_id']
+		user = User.objects.get(id=user)
+		data = request.POST['data_execution']
 
+		#verify space
+		diskspace = DiskSpace.objects.get(user=user.id)
+		if diskspace.max_space > diskspace.usage:
+			#create file
+			file_id = create_file_execution(request.POST['name'], request.POST['folder_id'], data)
+			#update space
+			diskspace.usage = usage_space(user.id)
+			diskspace.save()
+
+			#create log file
+			log = LogsFile()
+			log.user = user
+			log.file = File.objects.get(id=file_id)
+			log.description = "Create a File"
+			log.save()
+
+
+
+		if folder.father != 0:
+			return redirect("/user/folder/"+str(folder.id))
+
+	return redirect("/user/")
 
 @login_required(login_url="/login/")
 @has_role_decorator('system_admin')
@@ -1183,9 +1249,10 @@ def admin_share_file_show(request,file_id):
 	friends = Relationship.objects.filter(Q(user_one=user.id) | Q(user_two=user.id) ).filter(status=1)
 	help_code = execute_java_help(file_id)
 	share = ShareFile.objects.filter(user_id = user.id).filter(file_id = file_id)[0]
+	root_folder = Folder.objects.get(user_id=user.id,father=0)
 	#transfor text to htmls
 	info = "<br />".join(info.split("\n"))
-	return render(request,'admin/show_share_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends,'help_code':help_code,'share':share})
+	return render(request,'admin/show_share_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends,'help_code':help_code,'share':share,'root_folder':root_folder})
 
 
 @login_required(login_url="/login/")
@@ -1199,9 +1266,10 @@ def user_share_file_show(request,file_id):
 	friends = Relationship.objects.filter(Q(user_one=user.id) | Q(user_two=user.id) ).filter(status=1)
 	help_code = execute_java_help(file_id)
 	share = ShareFile.objects.filter(user_id = user.id).filter(file_id = file_id)[0]
+	root_folder = Folder.objects.get(user_id=user.id,father=0)
 	#transfor text to htmls
 	info = "<br />".join(info.split("\n"))
-	return render(request,'user/show_share_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends,'help_code':help_code,'share':share})
+	return render(request,'user/show_share_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends,'help_code':help_code,'share':share,'root_folder':root_folder})
 
 
 

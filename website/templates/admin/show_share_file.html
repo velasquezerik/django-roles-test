@@ -96,10 +96,59 @@
     </pre>
     <div class="row">
     	<div class="col-xs-12">
-        	<a class="btn btn-primary pull-right">Export Data</a>
-        </div>
-    </div>
+				<a name="export_data" id="export_data" href="#" data-toggle="modal" data-target="#myModalNewFile" class="btn btn-primary pull-right" disabled>Export Data</a>
+			</div>
+	</div>
 </section>
+
+<div class="modal fade" id="myModalNewFile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog">
+			<div class="modal-content">
+				<form class="form-horizontal" role="form" action="{% url 'website:admin_result_create_file'%}" method="post" enctype="multipart/form-data">
+	{% csrf_token %}
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Create New File to {{root_folder.name}}</h4>
+					</div>
+					<div class="modal-body">
+						<div class="row" style="margin-top:10px;">
+			<div class="col-xs-12">
+					<div class="box">
+							<div class="box-header">
+									<h3 class="box-title">New File</h3>
+							</div><!-- /.box-header -->
+							<div class="col-xs-12">
+									{% if error_message %}
+											<div class="alert alert-danger alert-dismissable">
+													<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+													<h4><i class="icon fa fa-ban"></i> {{ error_message }}</h4>
+											</div>
+									{% endif %}
+							</div>
+
+							<div class="box-body">
+									<div class="form-group">
+											<label for="inputName" class="col-sm-2 control-label">Name</label>
+											<div class="col-sm-10">
+													<input type="text" name="name" class="form-control" id="inputName" placeholder="File name" required="">
+											</div>
+											<input type="hidden" class="form-control" name="user_id" value="{{user.id}}" required>
+											<input type="hidden" class="form-control" name="folder_id" value="{{root_folder.id}}" required>
+											<input type="hidden" class="form-control" name="data_execution" id="data_execution" value="" required>
+									</div>
+							</div><!-- /.box-body -->
+					</div><!-- /.box -->
+			</div><!-- /.col -->
+	</div><!-- /.row -->
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Create</button>
+					</div>
+					</form>
+			</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 {% endblock %}
 
 {% block code_java %}
@@ -140,6 +189,8 @@
 	            console.log(json); // log the returned json to the console
 	            console.log("success"); // another sanity check
 	            $("#code_file").text(json.data);
+							$("#data_execution").val(json.data);
+							$("#export_data").removeAttr("disabled");
 	        },
 
 	        // handle a non-successful response

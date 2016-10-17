@@ -26,7 +26,7 @@ def create_folder(root, name):
 			return False
 		else:
 			return True
-		
+
 
 #get usage from folder
 def usage_space(user_id):
@@ -59,7 +59,7 @@ def create_root_folder(user_id):
 			return False
 		else:
 			return True
-		
+
 
 #create new folder
 def create_new_folder(user_id,father_id,name):
@@ -151,6 +151,24 @@ def create_file(name, folder_id):
 	folder = Folder.objects.get(id=folder_id)
 	# Open a file
 	f = open(folder.path + "/" + name, "w")
+	# Close opend file
+	f.close()
+
+	file = File()
+	file.name = name
+	file.folder = folder
+	file.active = True
+	file.save()
+
+	return file.id
+
+#create new file
+def create_file_execution(name, folder_id, data):
+	root = MEDIA_ROOT
+	folder = Folder.objects.get(id=folder_id)
+	# Open a file
+	f = open(folder.path + "/" + name, "w")
+	f.write(data)
 	# Close opend file
 	f.close()
 
