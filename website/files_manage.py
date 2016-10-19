@@ -15,6 +15,49 @@ from tesis.settings import *
 import os
 import shutil
 
+INITIAL_DATA = 'Example Project\nIncoming persons arrive at a bank teller at interarrival times\ntaken at random from an exponential distribution with mean\n<<InArrTime>>. They are served one at a time. Serving times are\ntaken from a gaussian distribution with mean <<MeSerTime>> and\nstandard deviation <<DeSerTime>>.\nHave the model ready to change the parameters (<<INTI>> Instructions).\nTITLE\nExample Project\nNETWORK\nGate (I){\nIT=EXPO(InArrTime);\nWRITE("ARRIVE:\t" + TIME);\nACT(ShowLength,0);\nSENDTO(Teller);\n}\nTeller (R){\nSTAY=GAUSS(MeSerTime,DeSerTime);\nRELEASE\nSENDTO(Exit);\n}\nExit (E) {\nWRITE("EXIT:\t" + TIME);\nACT(ShowLength,0);\n}\nShowLength (A) {\nWRITELN("\tthere are " + LL(Teller.el) + " clients waiting ");\n}\nINIT\nTSIM = 10;\nACT(Gate,0);\n/* To modify parameters during INIT execution*/\nINTI(InArrTime, 4.0, "Mean Interarrival Time");\nINTI(MeSerTime, 3.50, "Mean service time");\nINTI(DeSerTime, 0.80, "Deviation of Mean Service Time");\nDECL\nREAL InArrTime,MeSerTime,DeSerTime; \n END.'
+
+"""
+Simple Teller
+    Incoming persons arrive at a bank teller at interarrival times
+    taken at random from an exponential distribution with mean
+    <<InArrTime>>. They are served one at a time. Serving times are
+    taken from a gaussian distribution with mean <<MeSerTime>> and
+    standard deviation <<DeSerTime>>.
+    Have the model ready to change the parameters (<<INTI>> Instructions).
+TITLE
+    Simple Teller
+NETWORK
+    Gate (I){
+        IT=EXPO(InArrTime);
+        WRITE("ARRIVE:\t" + TIME);
+        ACT(ShowLength,0);
+        SENDTO(Teller);
+    }
+    Teller (R){
+        STAY=GAUSS(MeSerTime,DeSerTime);
+        RELEASE
+            SENDTO(Exit);
+    }
+    Exit (E) {
+        WRITE("EXIT:\t" + TIME);
+        ACT(ShowLength,0);
+    }
+    ShowLength (A) {
+        WRITELN("\tthere are " + LL(Teller.el) + " clients waiting ");
+    }
+INIT
+    TSIM = 10;
+    ACT(Gate,0);
+
+    /* To modify parameters during INIT execution*/
+    INTI(InArrTime, 4.0, "Mean Interarrival Time");
+    INTI(MeSerTime, 3.50, "Mean service time");
+    INTI(DeSerTime, 0.80, "Deviation of Mean Service Time");
+DECL
+    REAL InArrTime,MeSerTime,DeSerTime;
+END. """
+
 #create folder
 def create_folder(root, name):
 	directory = root +"/"+ name
@@ -151,6 +194,24 @@ def create_file(name, folder_id):
 	folder = Folder.objects.get(id=folder_id)
 	# Open a file
 	f = open(folder.path + "/" + name, "w")
+	# Close opend file
+	f.close()
+
+	file = File()
+	file.name = name
+	file.folder = folder
+	file.active = True
+	file.save()
+
+	return file.id
+
+#create new file
+def create_file_project(name, folder_id):
+	root = MEDIA_ROOT
+	folder = Folder.objects.get(id=folder_id)
+	# Open a file
+	f = open(folder.path + "/" + name  , "w")
+	f.write(INITIAL_DATA)
 	# Close opend file
 	f.close()
 

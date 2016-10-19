@@ -24,6 +24,9 @@
         <div class="col-xs-6">
             <a href="#" data-toggle="modal" data-target="#myModalUploadFile" class="btn btn-block btn-primary">Upload File</a>
         </div>
+				<div class="col-xs-6">
+            <a href="#" data-toggle="modal" data-target="#myNewProject" class="btn btn-block btn-warning">New Project</a>
+        </div>
 </div>
 		<div class="box">
 	    <div class="box-header">
@@ -67,7 +70,7 @@
 						                    </div>
 						                {% endif %}
 						            </div>
-						            
+
 						            <div class="box-body">
 						                <div class="form-group">
 						                    <label for="inputName" class="col-sm-2 control-label">Name</label>
@@ -76,7 +79,7 @@
 						                    </div>
 						                    <input type="hidden" class="form-control" name="user_id" value="{{user.id}}" required>
 						                    <input type="hidden" class="form-control" name="father_id" value="{{root_folder.id}}" required>
-						                </div>				                
+						                </div>
 						            </div><!-- /.box-body -->
 						        </div><!-- /.box -->
 						    </div><!-- /.col -->
@@ -115,7 +118,7 @@
 						                    </div>
 						                {% endif %}
 						            </div>
-						            
+
 						            <div class="box-body">
 						                <div class="form-group">
 						                    <label for="inputName" class="col-sm-2 control-label">Name</label>
@@ -124,7 +127,7 @@
 						                    </div>
 						                    <input type="hidden" class="form-control" name="user_id" value="{{user.id}}" required>
 						                    <input type="hidden" class="form-control" name="folder_id" value="{{root_folder.id}}" required>
-						                </div>				                
+						                </div>
 						            </div><!-- /.box-body -->
 						        </div><!-- /.box -->
 						    </div><!-- /.col -->
@@ -165,7 +168,7 @@
 						                    </div>
 						                {% endif %}
 						            </div>
-						            
+
 						            <div class="box-body">
 						                <div class="form-group">
 						                    <label for="inputEmail" class="col-sm-2 control-label">File</label>
@@ -174,7 +177,7 @@
 											</div>
 						                    <input type="hidden" class="form-control" name="user_id" value="{{user.id}}" required>
 						                    <input type="hidden" class="form-control" name="folder_id" value="{{root_folder.id}}" required>
-						                </div>				                
+						                </div>
 						            </div><!-- /.box-body -->
 						        </div><!-- /.box -->
 						    </div><!-- /.col -->
@@ -188,5 +191,52 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-{% endblock %}
 
+				<div class="modal fade" id="myNewProject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+						<div class="modal-dialog">
+								<div class="modal-content">
+									<form class="form-horizontal" role="form" action="{% url 'website:user_create_project'%}" method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+											<h4 class="modal-title">Create New Project to {{root_folder.name}}</h4>
+										</div>
+										<div class="modal-body">
+											<div class="row" style="margin-top:10px;">
+								<div class="col-xs-12">
+										<div class="box">
+												<div class="box-header">
+														<h3 class="box-title">New Project</h3>
+												</div><!-- /.box-header -->
+												<div class="col-xs-12">
+														{% if error_message %}
+																<div class="alert alert-danger alert-dismissable">
+																		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+																		<h4><i class="icon fa fa-ban"></i> {{ error_message }}</h4>
+																</div>
+														{% endif %}
+												</div>
+
+												<div class="box-body">
+														<div class="form-group">
+																<label for="inputName" class="col-sm-2 control-label">Name</label>
+																<div class="col-sm-10">
+																		<input type="text" name="name" class="form-control" id="inputName" placeholder="Project name" required="">
+																</div>
+																<input type="hidden" class="form-control" name="user_id" value="{{user.id}}" required>
+																<input type="hidden" class="form-control" name="father_id" value="{{root_folder.id}}" required>
+														</div>
+												</div><!-- /.box-body -->
+										</div><!-- /.box -->
+								</div><!-- /.col -->
+						</div><!-- /.row -->
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+											<button type="submit" class="btn btn-primary">Create</button>
+										</div>
+										</form>
+								</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+{% endblock %}

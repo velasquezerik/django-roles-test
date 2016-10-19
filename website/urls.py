@@ -58,6 +58,7 @@ urlpatterns = [
     url(r'^admin/permission/share/show/file/(?P<file_id>[0-9]+)/$', views.admin_permission_share_show_file, name='admin_permission_share_show_file'),
     url(r'^admin/permission/share/edit/file/(?P<file_id>[0-9]+)/$', views.admin_permission_share_edit_file, name='admin_permission_share_edit_file'),
     url(r'^admin/result_create_file',views.admin_result_create_file,name="admin_result_create_file"),
+    url(r'^admin/create_project',views.admin_create_project, name="admin_create_project"),
 
 
     #urls for users
@@ -100,5 +101,6 @@ urlpatterns = [
     url(r'^user/permission/share/show/file/(?P<file_id>[0-9]+)/$', views.user_permission_share_show_file, name='user_permission_share_show_file'),
     url(r'^user/permission/share/edit/file/(?P<file_id>[0-9]+)/$', views.user_permission_share_edit_file, name='user_permission_share_edit_file'),
     url(r'^user/result_create_file',views.user_result_create_file,name="user_result_create_file"),
+    url(r'^user/create_project',views.user_create_project, name="user_create_project"),
 
 ]

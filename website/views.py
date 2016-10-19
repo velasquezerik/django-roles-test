@@ -499,6 +499,107 @@ def admin_create_folder(request):
 	return redirect("/admin/")
 
 
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_create_project(request):
+	if request.method == "POST":
+		user = User.objects.get(id=request.user.id)
+		name = request.POST['name']
+		father = request.POST['father_id']
+		father = Folder.objects.get(id=father)
+		user= request.POST['user_id']
+		user = User.objects.get(id=user)
+
+		#verify space
+		diskspace = DiskSpace.objects.get(user=user.id)
+		if diskspace.max_space > diskspace.usage:
+			#create folder
+			folder_id = create_new_folder(request.POST['user_id'], request.POST['father_id'],request.POST['name'])
+			#update space
+			diskspace.usage = usage_space(user.id)
+			diskspace.save()
+
+			log = LogsFolder()
+			log.user = user
+			log.folder = Folder.objects.get(id=folder_id)
+			log.description = "Create a folder"
+			log.save()
+
+
+			#create file
+			file_id = create_file_project(request.POST['name']+".g", folder_id)
+			#update space
+			diskspace.usage = usage_space(user.id)
+			diskspace.save()
+
+			#create log file
+			log = LogsFile()
+			log.user = user
+			log.file = File.objects.get(id=file_id)
+			log.description = "Create a File"
+			log.save()
+
+
+
+		if father.father != 0:
+			return redirect("/admin/folder/"+str(father.id))
+
+	return redirect("/admin/")
+
+
+
+
+@login_required(login_url="/login/")
+@has_role_decorator('system_user')
+def user_create_project(request):
+	if request.method == "POST":
+		user = User.objects.get(id=request.user.id)
+		name = request.POST['name']
+		father = request.POST['father_id']
+		father = Folder.objects.get(id=father)
+		user= request.POST['user_id']
+		user = User.objects.get(id=user)
+
+		#verify space
+		diskspace = DiskSpace.objects.get(user=user.id)
+		if diskspace.max_space > diskspace.usage:
+			#create folder
+			folder_id = create_new_folder(request.POST['user_id'], request.POST['father_id'],request.POST['name'])
+			#update space
+			diskspace.usage = usage_space(user.id)
+			diskspace.save()
+
+			log = LogsFolder()
+			log.user = user
+			log.folder = Folder.objects.get(id=folder_id)
+			log.description = "Create a folder"
+			log.save()
+
+
+			#create file
+			file_id = create_file_project(request.POST['name']+".g", folder_id)
+			#update space
+			diskspace.usage = usage_space(user.id)
+			diskspace.save()
+
+			#create log file
+			log = LogsFile()
+			log.user = user
+			log.file = File.objects.get(id=file_id)
+			log.description = "Create a File"
+			log.save()
+
+
+
+		if father.father != 0:
+			return redirect("/user/folder/"+str(father.id))
+
+	return redirect("/user/")
+
+
+
+
+
 
 @login_required(login_url="/login/")
 @has_role_decorator('system_admin')
