@@ -159,6 +159,20 @@ def delete_folder(user_id, folder_id):
 
 	return True
 
+#update all paths
+def update_path_folders(folder_id , father_id):
+	father = Folder.objects.get(id=father_id)
+	folder = Folder.objects.get(id=folder_id)
+	folder.father = father.id
+	folder.path = father.path +"/"+ folder.name
+	folder.save()
+
+	#get all children
+	folders = Folder.objects.filter(father=folder.id)
+	for fol in folders:
+		update_path_folders(fol.id, folder.id)
+
+
 #move folder
 def move_folder(folder_id, new_folder_id):
 	root = MEDIA_ROOT
@@ -168,9 +182,12 @@ def move_folder(folder_id, new_folder_id):
 
 		shutil.move(folder.path, new_folder.path)
 
-		folder.father = new_folder.id
+		#update all paths
+		update_path_folders(folder.id,new_folder.id)
+
+		"""folder.father = new_folder.id
 		folder.path = new_folder.path +"/"+ folder.name
-		folder.save()
+		folder.save()"""
 
 	return True
 
