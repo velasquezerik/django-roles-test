@@ -472,6 +472,7 @@ def admin_create_folder(request):
 	if request.method == "POST":
 		user = User.objects.get(id=request.user.id)
 		name = request.POST['name']
+		name = name.replace(" ","_")
 		father = request.POST['father_id']
 		father = Folder.objects.get(id=father)
 		user= request.POST['user_id']
@@ -481,7 +482,7 @@ def admin_create_folder(request):
 		diskspace = DiskSpace.objects.get(user=user.id)
 		if diskspace.max_space > diskspace.usage:
 			#create folder
-			folder_id = create_new_folder(request.POST['user_id'], request.POST['father_id'],request.POST['name'])
+			folder_id = create_new_folder(request.POST['user_id'], request.POST['father_id'],name)
 			#update space
 			diskspace.usage = usage_space(user.id)
 			diskspace.save()
@@ -505,6 +506,7 @@ def admin_create_project(request):
 	if request.method == "POST":
 		user = User.objects.get(id=request.user.id)
 		name = request.POST['name']
+		name = name.replace(" ","_")
 		father = request.POST['father_id']
 		father = Folder.objects.get(id=father)
 		user= request.POST['user_id']
@@ -514,7 +516,7 @@ def admin_create_project(request):
 		diskspace = DiskSpace.objects.get(user=user.id)
 		if diskspace.max_space > diskspace.usage:
 			#create folder
-			folder_id = create_new_folder(request.POST['user_id'], request.POST['father_id'],request.POST['name'])
+			folder_id = create_new_folder(request.POST['user_id'], request.POST['father_id'],name)
 			#update space
 			diskspace.usage = usage_space(user.id)
 			diskspace.save()
@@ -527,7 +529,7 @@ def admin_create_project(request):
 
 
 			#create file
-			file_id = create_file_project(request.POST['name']+".g", folder_id)
+			file_id = create_file_project(name+".g", folder_id)
 			#update space
 			diskspace.usage = usage_space(user.id)
 			diskspace.save()
@@ -555,6 +557,7 @@ def user_create_project(request):
 	if request.method == "POST":
 		user = User.objects.get(id=request.user.id)
 		name = request.POST['name']
+		name = name.replace(" ","_")
 		father = request.POST['father_id']
 		father = Folder.objects.get(id=father)
 		user= request.POST['user_id']
@@ -564,7 +567,7 @@ def user_create_project(request):
 		diskspace = DiskSpace.objects.get(user=user.id)
 		if diskspace.max_space > diskspace.usage:
 			#create folder
-			folder_id = create_new_folder(request.POST['user_id'], request.POST['father_id'],request.POST['name'])
+			folder_id = create_new_folder(request.POST['user_id'], request.POST['father_id'],name)
 			#update space
 			diskspace.usage = usage_space(user.id)
 			diskspace.save()
@@ -577,7 +580,7 @@ def user_create_project(request):
 
 
 			#create file
-			file_id = create_file_project(request.POST['name']+".g", folder_id)
+			file_id = create_file_project(name+".g", folder_id)
 			#update space
 			diskspace.usage = usage_space(user.id)
 			diskspace.save()
@@ -636,7 +639,8 @@ def user_folder_share_show(request):
 def user_create_folder(request):
 	if request.method == "POST":
 		user = User.objects.get(id=request.user.id)
-		name = request.POST['name']
+		name = str(request.POST['name'])
+		name = name.replace(" ","_")
 		father = request.POST['father_id']
 		father = Folder.objects.get(id=father)
 		user= request.POST['user_id']
@@ -647,7 +651,7 @@ def user_create_folder(request):
 		diskspace = DiskSpace.objects.get(user=user.id)
 		if diskspace.max_space > diskspace.usage:
 			#create folder
-			folder_id = create_new_folder(request.POST['user_id'], request.POST['father_id'],request.POST['name'])
+			folder_id = create_new_folder(request.POST['user_id'], request.POST['father_id'],name)
 			#update space
 			diskspace.usage = usage_space(user.id)
 			diskspace.save()
@@ -682,13 +686,14 @@ def user_folder_show(request,folder_id):
 def admin_edit_folder(request):
 	if request.method == "POST":
 		name = request.POST['name']
+		name = name.replace(" ","_")
 		folder = request.POST['folder_id']
 		folder = Folder.objects.get(id=folder)
 		user= request.POST['user_id']
 		user = User.objects.get(id=user)
 
 		#update folder name
-		edit_folder(request.POST['user_id'], request.POST['folder_id'],request.POST['name'])
+		edit_folder(request.POST['user_id'], request.POST['folder_id'],name)
 
 		#verify space
 		diskspace = DiskSpace.objects.get(user=user.id)
@@ -880,13 +885,14 @@ def user_move_folder(request):
 def user_edit_folder(request):
 	if request.method == "POST":
 		name = request.POST['name']
+		name = name.replace(" ","_")
 		folder = request.POST['folder_id']
 		folder = Folder.objects.get(id=folder)
 		user= request.POST['user_id']
 		user = User.objects.get(id=user)
 
 		#update folder name
-		edit_folder(request.POST['user_id'], request.POST['folder_id'],request.POST['name'])
+		edit_folder(request.POST['user_id'], request.POST['folder_id'],name)
 
 		#verify space
 		diskspace = DiskSpace.objects.get(user=user.id)
@@ -960,6 +966,7 @@ def user_delete_folder(request):
 def admin_create_file(request):
 	if request.method == "POST":
 		name = request.POST['name']
+		name = name.replace(" ","_")
 		folder = request.POST['folder_id']
 		folder = Folder.objects.get(id=folder)
 		user= request.POST['user_id']
@@ -969,7 +976,7 @@ def admin_create_file(request):
 		diskspace = DiskSpace.objects.get(user=user.id)
 		if diskspace.max_space > diskspace.usage:
 			#create file
-			file_id = create_file(request.POST['name'], request.POST['folder_id'])
+			file_id = create_file(name, request.POST['folder_id'])
 			#update space
 			diskspace.usage = usage_space(user.id)
 			diskspace.save()
@@ -994,6 +1001,7 @@ def admin_create_file(request):
 def admin_result_create_file(request):
 	if request.method == "POST":
 		name = request.POST['name']
+		name = name.replace(" ","_")
 		folder = request.POST['folder_id']
 		folder = Folder.objects.get(id=folder)
 		user= request.POST['user_id']
@@ -1004,7 +1012,7 @@ def admin_result_create_file(request):
 		diskspace = DiskSpace.objects.get(user=user.id)
 		if diskspace.max_space > diskspace.usage:
 			#create file
-			file_id = create_file_execution(request.POST['name'], request.POST['folder_id'], data)
+			file_id = create_file_execution(name, request.POST['folder_id'], data)
 			#update space
 			diskspace.usage = usage_space(user.id)
 			diskspace.save()
@@ -1028,6 +1036,7 @@ def admin_result_create_file(request):
 def user_create_file(request):
 	if request.method == "POST":
 		name = request.POST['name']
+		name = name.replace(" ","_")
 		folder = request.POST['folder_id']
 		folder = Folder.objects.get(id=folder)
 		user= request.POST['user_id']
@@ -1038,7 +1047,7 @@ def user_create_file(request):
 		diskspace = DiskSpace.objects.get(user=user.id)
 		if diskspace.max_space > diskspace.usage:
 			#create file
-			file_id = create_file(request.POST['name'], request.POST['folder_id'])
+			file_id = create_file(name, request.POST['folder_id'])
 			#update space
 			diskspace.usage = usage_space(user.id)
 			diskspace.save()
@@ -1064,6 +1073,7 @@ def user_create_file(request):
 def user_result_create_file(request):
 	if request.method == "POST":
 		name = request.POST['name']
+		name = name.replace(" ","_")
 		folder = request.POST['folder_id']
 		folder = Folder.objects.get(id=folder)
 		user= request.POST['user_id']
@@ -1074,7 +1084,7 @@ def user_result_create_file(request):
 		diskspace = DiskSpace.objects.get(user=user.id)
 		if diskspace.max_space > diskspace.usage:
 			#create file
-			file_id = create_file_execution(request.POST['name'], request.POST['folder_id'], data)
+			file_id = create_file_execution(name, request.POST['folder_id'], data)
 			#update space
 			diskspace.usage = usage_space(user.id)
 			diskspace.save()
