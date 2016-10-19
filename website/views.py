@@ -1075,7 +1075,8 @@ def admin_file_show(request,file_id):
 	help_code = execute_java_help(file_id)
 	#transfor text to htmls
 	info = "<br />".join(info.split("\n"))
-	return render(request,'admin/show_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends,'help_code':help_code})
+	extension = os.path.splitext(file.name)[1]
+	return render(request,'admin/show_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends,'help_code':help_code,'extension':extension})
 
 @login_required(login_url="/login/")
 @has_role_decorator('system_admin')
@@ -1252,7 +1253,8 @@ def admin_share_file_show(request,file_id):
 	root_folder = Folder.objects.get(user_id=user.id,father=0)
 	#transfor text to htmls
 	info = "<br />".join(info.split("\n"))
-	return render(request,'admin/show_share_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends,'help_code':help_code,'share':share,'root_folder':root_folder})
+	extension = os.path.splitext(file.name)[1]
+	return render(request,'admin/show_share_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends,'help_code':help_code,'share':share,'root_folder':root_folder,'extension':extension})
 
 
 @login_required(login_url="/login/")
@@ -1269,7 +1271,8 @@ def user_share_file_show(request,file_id):
 	root_folder = Folder.objects.get(user_id=user.id,father=0)
 	#transfor text to htmls
 	info = "<br />".join(info.split("\n"))
-	return render(request,'user/show_share_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends,'help_code':help_code,'share':share,'root_folder':root_folder})
+	extension = os.path.splitext(file.name)[1]
+	return render(request,'user/show_share_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends,'help_code':help_code,'share':share,'root_folder':root_folder,'extension':extension})
 
 
 
@@ -1400,7 +1403,8 @@ def user_file_show(request,file_id):
 	help_code = execute_java_help(file_id)
 	#transfor text to htmls
 	info = "<br />".join(info.split("\n"))
-	return render(request,'user/show_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends,'help_code':help_code})
+	extension = os.path.splitext(file.name)[1]
+	return render(request,'user/show_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends,'help_code':help_code,'extension':extension})
 
 
 
