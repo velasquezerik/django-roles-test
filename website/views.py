@@ -612,6 +612,8 @@ def admin_folder_show(request,folder_id):
 	folders = Folder.objects.filter(father=root_folder.id)
 	files = File.objects.filter(folder = root_folder.id)
 	all_folders = Folder.objects.filter(user = user.id)
+	if root_folder.father == 0:
+		return redirect("/admin/")
 	return render(request,'admin/show_folder.html',{'root_folder':root_folder,'folders':folders,'files':files, 'all_folders':all_folders})
 
 
@@ -677,6 +679,8 @@ def user_folder_show(request,folder_id):
 	folders = Folder.objects.filter(father=root_folder.id)
 	files = File.objects.filter(folder = root_folder.id)
 	all_folders = Folder.objects.filter(user = user.id)
+	if root_folder.father == 0:
+		return redirect("/user/")
 	return render(request,'user/show_folder.html',{'root_folder':root_folder,'folders':folders,'files':files, 'all_folders':all_folders})
 
 

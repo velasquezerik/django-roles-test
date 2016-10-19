@@ -10,6 +10,10 @@
 
 {% block level %}
 	<li><a href="{% url 'website:admin_index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+	{% if root_folder.father != 0 %}
+	<li><a href="{% url 'website:admin_show_folder' root_folder.father %}"><i class="fa fa-folder"></i> Folder UP</a></li>
+	{% endif %}
+
     <li class="active">Index</li>
 {% endblock %}
 
