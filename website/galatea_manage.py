@@ -48,11 +48,47 @@ def compile_java(file_id):
 
 	file = File.objects.get(id=file_id)
 	folder = file.folder
+	user = folder.user
 	galatea_code = GALATEA + "galatea.jar "
 	code = "javac -cp "+ galatea_code + folder.path + "/*.java"
 	#print code
 	value = subprocess.check_output([code], shell=True)
 	#print value
+
+	#get all the file in this folder
+	for root, dirs, files in os.walk(folder.path):
+		root_folder = Folder.objects.get(path=root, name = os.path.basename(root))
+		for dir in dirs:
+			print "dir ", dir
+			folders = Folder.objects.filter(father=root_folder.id)
+			esta = False
+			for folder in folders:
+				if folder.name == dir:
+					esta = True
+			if not esta:
+				folder = Folder()
+				folder.name = dir
+				folder.path = root_folder.path + "/" + dir
+				folder.user = user
+				folder.father = root_folder.id
+				folder.active = True
+				folder.save()
+		#print dirs
+		for file in files:
+			print "file ", file
+			files_folder = File.objects.filter(folder = root_folder.id)
+			esta = False
+			for f in files_folder:
+				if f.name == file:
+					esta = True
+			if not esta:
+				if (os.path.splitext(file)[1] != ".class"):
+					f = File()
+					f.name = file
+					f.folder = root_folder
+					f.active = True
+					f.save()
+					
 	return value
 
 #run the program
@@ -65,7 +101,7 @@ def execute_java(file_id, arguments):
 	folder = file.folder
 	galatea_code = GALATEA + "galatea.jar "
 	#print os.path.splitext(file.name)[0]
-	code = "cd "+file.folder.path+" && java -cp .:"+ galatea_code + os.path.splitext(file.name)[0] + " " + arguments 
+	code = "cd "+file.folder.path+" && java -cp .:"+ galatea_code + os.path.splitext(file.name)[0] + " " + arguments
 	#print code
 	value = subprocess.check_output([code], shell=True)
 	#print value
