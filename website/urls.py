@@ -61,6 +61,7 @@ urlpatterns = [
     url(r'^admin/create_project',views.admin_create_project, name="admin_create_project"),
 
 
+
     #urls for users
     url(r'^user/$', views.user_view, name='user_index'),
     url(r'^user/profile',views.user_profile, name='user_profile'),

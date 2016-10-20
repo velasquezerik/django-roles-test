@@ -798,6 +798,7 @@ def admin_share_file(request):
 
 	return redirect("/admin/")
 
+
 @login_required(login_url="/login/")
 @has_role_decorator('system_user')
 def user_share_file(request):
