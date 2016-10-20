@@ -473,6 +473,7 @@ def admin_create_folder(request):
 		user = User.objects.get(id=request.user.id)
 		name = request.POST['name']
 		name = name.replace(" ","_")
+		name = name.capitalize()
 		father = request.POST['father_id']
 		father = Folder.objects.get(id=father)
 		user= request.POST['user_id']
@@ -507,6 +508,7 @@ def admin_create_project(request):
 		user = User.objects.get(id=request.user.id)
 		name = request.POST['name']
 		name = name.replace(" ","_")
+		name = name.capitalize()
 		father = request.POST['father_id']
 		father = Folder.objects.get(id=father)
 		user= request.POST['user_id']
@@ -558,6 +560,7 @@ def user_create_project(request):
 		user = User.objects.get(id=request.user.id)
 		name = request.POST['name']
 		name = name.replace(" ","_")
+		name = name.capitalize()
 		father = request.POST['father_id']
 		father = Folder.objects.get(id=father)
 		user= request.POST['user_id']
@@ -691,6 +694,7 @@ def admin_edit_folder(request):
 	if request.method == "POST":
 		name = request.POST['name']
 		name = name.replace(" ","_")
+		name = name.capitalize()
 		folder = request.POST['folder_id']
 		folder = Folder.objects.get(id=folder)
 		user= request.POST['user_id']
@@ -890,6 +894,7 @@ def user_edit_folder(request):
 	if request.method == "POST":
 		name = request.POST['name']
 		name = name.replace(" ","_")
+		name = name.capitalize()
 		folder = request.POST['folder_id']
 		folder = Folder.objects.get(id=folder)
 		user= request.POST['user_id']
@@ -971,6 +976,7 @@ def admin_create_file(request):
 	if request.method == "POST":
 		name = request.POST['name']
 		name = name.replace(" ","_")
+		name = name.capitalize()
 		folder = request.POST['folder_id']
 		folder = Folder.objects.get(id=folder)
 		user= request.POST['user_id']
@@ -1006,6 +1012,7 @@ def admin_result_create_file(request):
 	if request.method == "POST":
 		name = request.POST['name']
 		name = name.replace(" ","_")
+		name = name.capitalize()
 		folder = request.POST['folder_id']
 		folder = Folder.objects.get(id=folder)
 		user= request.POST['user_id']
@@ -1041,6 +1048,7 @@ def user_create_file(request):
 	if request.method == "POST":
 		name = request.POST['name']
 		name = name.replace(" ","_")
+		name = name.capitalize()
 		folder = request.POST['folder_id']
 		folder = Folder.objects.get(id=folder)
 		user= request.POST['user_id']
@@ -1078,6 +1086,7 @@ def user_result_create_file(request):
 	if request.method == "POST":
 		name = request.POST['name']
 		name = name.replace(" ","_")
+		name = name.capitalize()
 		folder = request.POST['folder_id']
 		folder = Folder.objects.get(id=folder)
 		user= request.POST['user_id']
