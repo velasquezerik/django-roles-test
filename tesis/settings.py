@@ -107,6 +107,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+#send emails
+EMAIL_HOST = E_EMAIL_HOST
+EMAIL_PORT = E_EMAIL_PORT
+EMAIL_HOST_USER = E_EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = E_EMAIL_HOST_PASSWORD
+EMAIL_USE_TLS = E_EMAIL_USE_TLS
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/

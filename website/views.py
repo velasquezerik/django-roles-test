@@ -17,6 +17,7 @@ from files_manage import *
 from galatea_manage import *
 import html2text
 from django.db.models import Q
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -217,6 +218,7 @@ def admin_create_user(request):
 
 
 		#send email to user
+		send_mail('Subject Test', 'Here is the message. USER', 'erikvelasquez.25@gmail.com', ['velasquezerik@valkode.com'], fail_silently=False, )
 
 		#return to list users
 		return redirect("/admin/users/")
@@ -318,7 +320,8 @@ def admin_create_admin(request):
 		space.max_space = 1024
 		space.save()
 
-		#send email to user
+		#send email to Admin
+		send_mail('Subject Test', 'Here is the message. ADMIN', 'erikvelasquez.25@gmail.com', ['velasquezerik@valkode.com'], fail_silently=False, )
 
 
 		#return to list users
