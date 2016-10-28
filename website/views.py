@@ -1202,7 +1202,7 @@ def admin_file_show(request,file_id):
 	friends = Relationship.objects.filter(Q(user_one=user.id) | Q(user_two=user.id) ).filter(status=1)
 	help_code = execute_java_help(file_id)
 	#transfor text to htmls
-	info = "<br />".join(info.split("\n"))
+	#info = "<br />".join(info.split("\n"))
 	extension = os.path.splitext(file.name)[1]
 	return render(request,'admin/show_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends,'help_code':help_code,'extension':extension})
 
@@ -1380,7 +1380,7 @@ def admin_share_file_show(request,file_id):
 	share = ShareFile.objects.filter(user_id = user.id).filter(file_id = file_id)[0]
 	root_folder = Folder.objects.get(user_id=user.id,father=0)
 	#transfor text to htmls
-	info = "<br />".join(info.split("\n"))
+	#info = "<br />".join(info.split("\n"))
 	extension = os.path.splitext(file.name)[1]
 	return render(request,'admin/show_share_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends,'help_code':help_code,'share':share,'root_folder':root_folder,'extension':extension})
 
@@ -1398,7 +1398,7 @@ def user_share_file_show(request,file_id):
 	share = ShareFile.objects.filter(user_id = user.id).filter(file_id = file_id)[0]
 	root_folder = Folder.objects.get(user_id=user.id,father=0)
 	#transfor text to htmls
-	info = "<br />".join(info.split("\n"))
+	#info = "<br />".join(info.split("\n"))
 	extension = os.path.splitext(file.name)[1]
 	return render(request,'user/show_share_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends,'help_code':help_code,'share':share,'root_folder':root_folder,'extension':extension})
 
@@ -1435,7 +1435,8 @@ def admin_update_file(request):
 
 		info_file = request.POST['info_file']
 
-		data = html2text.html2text(info_file)
+		#data = html2text.html2text(info_file)
+		data = info_file
 
 		update_file(file.id,data)
 
@@ -1465,7 +1466,8 @@ def admin_update_share(request):
 
 		info_file = request.POST['info_file']
 
-		data = html2text.html2text(info_file)
+		#data = html2text.html2text(info_file)
+		data = info_file
 
 		update_file(file.id,data)
 
@@ -1497,7 +1499,8 @@ def user_update_share(request):
 
 		info_file = request.POST['info_file']
 
-		data = html2text.html2text(info_file)
+		#data = html2text.html2text(info_file)
+		data = info_file
 
 		update_file(file.id,data)
 
@@ -1530,7 +1533,7 @@ def user_file_show(request,file_id):
 	friends = Relationship.objects.filter(Q(user_one=user.id) | Q(user_two=user.id) ).filter(status=1)
 	help_code = execute_java_help(file_id)
 	#transfor text to htmls
-	info = "<br />".join(info.split("\n"))
+	#info = "<br />".join(info.split("\n"))
 	extension = os.path.splitext(file.name)[1]
 	return render(request,'user/show_file.html',{'folder':folder,'file':file,'info':info,'all_folders':all_folders,'friends':friends,'help_code':help_code,'extension':extension})
 
@@ -1567,7 +1570,8 @@ def user_update_file(request):
 
 		info_file = request.POST['info_file']
 
-		data = html2text.html2text(info_file)
+		#data = html2text.html2text(info_file)
+		data = info_file
 
 		update_file(file.id,data)
 
