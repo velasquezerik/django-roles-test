@@ -1,5 +1,23 @@
 /* tcpserver.c */
 
+/*
+    <GALATEA WEB: Web system simulations>
+    Copyright (C) 2016  Erik Velasquez erikvelasquez.25@gmail.com
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -13,12 +31,12 @@
 
 int main()
 {
-        int sock, connected, bytes_recieved , true = 1;  
-        char send_data [1024] , recv_data[1024];       
+        int sock, connected, bytes_recieved , true = 1;
+        char send_data [1024] , recv_data[1024];
 
-        struct sockaddr_in server_addr,client_addr;    
+        struct sockaddr_in server_addr,client_addr;
         int sin_size;
-        
+
         if ((sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
             perror("Socket");
             exit(1);
@@ -28,11 +46,11 @@ int main()
             perror("Setsockopt");
             exit(1);
         }
-        
-        server_addr.sin_family = AF_INET;         
-        server_addr.sin_port = htons(5000);     
-        server_addr.sin_addr.s_addr = INADDR_ANY; 
-        bzero(&(server_addr.sin_zero),8); 
+
+        server_addr.sin_family = AF_INET;
+        server_addr.sin_port = htons(5000);
+        server_addr.sin_addr.s_addr = INADDR_ANY;
+        bzero(&(server_addr.sin_zero),8);
 
         if (bind(sock, (struct sockaddr *)&server_addr, sizeof(struct sockaddr))
                                                                        == -1) {
@@ -44,13 +62,13 @@ int main()
             perror("Listen");
             exit(1);
         }
-		
+
 	printf("\nTCPServer Waiting for client on port 5000");
         fflush(stdout);
 
 
         while(1)
-        {  
+        {
 
             sin_size = sizeof(struct sockaddr_in);
 
@@ -63,16 +81,16 @@ int main()
             {
               printf("\n SEND (q or Q to quit) : ");
               gets(send_data);
-              
+
               if (strcmp(send_data , "q") == 0 || strcmp(send_data , "Q") == 0)
               {
-                send(connected, send_data,strlen(send_data), 0); 
+                send(connected, send_data,strlen(send_data), 0);
                 close(connected);
                 break;
               }
-               
+
               else
-                 send(connected, send_data,strlen(send_data), 0);  
+                 send(connected, send_data,strlen(send_data), 0);
 
               bytes_recieved = recv(connected,recv_data,1024,0);
 
@@ -84,12 +102,12 @@ int main()
                 break;
               }
 
-              else 
+              else
               printf("\n RECIEVED DATA = %s " , recv_data);
               fflush(stdout);
             }
-        }       
+        }
 
       close(sock);
       return 0;
-} 
+}
