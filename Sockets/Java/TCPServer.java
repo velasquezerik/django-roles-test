@@ -21,54 +21,11 @@
 import java.io.*;
 import java.net.*;
 
-/*public class KKMultiServer {
-    public static void main(String[] args) throws IOException {
-
-    if (args.length != 1) {
-        System.err.println("Usage: java KKMultiServer <port number>");
-        System.exit(1);
-    }
-
-        int portNumber = Integer.parseInt(args[0]);
-        boolean listening = true;
-
-        try (ServerSocket serverSocket = new ServerSocket(portNumber)) {
-            while (listening) {
-	            new KKMultiServerThread(serverSocket.accept()).start();
-	        }
-	    } catch (IOException e) {
-            System.err.println("Could not listen on port " + portNumber);
-            System.exit(-1);
-        }
-    }
-}*/
 
 class TCPServer
 {
-  /*public static void main(String[] args) throws IOException {
 
-    if (args.length != 1)
-    {
-      System.err.println("Usage: java TCPServer <port number>");
-      System.exit(1);
-    }
-    //Get the port number
-    int portNumber = Integer.parseInt(args[0]);
-
-    String fromclient;
-    String toclient;
-    try{
-
-      //init de the server on port number
-      ServerSocket Server = new ServerSocket (portNumber);
-      System.out.println ("TCPServer Waiting for client on port " + portNumber);
-    }
-    catch (IOException e) {
-        System.out.println(e);
-    }
-
-  }*/
-   public static void main(String argv[]) throws IOException
+  /*public static void main(String argv[]) throws Exception
       {
          String fromclient;
          String toclient;
@@ -83,15 +40,12 @@ class TCPServer
             System.out.println( " THE CLIENT"+" "+
             connected.getInetAddress() +":"+connected.getPort()+" IS CONNECTED ");
 
-            BufferedReader inFromUser =
-            new BufferedReader(new InputStreamReader(System.in));
+            BufferedReader inFromUser =  new BufferedReader(new InputStreamReader(System.in));
 
-            BufferedReader inFromClient =
-               new BufferedReader(new InputStreamReader (connected.getInputStream()));
+            BufferedReader inFromClient = new BufferedReader(new InputStreamReader (connected.getInputStream()));
+            //DataInputStream inFromClient = new DataInputStream(connected.getInputStream());
 
-            PrintWriter outToClient =
-               new PrintWriter(
-                  connected.getOutputStream(),true);
+            PrintWriter outToClient = new PrintWriter( connected.getOutputStream(),true);
 
             while ( true )
             {
@@ -110,7 +64,13 @@ class TCPServer
             	outToClient.println(toclient);
                 }
 
-            	fromclient = inFromClient.readLine();
+            	//fromclient = inFromClient.readLine();
+              char[] inputChars = new char[1024];
+              int charsRead = 0;
+              System.out.println("Reading from stream:");
+                charsRead =  inFromClient.read(inputChars); //<< THIS LINE IS PAUSING THE THREAD!>
+                //System.out.println( "RECIEVEDAAAAAA:" + inputChars );
+                fromclient = String.valueOf(inputChars);
 
                 if ( fromclient.equals("q") || fromclient.equals("Q") )
                 {
@@ -123,8 +83,82 @@ class TCPServer
 		         System.out.println( "RECIEVED:" + fromclient );
 		        }
 
-			}
+			       }
 
           }
+      }*/
+
+  public static void main(String[] args) throws IOException {
+
+    if (args.length != 1)
+    {
+      System.err.println("Usage: java TCPServer <port number>");
+      System.exit(1);
+    }
+    //Get the port number
+    int portNumber = Integer.parseInt(args[0]);
+
+    String fromclient;
+    String toclient;
+    try
+    {
+
+      //init de the server on port number
+      ServerSocket Server = new ServerSocket (portNumber);
+      System.out.println ("TCPServer Waiting for client on port " + portNumber);
+
+      //wait for client connected
+      Socket connected = Server.accept();
+      System.out.println( " THE CLIENT " + " " + connected.getInetAddress() +" : "+connected.getPort()+" IS CONNECTED ");
+
+      //Buffer get info to send
+      BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
+
+      //Buffer in for client data
+      BufferedReader inFromClient = new BufferedReader(new InputStreamReader (connected.getInputStream()));
+
+      //Buffer out for client data
+      PrintWriter outToClient = new PrintWriter( connected.getOutputStream(),true);
+
+
+      while(true)
+      {
+        System.out.println("SEND(Type Q or q to Quit):");
+        toclient = inFromUser.readLine();
+        if(toclient.equals ("q") || toclient.equals("Q"))
+        {
+          outToClient.println(toclient);
+          connected.close();
+          break;
+        }
+        else
+        {
+          outToClient.println(toclient);
+        }
+
+        //read from client
+        System.out.println ("TCPServer Waiting for client respond ");
+        //fromclient = inFromClient.readLine();
+        char[] inputChars = new char[1024];
+        int charsRead = 0;
+        charsRead =  inFromClient.read(inputChars); //<< THIS LINE IS PAUSING THE THREAD!>
+        //System.out.println( "RECIEVEDAAAAAA:" + inputChars );
+        fromclient = String.valueOf(inputChars);
+
+        if(fromclient.equals("q") || fromclient.equals("Q"))
+        {
+          connected.close();
+          break;
+        }
+        else
+        {
+          System.out.println( "RECIEVED:" + fromclient );
+        }
       }
+    }
+    catch (IOException e) {
+        System.out.println(e);
+        System.exit(1);
+    }
+  }
 }
