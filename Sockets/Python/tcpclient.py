@@ -19,16 +19,16 @@
 """
 """
 
-data = "0 Exit\n"
-data = "1 Start\n"
-data = "2 Sleep value\n"
-data = "3 Stop\n"
-data = "4 Yield\n"
-data = "5 Pause\n"
-data = "6 Set Var value\n"
-data = "7 Get Var\n"
-data = "8 Informacion\n"
-data = "9 Informacion\n"
+data = "0 Exit"
+data = "1 Start"
+data = "2 Sleep value"
+data = "3 Stop"
+data = "4 Yield"
+data = "5 Pause"
+data = "6 Set Var value"
+data = "7 Get Var"
+data = "8 Informacion"
+data = "9 Informacion"
 """
 import time
 import socket
@@ -65,24 +65,20 @@ while 1:
     break;
 """
 
-data = "1 Start\n"
+data = "1 Start"
 client_socket.sendall(data)
 time.sleep(5)
 
-data = "4 Yield\n"
+data = "2 Sleep 10000"
 client_socket.sendall(data)
-time.sleep(5)
+time.sleep(15)
 
-data = "5 Pause\n"
-client_socket.sendall(data)
-time.sleep(5)
-
-data = "1 Start\n"
+data = "1 Start"
 client_socket.sendall(data)
 time.sleep(5)
 
 
-data = "0 Exit\n"
+data = "0 Exit"
 client_socket.sendall(data)
 time.sleep(1)
 client_socket.close()

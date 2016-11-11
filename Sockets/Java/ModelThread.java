@@ -1,4 +1,4 @@
-//TCPServer.java
+//ModelThread.java
 
 /*
     <GALATEA WEB: Web system simulations>
@@ -20,21 +20,50 @@
 
 import java.io.*;
 import java.net.*;
+import java.util.*;
+
 
 class ModelThread extends Thread
 {
+  private List _listeners = new ArrayList();
   public void run()
   {
-    try {
+    try
+    {
       System.out.println ("Start Running Thread");
+      this._fireModelEvent(1,"Start Running Thread");
       for(int i = 0; i < 1000; ++i)
       {
         System.out.println ("Running Thread ---> Time " + i);
+        this._fireModelEvent(2,"Running Thread ---> Time " + i);
         Thread.sleep(100);
       }
       System.out.println ("Finish Running Thread");
-    } catch(InterruptedException ex) {
+      this._fireModelEvent(1,"Finish Running Thread");
+    }
+    catch(InterruptedException ex)
+    {
       Thread.currentThread().interrupt();
+    }
+  }
+
+  public synchronized void addModelListener( ModelListener l )
+  {
+        _listeners.add( l );
+  }
+
+  public synchronized void removeModelListener( ModelListener l )
+  {
+        _listeners.remove( l );
+  }
+
+  private synchronized void _fireModelEvent(  int type, String description )
+  {
+    ModelEvent mood = new ModelEvent( this, type, description );
+    Iterator listeners = _listeners.iterator();
+    while( listeners.hasNext() )
+    {
+      ( (ModelListener) listeners.next() ).modelReceived( mood );
     }
   }
 

@@ -20,6 +20,7 @@
 
 import java.io.*;
 import java.net.*;
+import java.util.*;
 
 
 class TCPServer
@@ -123,6 +124,12 @@ class TCPServer
       //create thread
       ModelThread obj = new ModelThread();
 
+      //create ModelListener
+      ModelListener modListener = new ModelEventListener(connected);
+
+      //ModelThread assing listeners
+      obj.addModelListener(modListener);
+
 
       while(true)
       {
@@ -189,15 +196,30 @@ class TCPServer
               {
                 obj.start();
               }
-
             }
-
             break;
           }
           //sleep the thread
           case 2:
           {
+            String value_sleep = parts[2];
+            result = Integer.valueOf(value_sleep.trim());
+            int time = result;
             System.out.println("Caso 2 Sleep");
+            if(obj.isAlive())
+            {
+              try
+              {
+                Thread.State state = obj.getState();
+                System.out.println("Thread state = " + state);
+                System.out.println("Sleep: Thread alive sleep");
+                obj.sleep(time);
+              }
+              catch(InterruptedException ex)
+              {
+                Thread.currentThread().interrupt();
+              }
+            }
             break;
           }
           //stop the thread
