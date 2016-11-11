@@ -120,10 +120,13 @@ class TCPServer
       //Buffer out for client data
       PrintWriter outToClient = new PrintWriter( connected.getOutputStream(),true);
 
+      //create thread
+      ModelThread obj = new ModelThread();
+
 
       while(true)
       {
-        System.out.println("SEND(Type Q or q to Quit):");
+        /*System.out.println("SEND(Type Q or q to Quit):");
         toclient = inFromUser.readLine();
         if(toclient.equals ("q") || toclient.equals("Q"))
         {
@@ -134,25 +137,106 @@ class TCPServer
         else
         {
           outToClient.println(toclient);
-        }
+        }*/
 
         //read from client
-        System.out.println ("TCPServer Waiting for client respond ");
+        System.out.println ("TCPServer Waiting for client");
         //fromclient = inFromClient.readLine();
-        char[] inputChars = new char[1024];
+        char[] inputChars = new char[512];
         int charsRead = 0;
         charsRead =  inFromClient.read(inputChars); //<< THIS LINE IS PAUSING THE THREAD!>
         //System.out.println( "RECIEVEDAAAAAA:" + inputChars );
         fromclient = String.valueOf(inputChars);
+        String[] parts = fromclient.split(" ");
+        String code = parts[0];
+        int result = Integer.parseInt(code);
+        //print data
+        System.out.println( "RECIEVED: " + fromclient );
 
-        if(fromclient.equals("q") || fromclient.equals("Q"))
+        //create thread
+
+        int caseNumber = result;
+        switch(caseNumber)
         {
-          connected.close();
-          break;
-        }
-        else
-        {
-          System.out.println( "RECIEVED:" + fromclient );
+          //close connection
+          case 0:
+          {
+            System.out.println("Caso 0 Exit");
+            if(obj.isAlive())
+            {
+              System.out.println("Exit: Thread alive stop");
+              obj.stop();
+            }
+            connected.close();
+            break;
+          }
+          //start the thread
+          case 1:
+          {
+            System.out.println("Caso 1 Start");
+            obj.start();
+            break;
+          }
+          //sleep the thread
+          case 2:
+          {
+            System.out.println("Caso 2 Sleep");
+            break;
+          }
+          //stop the thread
+          case 3:
+          {
+            System.out.println("Caso 3 Stop");
+            if(obj.isAlive())
+            {
+              System.out.println("Stop: Thread alive stop");
+              obj.stop();
+            }
+            break;
+          }
+          //yield the thread
+          case 4:
+          {
+            System.out.println("Caso 4 Yield");
+            if(obj.isAlive())
+            {
+              System.out.println("Yield: Thread alive yield");
+              obj.yield();
+            }
+            break;
+          }
+          //pause the thread
+          case 5:
+          {
+            System.out.println("Caso 5 Pause");
+            if(obj.isAlive())
+            {System.out.println("Pause: Thread alive suspend");
+              obj.suspend();
+            }
+            break;
+          }
+          //set variable thread
+          case 6:
+          {
+            System.out.println("Caso 6 Set");
+            break;
+          }
+          //get variable thread
+          case 7:
+          {
+            System.out.println("Caso 7 Get");
+            break;
+          }
+          case 8:
+          {
+            System.out.println("Caso 8 Other");
+            break;
+          }
+          case 9:
+          {
+            System.out.println("Caso 9 Other");
+            break;
+          }
         }
       }
     }

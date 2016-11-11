@@ -17,9 +17,12 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+import time
 import socket
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect(("localhost", 5000))
+
+"""
 while 1:
     print "Waiting respond:"
     data = client_socket.recv(512)
@@ -35,3 +38,14 @@ while 1:
             client_socket.send(data)
             client_socket.close()
             break;
+"""
+while 1:
+    for x in range(1,10):
+        data = str(x) + " Informacion\n"
+        client_socket.sendall(data)
+        time.sleep(5)
+
+    data = "0 Informacion\n"
+    client_socket.sendall(data)
+    client_socket.close()
+    break;
