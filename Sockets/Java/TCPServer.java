@@ -21,73 +21,10 @@
 import java.io.*;
 import java.net.*;
 import java.util.*;
-
+import java.lang.reflect.Field;
 
 class TCPServer
 {
-
-  /*public static void main(String argv[]) throws Exception
-      {
-         String fromclient;
-         String toclient;
-
-         ServerSocket Server = new ServerSocket (5000);
-
-         System.out.println ("TCPServer Waiting for client on port 5000");
-
-         while(true)
-         {
-         	Socket connected = Server.accept();
-            System.out.println( " THE CLIENT"+" "+
-            connected.getInetAddress() +":"+connected.getPort()+" IS CONNECTED ");
-
-            BufferedReader inFromUser =  new BufferedReader(new InputStreamReader(System.in));
-
-            BufferedReader inFromClient = new BufferedReader(new InputStreamReader (connected.getInputStream()));
-            //DataInputStream inFromClient = new DataInputStream(connected.getInputStream());
-
-            PrintWriter outToClient = new PrintWriter( connected.getOutputStream(),true);
-
-            while ( true )
-            {
-
-            	System.out.println("SEND(Type Q or q to Quit):");
-            	toclient = inFromUser.readLine();
-
-            	if ( toclient.equals ("q") || toclient.equals("Q") )
-            	{
-            		outToClient.println(toclient);
-            		connected.close();
-            		break;
-            	}
-            	else
-            	{
-            	outToClient.println(toclient);
-                }
-
-            	//fromclient = inFromClient.readLine();
-              char[] inputChars = new char[1024];
-              int charsRead = 0;
-              System.out.println("Reading from stream:");
-                charsRead =  inFromClient.read(inputChars); //<< THIS LINE IS PAUSING THE THREAD!>
-                //System.out.println( "RECIEVEDAAAAAA:" + inputChars );
-                fromclient = String.valueOf(inputChars);
-
-                if ( fromclient.equals("q") || fromclient.equals("Q") )
-                {
-                	connected.close();
-                	break;
-                }
-
-		        else
-		        {
-		         System.out.println( "RECIEVED:" + fromclient );
-		        }
-
-			       }
-
-          }
-      }*/
 
   public static void main(String[] args) throws IOException {
 
@@ -133,18 +70,6 @@ class TCPServer
 
       while(true)
       {
-        /*System.out.println("SEND(Type Q or q to Quit):");
-        toclient = inFromUser.readLine();
-        if(toclient.equals ("q") || toclient.equals("Q"))
-        {
-          outToClient.println(toclient);
-          connected.close();
-          break;
-        }
-        else
-        {
-          outToClient.println(toclient);
-        }*/
 
         //read from client
         System.out.println ("TCPServer Waiting for client");
@@ -266,14 +191,72 @@ class TCPServer
           //set variable thread
           case 6:
           {
-            System.out.println("Caso 6 Set");
+            try
+            {
+              try
+              {
+                String value_name = parts[2];
+                System.out.println("Caso 6 Set");
+                Class  aClass = obj.getClass();
+                Field field = aClass.getField(value_name.trim());
+                int str1 = (int) field.get(obj);
+
+                String value_sleep = parts[3];
+                result = Integer.valueOf(value_sleep.trim());
+                int time = result;
+
+                field.set(obj, time);
+
+                int value_return = str1;
+                Thread.State state = obj.getState();
+                System.out.println("Thread state = " + state);
+                System.out.println("Set: Thread alive set " + time);
+                break;
+              }
+              catch (IllegalAccessException e) {
+                  System.out.println(e);
+                  System.exit(1);
+              }
+
+            }
+            catch (NoSuchFieldException e) {
+                System.out.println(e);
+                System.exit(1);
+            }
             break;
           }
           //get variable thread
           case 7:
           {
-            System.out.println("Caso 7 Get");
+            try
+            {
+              try
+              {
+                String value_name = parts[2];
+
+                System.out.println("Caso 7 Get");
+                Class  aClass = obj.getClass();
+                Field field = aClass.getField(value_name.trim());
+                int str1 = (int) field.get(obj);
+
+                int value_return = str1;
+                Thread.State state = obj.getState();
+                System.out.println("Thread state = " + state);
+                System.out.println("Get: Thread alive get " + value_return);
+                break;
+              }
+              catch (IllegalAccessException e) {
+                  System.out.println(e);
+                  System.exit(1);
+              }
+
+            }
+            catch (NoSuchFieldException e) {
+                System.out.println(e);
+                System.exit(1);
+            }
             break;
+
           }
           case 8:
           {

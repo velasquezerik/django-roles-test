@@ -64,19 +64,25 @@ while 1:
     client_socket.close()
     break;
 """
+data = "7 Get valores"
+client_socket.sendall(data)
+time.sleep(5)
 
 data = "1 Start"
 client_socket.sendall(data)
 time.sleep(5)
 
-data = "2 Sleep 10000"
-client_socket.sendall(data)
-time.sleep(15)
-
-data = "1 Start"
+data = "7 Get valores"
 client_socket.sendall(data)
 time.sleep(5)
 
+data = "6 Set valores 1000"
+client_socket.sendall(data)
+time.sleep(5)
+
+data = "7 Get valores"
+client_socket.sendall(data)
+time.sleep(5)
 
 data = "0 Exit"
 client_socket.sendall(data)

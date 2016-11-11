@@ -21,15 +21,30 @@
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import galatea.glider.*;
 
 
 class ModelThread extends Thread
 {
-  private List _listeners = new ArrayList();
+  // Atributes
+  public static double InArrTime;
+  public static double MeSerTime;
+  public static double DeSerTime;
+  // Nodes
+  static Gate gate = new Gate();
+  static Teller teller = new Teller();
+  static Exit exit = new Exit();
+  static ShowLength showLength = new ShowLength();
+
+  private ArrayList _listeners = new ArrayList();
+  public int valores;
+  public int jodedera;
   public void run()
   {
     try
     {
+      valores = 40;
+      jodedera = 100;
       System.out.println ("Start Running Thread");
       this._fireModelEvent(1,"Start Running Thread");
       for(int i = 0; i < 1000; ++i)
@@ -45,6 +60,7 @@ class ModelThread extends Thread
     {
       Thread.currentThread().interrupt();
     }
+
   }
 
   public synchronized void addModelListener( ModelListener l )
@@ -66,10 +82,22 @@ class ModelThread extends Thread
       ( (ModelListener) listeners.next() ).modelReceived( mood );
     }
   }
+  public static void setExperiment(String[] args) {
+      Glider.setTsim(Galatea.doubleArg(args, "tSim", "10", "Tiempo de Simulacion"));
+      InArrTime = Galatea.doubleArg(args, "InArrTime", "4.0", "Mean Interarrival Time");
+      MeSerTime = Galatea.doubleArg(args, "MeSerTime", "3.50", "Mean service time");
+      DeSerTime = Galatea.doubleArg(args, "DeSerTime", "0.80", "Deviation of Mean Service Time");
+      Galatea.checkArgs(args);
+      Glider.addPath(Galatea.getExperDir());
+  }
 
   public static void main(String args[]){
      ModelThread obj = new ModelThread();
      obj.start();
+     Glider.setTitle("Simple Teller");
+     Glider.act(0, gate);
+     setExperiment(args);
+     Glider.process();
   }
 
 }
