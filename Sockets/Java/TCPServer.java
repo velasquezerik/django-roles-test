@@ -164,17 +164,34 @@ class TCPServer
             System.out.println("Caso 0 Exit");
             if(obj.isAlive())
             {
+              Thread.State state = obj.getState();
+              System.out.println("Thread state = " + state);
               System.out.println("Exit: Thread alive stop");
               obj.stop();
             }
             connected.close();
+            System.exit(1);
             break;
           }
           //start the thread
           case 1:
           {
             System.out.println("Caso 1 Start");
-            obj.start();
+            Thread.State state = obj.getState();
+            System.out.println("Thread state = " + state);
+            if(state == Thread.State.TIMED_WAITING)
+            {
+              obj.resume();
+            }
+            else
+            {
+              if(state != Thread.State.TERMINATED)
+              {
+                obj.start();
+              }
+
+            }
+
             break;
           }
           //sleep the thread
@@ -189,9 +206,13 @@ class TCPServer
             System.out.println("Caso 3 Stop");
             if(obj.isAlive())
             {
+              Thread.State state = obj.getState();
+              System.out.println("Thread state = " + state);
               System.out.println("Stop: Thread alive stop");
               obj.stop();
             }
+            connected.close();
+            System.exit(1);
             break;
           }
           //yield the thread
@@ -200,6 +221,8 @@ class TCPServer
             System.out.println("Caso 4 Yield");
             if(obj.isAlive())
             {
+              Thread.State state = obj.getState();
+              System.out.println("Thread state = " + state);
               System.out.println("Yield: Thread alive yield");
               obj.yield();
             }
@@ -210,7 +233,10 @@ class TCPServer
           {
             System.out.println("Caso 5 Pause");
             if(obj.isAlive())
-            {System.out.println("Pause: Thread alive suspend");
+            {
+              Thread.State state = obj.getState();
+              System.out.println("Thread state = " + state);
+              System.out.println("Pause: Thread alive suspend");
               obj.suspend();
             }
             break;

@@ -17,6 +17,19 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+"""
+
+data = "0 Exit\n"
+data = "1 Start\n"
+data = "2 Sleep value\n"
+data = "3 Stop\n"
+data = "4 Yield\n"
+data = "5 Pause\n"
+data = "6 Set Var value\n"
+data = "7 Get Var\n"
+data = "8 Informacion\n"
+data = "9 Informacion\n"
+"""
 import time
 import socket
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -39,6 +52,7 @@ while 1:
             client_socket.close()
             break;
 """
+"""
 while 1:
     for x in range(1,10):
         data = str(x) + " Informacion\n"
@@ -49,3 +63,26 @@ while 1:
     client_socket.sendall(data)
     client_socket.close()
     break;
+"""
+
+data = "1 Start\n"
+client_socket.sendall(data)
+time.sleep(5)
+
+data = "4 Yield\n"
+client_socket.sendall(data)
+time.sleep(5)
+
+data = "5 Pause\n"
+client_socket.sendall(data)
+time.sleep(5)
+
+data = "1 Start\n"
+client_socket.sendall(data)
+time.sleep(5)
+
+
+data = "0 Exit\n"
+client_socket.sendall(data)
+time.sleep(1)
+client_socket.close()
