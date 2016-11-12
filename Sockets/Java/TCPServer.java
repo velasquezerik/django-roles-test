@@ -28,7 +28,7 @@ class TCPServer
 
   public static void main(String[] args) throws IOException {
 
-    if (args.length != 1)
+    if (args.length < 1)
     {
       System.err.println("Usage: java TCPServer <port number>");
       System.exit(1);
@@ -60,6 +60,14 @@ class TCPServer
 
       //create thread
       ModelThread obj = new ModelThread();
+
+      //send args to sim 
+      String [] args2 = new String[args.length-1];
+      for(int i = 1; i < args.length ; ++i)
+      {
+        args2[i-1] = args[i];
+      }
+      obj.setArg(args2);
 
       //create ModelListener
       ModelListener modListener = new ModelEventListener(connected);

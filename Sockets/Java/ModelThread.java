@@ -27,6 +27,7 @@ import galatea.glider.*;
 class ModelThread extends Thread
 {
   // Atributes
+  public static String _args[];
   public static double InArrTime;
   public static double MeSerTime;
   public static double DeSerTime;
@@ -39,15 +40,20 @@ class ModelThread extends Thread
   private ArrayList _listeners = new ArrayList();
   public int valores;
   public int jodedera;
+  public void setArg(String args[])
+  {
+    _args = args;
+  }
   public void run()
   {
     try
     {
+      main(_args);
       valores = 40;
       jodedera = 100;
       System.out.println ("Start Running Thread");
       this._fireModelEvent(1,"Start Running Thread");
-      for(int i = 0; i < 1000; ++i)
+      for(int i = 0; i < 200; ++i)
       {
         System.out.println ("Running Thread ---> Time " + i);
         this._fireModelEvent(2,"Running Thread ---> Time " + i);
@@ -60,6 +66,7 @@ class ModelThread extends Thread
     {
       Thread.currentThread().interrupt();
     }
+
 
   }
 
@@ -92,8 +99,8 @@ class ModelThread extends Thread
   }
 
   public static void main(String args[]){
-     ModelThread obj = new ModelThread();
-     obj.start();
+     //ModelThread obj = new ModelThread();
+     //obj.start();
      Glider.setTitle("Simple Teller");
      Glider.act(0, gate);
      setExperiment(args);
