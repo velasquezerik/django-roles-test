@@ -27,6 +27,19 @@
 #include <errno.h>
 
 
+/*
+data = "0 Exit"
+data = "1 Start"
+data = "2 Sleep value"
+data = "3 Stop"
+data = "4 Yield"
+data = "5 Pause"
+data = "6 Set Var value"
+data = "7 Get Var"
+data = "8 Informacion"
+data = "9 Informacion"
+*/
+
 int main()
 
 {
@@ -55,7 +68,29 @@ int main()
             exit(1);
         }
 
-        while(1)
+        char sendA[] = "1 Start\n";
+        send(sock,sendA,strlen(sendA), 0);
+        sleep(1);
+
+        char sendB[] = "7 Get valores\n";
+        send(sock,sendB,strlen(sendB), 0);
+        sleep(1);
+
+        char sendC[] = "6 Set valores 1000\n";
+        send(sock,sendC,strlen(sendC), 0);
+        sleep(1);
+
+        char sendD[] = "7 Get valores\n";
+        send(sock,sendD,strlen(sendD), 0);
+        sleep(1);
+
+        char sendE[] = "0 Exit\n";
+        send(sock,sendE,strlen(sendE), 0);
+        sleep(1);
+
+        close(sock);
+
+        /*while(1)
         {
 
           bytes_recieved=recv(sock,recv_data,1024,0);
@@ -83,6 +118,6 @@ int main()
            break;
           }
 
-        }
+        }*/
 return 0;
 }

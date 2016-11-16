@@ -28,6 +28,18 @@
 #include <errno.h>
 #include <string.h>
 
+/*
+data = "0 Exit"
+data = "1 Start"
+data = "2 Sleep value"
+data = "3 Stop"
+data = "4 Yield"
+data = "5 Pause"
+data = "6 Set Var value"
+data = "7 Get Var"
+data = "8 Informacion"
+data = "9 Informacion"
+*/
 
 int main()
 {
