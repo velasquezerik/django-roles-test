@@ -1,0 +1,118 @@
+{% extends 'website/base.html' %}
+{% load staticfiles %}
+{% load permission_tags %}
+
+{% block title_page %}Tesis| Logs{% endblock %}
+
+{% block title_content %}
+	Dashboard
+    <small>New Integration</small>
+{% endblock %}
+
+{% block level %}
+	<li><a href="{% url 'website:admin_index' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+    <li class="active">New Integration</li>
+{% endblock %}
+
+{% block content %}
+
+<section id="download">
+  	<pre class="hierarchy bring-up">
+	  	<p>
+        Usage: java CLASS [-option]
+           or  java CLASS [args...]
+        where options include:
+        	-f <filename>
+        	-h	print this help message
+        where arguments include:
+        	tSim=<value>
+        		Tiempo de Simulacion
+        		tSim=10 por omision
+        	InArrTime=<value>
+        		Mean Interarrival Time
+        		InArrTime=4.0 por omision
+        	MeSerTime=<value>
+        		Mean service time
+        		MeSerTime=3.50 por omision
+        	DeSerTime=<value>
+        		Deviation of Mean Service Time
+        		DeSerTime=0.80 por omision
+        	stim=<value>
+        		"tiempo maximo de simulacion"
+        	seedN=<value>
+        		"semilla del generador de numeros aleatorios N"
+	    </p>
+    </pre>
+</section>
+
+<section id="download">
+  	<div class="row">
+  		<div class="col-xs-12" style="margin-bottom:10px;">
+        	<div class="form-group">
+                <label for="inputName" class="col-sm-2 control-label">Arguments</label>
+                <div class="col-sm-10">
+                    <input type="text" name="arguments" class="form-control" id="arguments" placeholder="Arguments tSim=<value>">
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+        	<a  id="compile_file" class="btn btn-block btn-primary">Compile File</a>
+        </div>
+        <div class="col-xs-6">
+        	<a  id="execute_file" class="btn btn-block btn-success">Execute File</a>
+        </div>
+	</div>
+  	<pre class="hierarchy bring-up">
+	  	<p id="code_file">
+	  		Code of Galatea
+	    </p>
+    </pre>
+</section>
+
+
+
+{% endblock %}
+
+
+{% block code_java %}
+
+<script src="//js.pusher.com/3.2/pusher.min.js"></script>
+
+	<script type="text/javascript">
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('208fc64cd5b0dba7627c', {
+      encrypted: true
+    });
+
+    var channel = pusher.subscribe('test_channel');
+    channel.bind('my_event', function(data) {
+      alert(data.message);
+    });
+
+    $( "#execute_file" ).click(function() {
+  		$("#code_file").text("Compiling file");
+  		  $.ajax({
+  	        url : "{% url 'website:admin_execute_integration' %}", // the endpoint
+  	        type : "GET", // http method
+  	        data : { arguments: $('#arguments').val() }, // data sent with the post request
+
+  	        // handle a successful response
+  	        success : function(json) {
+  							console.log($('#arguments').val());
+  	            console.log(json); // log the returned json to the console
+  	            console.log("success"); // another sanity check
+  	            $("#code_file").text(json.data);
+  							$("#data_execution").val(json.data);
+  	        },
+
+  	        // handle a non-successful response
+  	        error : function(xhr,errmsg,err) {
+  	            console.log("Error"); // provide a bit more info about the error to the console
+  	        }
+  	    });
+  	});
+
+  </script>
+
+{% endblock %}

@@ -76,6 +76,8 @@ urlpatterns = [
     url(r'^admin/permission/share/edit/file/(?P<file_id>[0-9]+)/$', views.admin_permission_share_edit_file, name='admin_permission_share_edit_file'),
     url(r'^admin/result_create_file',views.admin_result_create_file,name="admin_result_create_file"),
     url(r'^admin/create_project',views.admin_create_project, name="admin_create_project"),
+    url(r'^admin/new_integration',views.admin_new_integration, name="admin_new_integration"),
+    url(r'^admin/execute_integration', views.admin_execute_integration, name='admin_execute_integration'),
 
 
 

@@ -59,3 +59,6 @@ In Model Folder
 
 Create DiskSpace for superuser
 In Model DiskSpace
+
+Install Pusher for realtime notifications
+pip install pusher
