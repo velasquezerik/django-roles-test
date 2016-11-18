@@ -36,7 +36,11 @@ import html2text
 from django.db.models import Q
 from django.core.mail import send_mail
 import pusher
+import time
+import socket
 
+#socket
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # Create your views here.
 
 
@@ -1673,14 +1677,58 @@ def admin_execute_integration(request):
 @has_role_decorator('system_admin')
 def admin_execute_parameter(request):
     #get arguments for compilation
-    arguments =  request.GET['arguments']
+    operation =  int(request.GET['operation'])
 
     com_java = "\nAll good Parameter"
 
     pusher_client = pusher.Pusher(app_id='271428',key='208fc64cd5b0dba7627c',secret='7d478578e2620921e311',ssl=False)
-    pusher_client.trigger('test_channel', 'my_event', {'message': '\nThis is a message'})
+    pusher_client.trigger('test_channel', 'my_event', {'message': '\nThis is a message\n'})
 
     #com_java = execute_integration(arguments)
+
+    if operation == 1:
+        com_java = "\nStart Simulation\n"
+        try:
+            client_socket.connect(("localhost", 5000))
+        except Exception as e:
+            print e
+
+        data = "1 Start"
+        client_socket.sendall(data)
+
+    if operation == 2:
+        com_java = "\nSleep Simulation\n"
+        sleep =  (request.GET['sleep'])
+        data = "2 Sleep " + sleep
+        client_socket.sendall(data)
+
+    if operation == 3:
+        com_java = "\nStop Simulation\n"
+        data = "3 Stop"
+        client_socket.sendall(data)
+        client_socket.close()
+
+    if operation == 4:
+        com_java = "\nYield Simulation\n"
+        data = "4 Yield"
+        client_socket.sendall(data)
+
+    if operation == 5:
+        com_java = "\nPause Simulation\n"
+        data = "5 Pause"
+        client_socket.sendall(data)
+
+    if operation == 6:
+        com_java = "\nSet Variable Value\n"
+        variable =  (request.GET['set_variable'])
+        data = "6 Set " + variable
+        client_socket.sendall(data)
+
+    if operation == 7:
+        com_java = "\nGet Variable Value\n"
+        variable =  (request.GET['get_variable'])
+        data = "7 Get " + variable
+        client_socket.sendall(data)
 
     return JsonResponse({"data":com_java})
 

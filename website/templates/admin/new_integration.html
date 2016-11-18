@@ -67,7 +67,7 @@
 				<div class="form-group">
 							<label for="inputName" class="col-sm-2 control-label">Start</label>
 							<div class="col-sm-10">
-									<input type="text" name="arguments_e" class="form-control" id="arguments" placeholder="Arguments tSim=<value>">
+									<a  id="simulation_start" class="btn btn-block btn-primary">Start Simulation</a>
 							</div>
 				</div>
 		</div>
@@ -75,7 +75,7 @@
 				<div class="form-group">
 							<label for="inputName" class="col-sm-2 control-label">Stop</label>
 							<div class="col-sm-10">
-									<input type="text" name="arguments_e" class="form-control" id="arguments" placeholder="Arguments tSim=<value>">
+									<a  id="simulation_stop" class="btn btn-block btn-primary">Stop Simulation</a>
 							</div>
 				</div>
 		</div>
@@ -83,7 +83,7 @@
 				<div class="form-group">
 							<label for="inputName" class="col-sm-2 control-label">Yield</label>
 							<div class="col-sm-10">
-									<input type="text" name="arguments_e" class="form-control" id="arguments" placeholder="Arguments tSim=<value>">
+									<a  id="simulation_yield" class="btn btn-block btn-primary">Yield Simulation</a>
 							</div>
 				</div>
 		</div>
@@ -91,31 +91,40 @@
 				<div class="form-group">
 							<label for="inputName" class="col-sm-2 control-label">Pause</label>
 							<div class="col-sm-10">
-									<input type="text" name="arguments_e" class="form-control" id="arguments" placeholder="Arguments tSim=<value>">
+									<a  id="simulation_pause" class="btn btn-block btn-primary">Pause Simulation</a>
 							</div>
 				</div>
 		</div>
 		<div class="col-xs-12" style="margin-top:10px;margin-bottom:10px;">
 				<div class="form-group">
 							<label for="inputName" class="col-sm-2 control-label">Sleep</label>
-							<div class="col-sm-10">
-									<input type="text" name="arguments_e" class="form-control" id="arguments" placeholder="Arguments tSim=<value>">
+							<div class="col-sm-5">
+									<a  id="simulation_sleep" class="btn btn-block btn-primary">Sleep Simulation</a>
+							</div>
+							<div class="col-sm-5">
+									<input type="text" name="sleep" class="form-control" id="sleep" placeholder="1000 (ms)">
 							</div>
 				</div>
 		</div>
 		<div class="col-xs-12" style="margin-top:10px;margin-bottom:10px;">
 				<div class="form-group">
 							<label for="inputName" class="col-sm-2 control-label">Set Variable</label>
-							<div class="col-sm-10">
-									<input type="text" name="arguments_e" class="form-control" id="arguments" placeholder="Arguments tSim=<value>">
+							<div class="col-sm-5">
+									<a  id="simulation_set" class="btn btn-block btn-primary">Set Variable</a>
+							</div>
+							<div class="col-sm-5">
+									<input type="text" name="set_variable" class="form-control" id="set_variable" placeholder="Variable Value">
 							</div>
 				</div>
 		</div>
 		<div class="col-xs-12" style="margin-top:10px;margin-bottom:10px;">
 				<div class="form-group">
 							<label for="inputName" class="col-sm-2 control-label">Get Variable</label>
-							<div class="col-sm-10">
-									<input type="text" name="arguments_e" class="form-control" id="arguments" placeholder="Arguments tSim=<value>">
+							<div class="col-sm-5">
+									<a  id="simulation_get" class="btn btn-block btn-primary">Get Variable</a>
+							</div>
+							<div class="col-sm-5">
+									<input type="text" name="get_variable" class="form-control" id="get_variable" placeholder="Variable">
 							</div>
 				</div>
 		</div>
@@ -166,6 +175,153 @@
   							//$("#data_execution").val(json.data);
   	        },
 
+  	        // handle a non-successful response
+  	        error : function(xhr,errmsg,err) {
+  	            console.log("Error"); // provide a bit more info about the error to the console
+  	        }
+  	    });
+  	});
+
+		//start simulations
+		$( "#simulation_start" ).click(function() {
+  		  $.ajax({
+  	        url : "{% url 'website:admin_execute_parameter' %}", // the endpoint
+  	        type : "GET", // http method
+  	        data : { operation: 1 }, // data sent with the post request
+  	        // handle a successful response
+  	        success : function(json) {
+  							console.log($('#arguments').val());
+  	            console.log(json); // log the returned json to the console
+  	            console.log("success"); // another sanity check
+  	            $("#code_file").text($("#code_file").text()+"Start Simulation");
+  							//$("#data_execution").val(json.data);
+  	        },
+  	        // handle a non-successful response
+  	        error : function(xhr,errmsg,err) {
+  	            console.log("Error"); // provide a bit more info about the error to the console
+  	        }
+  	    });
+  	});
+
+		//stop simulations
+		$( "#simulation_stop" ).click(function() {
+  		  $.ajax({
+  	        url : "{% url 'website:admin_execute_parameter' %}", // the endpoint
+  	        type : "GET", // http method
+  	        data : { operation: 3 }, // data sent with the post request
+  	        // handle a successful response
+  	        success : function(json) {
+  							console.log($('#arguments').val());
+  	            console.log(json); // log the returned json to the console
+  	            console.log("success"); // another sanity check
+  	            $("#code_file").text($("#code_file").text()+"Stop Simulation");
+  							//$("#data_execution").val(json.data);
+  	        },
+  	        // handle a non-successful response
+  	        error : function(xhr,errmsg,err) {
+  	            console.log("Error"); // provide a bit more info about the error to the console
+  	        }
+  	    });
+  	});
+
+		//yield simulations
+		$( "#simulation_yield" ).click(function() {
+  		  $.ajax({
+  	        url : "{% url 'website:admin_execute_parameter' %}", // the endpoint
+  	        type : "GET", // http method
+  	        data : { operation: 4 }, // data sent with the post request
+  	        // handle a successful response
+  	        success : function(json) {
+  							console.log($('#arguments').val());
+  	            console.log(json); // log the returned json to the console
+  	            console.log("success"); // another sanity check
+  	            $("#code_file").text($("#code_file").text()+"Yield Simulation");
+  							//$("#data_execution").val(json.data);
+  	        },
+  	        // handle a non-successful response
+  	        error : function(xhr,errmsg,err) {
+  	            console.log("Error"); // provide a bit more info about the error to the console
+  	        }
+  	    });
+  	});
+
+		//pause simulations
+		$( "#simulation_pause" ).click(function() {
+  		  $.ajax({
+  	        url : "{% url 'website:admin_execute_parameter' %}", // the endpoint
+  	        type : "GET", // http method
+  	        data : { operation: 5 }, // data sent with the post request
+  	        // handle a successful response
+  	        success : function(json) {
+  							console.log($('#arguments').val());
+  	            console.log(json); // log the returned json to the console
+  	            console.log("success"); // another sanity check
+  	            $("#code_file").text($("#code_file").text()+"Pause Simulation");
+  							//$("#data_execution").val(json.data);
+  	        },
+  	        // handle a non-successful response
+  	        error : function(xhr,errmsg,err) {
+  	            console.log("Error"); // provide a bit more info about the error to the console
+  	        }
+  	    });
+  	});
+
+		//sleep simulations
+		$( "#simulation_sleep" ).click(function() {
+  		  $.ajax({
+  	        url : "{% url 'website:admin_execute_parameter' %}", // the endpoint
+  	        type : "GET", // http method
+  	        data : { operation: 2, sleep:$('#sleep').val() }, // data sent with the post request
+  	        // handle a successful response
+  	        success : function(json) {
+  							console.log($('#arguments').val());
+  	            console.log(json); // log the returned json to the console
+  	            console.log("success"); // another sanity check
+  	            $("#code_file").text($("#code_file").text()+"Pause Simulation");
+  							//$("#data_execution").val(json.data);
+  	        },
+  	        // handle a non-successful response
+  	        error : function(xhr,errmsg,err) {
+  	            console.log("Error"); // provide a bit more info about the error to the console
+  	        }
+  	    });
+  	});
+
+		//set variable simulations
+		$( "#simulation_set" ).click(function() {
+  		  $.ajax({
+  	        url : "{% url 'website:admin_execute_parameter' %}", // the endpoint
+  	        type : "GET", // http method
+  	        data : { operation: 6, set_variable:$('#set_variable').val() }, // data sent with the post request
+  	        // handle a successful response
+  	        success : function(json) {
+  							console.log($('#arguments').val());
+  	            console.log(json); // log the returned json to the console
+  	            console.log("success"); // another sanity check
+  	            $("#code_file").text($("#code_file").text()+"Set Variable value");
+  							//$("#data_execution").val(json.data);
+  	        },
+  	        // handle a non-successful response
+  	        error : function(xhr,errmsg,err) {
+  	            console.log("Error"); // provide a bit more info about the error to the console
+  	        }
+  	    });
+  	});
+
+		//get variable simulations
+		$( "#simulation_get" ).click(function() {
+  		  $.ajax({
+  	        url : "{% url 'website:admin_execute_parameter' %}", // the endpoint
+  	        type : "GET", // http method
+  	        data : { operation: 7, get_variable:$('#get_variable').val() }, // data sent with the post request
+  	        // handle a successful response
+  	        success : function(json) {
+  							console.log($('#arguments').val());
+  	            console.log(json); // log the returned json to the console
+  	            console.log("success"); // another sanity check
+  	            $("#code_file").text($("#code_file").text()+"Get Variable value");
+  							//$("#data_execution").val(json.data);
+  	        },
   	        // handle a non-successful response
   	        error : function(xhr,errmsg,err) {
   	            console.log("Error"); // provide a bit more info about the error to the console
