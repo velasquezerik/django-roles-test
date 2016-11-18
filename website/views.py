@@ -1660,14 +1660,29 @@ def admin_execute_integration(request):
     #get arguments for compilation
     arguments =  request.GET['arguments']
 
-    com_java = "All good"
+    com_java = "\nAll good"
 
     pusher_client = pusher.Pusher(app_id='271428',key='208fc64cd5b0dba7627c',secret='7d478578e2620921e311',ssl=False)
-    pusher_client.trigger('test_channel', 'my_event', {'message': 'hello world'})
+    pusher_client.trigger('test_channel', 'my_event', {'message': '\nThis is a message'})
+
+    #com_java = execute_integration(arguments)
 
     return JsonResponse({"data":com_java})
 
+@login_required(login_url="/login/")
+@has_role_decorator('system_admin')
+def admin_execute_parameter(request):
+    #get arguments for compilation
+    arguments =  request.GET['arguments']
 
+    com_java = "\nAll good Parameter"
+
+    pusher_client = pusher.Pusher(app_id='271428',key='208fc64cd5b0dba7627c',secret='7d478578e2620921e311',ssl=False)
+    pusher_client.trigger('test_channel', 'my_event', {'message': '\nThis is a message'})
+
+    #com_java = execute_integration(arguments)
+
+    return JsonResponse({"data":com_java})
 
 
 

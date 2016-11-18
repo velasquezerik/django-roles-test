@@ -78,6 +78,7 @@ urlpatterns = [
     url(r'^admin/create_project',views.admin_create_project, name="admin_create_project"),
     url(r'^admin/new_integration',views.admin_new_integration, name="admin_new_integration"),
     url(r'^admin/execute_integration', views.admin_execute_integration, name='admin_execute_integration'),
+    url(r'^admin/execute_parameter', views.admin_execute_parameter, name='admin_execute_parameter'),
 
 
 

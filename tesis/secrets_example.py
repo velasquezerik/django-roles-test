@@ -20,6 +20,7 @@ DB_NAME = "db_name"
 DB_USERNAME = "db_usernae"
 DB_PASSWORD = "db_password"
 GALATEA_PATH = "/path/to/galatea/"
+INTEGRATION_PATH = "/path/to/socket/tcpserver/"
 
 #send emails
 E_EMAIL_HOST = "host.email.com"
