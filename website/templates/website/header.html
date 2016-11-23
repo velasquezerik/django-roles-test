@@ -4,9 +4,9 @@
     <!-- Logo -->
     <a href="{% url 'website:index' %}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini">TES</span>
+        <span class="logo-mini">GWEB</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg">Tesis</span>
+        <span class="logo-lg">Galatea Web</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top" role="navigation">
@@ -28,7 +28,7 @@
                             <img src="{{request.user.userimage.model_pic.url}}" class="img-circle" alt="User Image">
                             <p>
                                 {{request.user.first_name }} {{request.user.last_name}}
-                                <small>Tesis</small>
+                                <small>Galatea Web</small>
                             </p>
                         </li>
                         <!-- Menu Footer-->
@@ -42,7 +42,7 @@
                                     <a href="{% url 'website:user_profile' %}" class="btn btn-default btn-flat">Profile</a>
                                 </div>
                             {% endif %}
-                            
+
                             <div class="pull-right">
                                 <a href="{% url 'website:logout' %}" class="btn btn-default btn-flat">Logout</a>
                             </div>
