@@ -70,22 +70,26 @@ int main()
 
         char sendA[] = "1 Start\n";
         send(sock,sendA,strlen(sendA), 0);
+        printf("1 Start\n" );
         sleep(1);
 
-        char sendB[] = "7 Get valores\n";
+        /*char sendB[] = "7 Get valores\n";
         send(sock,sendB,strlen(sendB), 0);
-        sleep(1);
+        sleep(1);*/
 
         char sendC[] = "6 Set valores 1000\n";
         send(sock,sendC,strlen(sendC), 0);
+        printf("6 Set valores 1000\n");
         sleep(1);
 
         char sendD[] = "7 Get valores\n";
         send(sock,sendD,strlen(sendD), 0);
+        printf("7 Get valores\n" );
         sleep(1);
 
         char sendE[] = "0 Exit\n";
         send(sock,sendE,strlen(sendE), 0);
+        printf("0 Exit\n" );
         sleep(1);
 
         close(sock);

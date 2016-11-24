@@ -1669,7 +1669,7 @@ def admin_execute_integration(request):
     pusher_client = pusher.Pusher(app_id='271428',key='208fc64cd5b0dba7627c',secret='7d478578e2620921e311',ssl=False)
     pusher_client.trigger('test_channel', 'my_event', {'message': '\nThis is a message'})
 
-    #com_java = execute_integration(arguments)
+    com_java = execute_integration(arguments)
 
     return JsonResponse({"data":com_java})
 

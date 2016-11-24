@@ -45,7 +45,7 @@
     </pre>
 </section>
 
-<section id="download">
+<section id="integration">
   	<div class="row">
   		<div class="col-xs-12" style="margin-bottom:10px;">
         	<div class="form-group">
@@ -62,7 +62,7 @@
         	<a  id="execute_file" class="btn btn-block btn-success">Execute File</a>
         </div>
 	</div>
-	<div class="row">
+	<div class="row" id="methods" hidden>
 		<div class="col-xs-12" style="margin-top:10px;margin-bottom:10px;">
 				<div class="form-group">
 							<label for="inputName" class="col-sm-2 control-label">Start</label>
@@ -161,6 +161,7 @@
 
     $( "#execute_file" ).click(function() {
   		$("#code_file").text("Compiling file");
+			$("#methods").show();
   		  $.ajax({
   	        url : "{% url 'website:admin_execute_integration' %}", // the endpoint
   	        type : "GET", // http method
@@ -172,12 +173,14 @@
   	            console.log(json); // log the returned json to the console
   	            console.log("success"); // another sanity check
   	            $("#code_file").text($("#code_file").text()+json.data);
+								$("#methods").show();
   							//$("#data_execution").val(json.data);
   	        },
 
   	        // handle a non-successful response
   	        error : function(xhr,errmsg,err) {
   	            console.log("Error"); // provide a bit more info about the error to the console
+								$("#methods").hide();
   	        }
   	    });
   	});

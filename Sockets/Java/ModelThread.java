@@ -53,11 +53,11 @@ class ModelThread extends Thread
       jodedera = 100;
       System.out.println ("Start Running Thread");
       this._fireModelEvent(1,"Start Running Thread");
-      for(int i = 0; i < 200; ++i)
+      for(int i = 0; i < 20; ++i)
       {
         System.out.println ("Running Thread ---> Time " + i);
         this._fireModelEvent(2,"Running Thread ---> Time " + i);
-        Thread.sleep(100);
+        Thread.sleep(1000);
       }
       System.out.println ("Finish Running Thread");
       this._fireModelEvent(1,"Finish Running Thread");
