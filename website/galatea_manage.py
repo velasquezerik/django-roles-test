@@ -192,17 +192,17 @@ def execute_java_help(file_id):
 def execute_integration(arguments):
 
     #path to GALATEA
-    galatea_code = GALATEA + "galatea.jar "
+    galatea_code = GALATEA + "galatea.jar"
     #path to TCPServer
     #server_code = INTEGRATION_SERVER + "TCPServer "
     server_code = "TCPServer "
 
     #code to compile
-    code = "cd "+INTEGRATION_SERVER+" && javac -cp .:"+ galatea_code + " *.java "
+    code = "cd "+INTEGRATION_SERVER+" && javac -cp .:"+ galatea_code+" " + " *.java "
     value = subprocess.check_output([code], shell=True)
 
     #code to execute
-    code = "cd "+INTEGRATION_SERVER+" && java -cp .:"+ galatea_code + server_code + " " + str(PORT) + " " + arguments
+    code = "cd "+INTEGRATION_SERVER+" && java -cp .:"+ galatea_code+" " + server_code + " " + str(PORT) + " " + arguments
     #value = subprocess.check_output([code], shell=True)
     value = subprocess.call([code], shell=True)
     #print value

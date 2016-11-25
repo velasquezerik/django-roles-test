@@ -208,6 +208,7 @@
 
 		//stop simulations
 		$( "#simulation_stop" ).click(function() {
+			$("#methods").hide();
   		  $.ajax({
   	        url : "{% url 'website:admin_execute_parameter' %}", // the endpoint
   	        type : "GET", // http method
@@ -219,6 +220,7 @@
   	            console.log("success"); // another sanity check
   	            $("#code_file").text($("#code_file").text()+"Stop Simulation");
   							//$("#data_execution").val(json.data);
+								$("#methods").hide();
   	        },
   	        // handle a non-successful response
   	        error : function(xhr,errmsg,err) {

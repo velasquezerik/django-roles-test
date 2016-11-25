@@ -21,12 +21,13 @@
 import java.io.*;
 import java.net.*;
 import java.util.*;
+//import com.pusher.rest.*;
 
 public class ModelEventListener implements ModelListener
 {
   Socket _connected;
   PrintWriter outToClient;
-  public ModelEventListener(Socket connected) 
+  public ModelEventListener(Socket connected)
   {
 
     try
@@ -45,5 +46,10 @@ public class ModelEventListener implements ModelListener
     System.out.println ("Event " + event.type() + " description: " + event.description() );
     String data = "Event " + event.type() + " description: " + event.description() ;
     outToClient.println(data);
+    /*Pusher pusher = new Pusher("271428", "208fc64cd5b0dba7627c", "7d478578e2620921e311");
+    pusher.setEncrypted(true);
+
+    pusher.trigger("test_channel", "my_event", Collections.singletonMap("message", "hello world"));
+    */
   }
 }
