@@ -60,5 +60,10 @@ In Model Folder
 Create DiskSpace for superuser
 In Model DiskSpace
 
+Install ssl
+apt-get install libssl-dev python-dev
+pip install -U pyopenssl
+
 Install Pusher for realtime notifications
-pip install pusher
+pip install -U pusher
+
